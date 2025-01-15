@@ -164,15 +164,6 @@ public class RobotContainer {
 
         }
 
-        //spin up shooter when we have a note in the indexer
-        //NOTE: IF REMOVED NEED TO ADD SHOOTER SPINUP FOR AMP SCORE
-        s_Shooter.setDefaultCommand(
-            new ConditionalCommand(
-                new InstantCommand (() -> s_Shooter.setShooterVoltage(0, 0), s_Shooter), 
-                new InstantCommand(() -> s_Shooter.shootingMotorsSetControl(40, 40), s_Shooter), 
-                () -> s_Shooter.getBreakBeamOutput())
-        );
-
         // Configure the button bindings
         configureButtonBindings();
 
