@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
@@ -73,7 +74,11 @@ public class Swerve extends SubsystemBase {
         m_field = new Field2d();
 
         // set gyro
-        gyro.getConfigurator().apply(new Pigeon2Configuration());
+        Pigeon2Configuration configs = new Pigeon2Configuration();
+        configs.MountPose.MountPoseYaw = 0;
+        configs.MountPose.MountPosePitch = 0;
+        configs.MountPose.MountPoseRoll = 180;
+        gyro.getConfigurator().apply(configs);
         gyro.setYaw(Constants.Swerve.gyroOffset);
 
         mSwerveMods = new SwerveModule[] {
