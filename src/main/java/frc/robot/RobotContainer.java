@@ -123,7 +123,7 @@ public class RobotContainer {
 
 
 
-   // private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser;
 
 
 
@@ -169,11 +169,10 @@ public class RobotContainer {
 
 
         
-        //autoChooser = AutoBuilder.buildAutoChooser();
+        autoChooser = AutoBuilder.buildAutoChooser();
 
         
-        //SmartDashboard.putData("Auto Chooser", autoChooser);
-        //SmartDashboard.putData("driver/Auto Chooser", autoChooser);
+        SmartDashboard.putData("Auto Chooser", autoChooser);
         
     }    
     
@@ -187,7 +186,6 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
@@ -197,11 +195,11 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    // public Command getAutonomousCommand() {
-    //     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    //     return autoChooser.getSelected();
+    public Command getAutonomousCommand() {
+        // Create a path following command using AutoBuilder. This will also trigger event markers.
+        return autoChooser.getSelected();
         
-    // }
+    }
 
 
 }
