@@ -17,7 +17,6 @@ import frc.robot.Constants;
 public class Elevator extends SubsystemBase {
 
   private final int m1ElevatorID = 2;
-  private final int m2ElevatorID = 3;
 
   private int elevatorCurrentLimit = 60;
 
@@ -28,25 +27,20 @@ public class Elevator extends SubsystemBase {
   public double restingposition = 0;
 
   private TalonFX m1Elevator;
-  private TalonFX m2Elevator;
 
   private final double m_ElevatorPGains = 0.0;
   private final double m_ElevatorIGains = 0.0;
   private final double m_ElevatorDGains = 0.0;
 
   private Slot0Configs slotConfigs1;
-  private Slot0Configs slotConfigs2;
 
   private TalonFXConfigurator config;
-  private FeedbackConfigs eConfigs;
-
   private double voltage = 0;
 
 
   /** Creates a new Elevator. */
   public Elevator() {
     m1Elevator = new TalonFX(m1ElevatorID);
-    m2Elevator =new TalonFX(m2ElevatorID);
 
     config = m1Elevator.getConfigurator();
 
@@ -66,11 +60,6 @@ public class Elevator extends SubsystemBase {
     slotConfigs1.kI = m_ElevatorIGains;
     slotConfigs1.kD = m_ElevatorDGains;
 
-    slotConfigs2 = new Slot0Configs();
-    slotConfigs2.kP = m_ElevatorPGains;
-    slotConfigs2.kI = m_ElevatorIGains;
-    slotConfigs2.kD = m_ElevatorDGains;
-
     
 
     elevatorMotorConfig();
@@ -80,9 +69,26 @@ public class Elevator extends SubsystemBase {
           targetElevatorPosition = inches;
   }
 
+  public double getPosition() {
+    return m1Elevator.getPosition().getValueAsDouble();
+  }
+
+  public void stop() {
+    m1Elevator.setPosition(0.0);
+  }
+
+  public boolean atPosition() {
+    double error = Math.abs(getPosition() - targetElevatorPosition);
+
+    if (Constants.ELEVATOR_TOLERANCE >= error) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public void elevatorMotorConfig() {
     m1Elevator.getConfigurator().apply(slotConfigs1);
-    m2Elevator.getConfigurator().apply(slotConfigs2);
 
   }
 
