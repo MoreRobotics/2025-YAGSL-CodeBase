@@ -188,6 +188,7 @@ public class RobotContainer {
 
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        driverDpadDown.onTrue(s_Swerve.pathfindiCommand);  
 
     }
     /**

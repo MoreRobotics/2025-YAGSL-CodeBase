@@ -13,12 +13,16 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import java.nio.file.Path;
+
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.PoseEstimator;
@@ -67,7 +71,8 @@ public class Swerve extends SubsystemBase {
     public StructArrayPublisher<SwerveModuleState> swerveKinematicsPublisher;
     public StructPublisher<Pose2d> estimatedRobotPosePublisher;
     public SwerveDrivePoseEstimator m_poseEstimator;
-    
+    public PathPlannerPath path;
+    public PathConstraints constraints;
 
     // constructor
     public Swerve() {
@@ -89,6 +94,14 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
             new SwerveModule(2, Constants.Swerve.Mod2.constants),
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
+
+        path = PathPlannerPath.fromPathFile("New Path");
+
+        constraints = new PathConstraints(
+            3.0, 4.0
+            Units.degreesToRadians(540), Units.degreesToRadians(720)
+        );
+
         };
 
         // delay reseting modules utill robRIO finishes startup
@@ -131,6 +144,8 @@ public class Swerve extends SubsystemBase {
             this // Reference to this subsystem to set requirements
     );
 
+
+
                 // create pose estimator
         m_poseEstimator =
                 new SwerveDrivePoseEstimator(
@@ -141,8 +156,10 @@ public class Swerve extends SubsystemBase {
                    VecBuilder.fill(0.1, 0.1, 0.1),
                    VecBuilder.fill(1.5, 1.5, 1.5)
                 );
-
+                
     }
+
+
 
 
     /*
@@ -175,6 +192,7 @@ public class Swerve extends SubsystemBase {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     } 
+    
     
     /*
      * This method will get the modules states and convert
