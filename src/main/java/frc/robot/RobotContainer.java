@@ -120,6 +120,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final Shooter s_Shooter = new Shooter();
     private final Eyes s_Eyes = new Eyes(s_Swerve);
+    private final Elevator s_Elevator = new Elevator();
 
 
 
@@ -191,6 +192,8 @@ public class RobotContainer {
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
+
+        driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorVoltage(2)));
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
