@@ -13,7 +13,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import java.io.IOException;
 import java.nio.file.Path;
+
+import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
@@ -23,6 +26,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.PoseEstimator;
@@ -89,18 +93,30 @@ public class Swerve extends SubsystemBase {
         gyro.getConfigurator().apply(configs);
         gyro.setYaw(Constants.Swerve.gyroOffset);
 
+        try {
+            path = PathPlannerPath.fromPathFile("New Path");
+        } catch (FileVersionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        constraints = new PathConstraints(
+            3.0, 4.0,
+            Units.degreesToRadians(540), Units.degreesToRadians(720)
+        );
+
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
             new SwerveModule(2, Constants.Swerve.Mod2.constants),
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
 
-        path = PathPlannerPath.fromPathFile("New Path");
-
-        constraints = new PathConstraints(
-            3.0, 4.0
-            Units.degreesToRadians(540), Units.degreesToRadians(720)
-        );
 
         };
 
@@ -146,6 +162,7 @@ public class Swerve extends SubsystemBase {
 
 
 
+
                 // create pose estimator
         m_poseEstimator =
                 new SwerveDrivePoseEstimator(
@@ -161,6 +178,9 @@ public class Swerve extends SubsystemBase {
 
 
 
+    public Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+        path,
+        constraints);
 
     /*
      * This method will drive the swerve drive using translation and rotation vectors
