@@ -193,7 +193,7 @@ public class RobotContainer {
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
 
-        driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorVoltage(2)));
+        driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(2)));
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
