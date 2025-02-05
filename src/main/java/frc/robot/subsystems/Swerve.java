@@ -77,6 +77,7 @@ public class Swerve extends SubsystemBase {
     public SwerveDrivePoseEstimator m_poseEstimator;
     public PathPlannerPath path;
     public PathConstraints constraints;
+    public Command pathfindingCommand;
 
     // constructor
     public Swerve() {
@@ -160,6 +161,10 @@ public class Swerve extends SubsystemBase {
             this // Reference to this subsystem to set requirements
     );
 
+    pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+        path,
+        constraints);
+
 
 
 
@@ -178,9 +183,6 @@ public class Swerve extends SubsystemBase {
 
 
 
-    public Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
-        path,
-        constraints);
 
     /*
      * This method will drive the swerve drive using translation and rotation vectors
