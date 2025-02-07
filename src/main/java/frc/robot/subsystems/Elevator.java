@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 
 import java.sql.DriverPropertyInfo;
 
@@ -15,6 +16,7 @@ import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.DifferentialPositionVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -24,6 +26,7 @@ import frc.robot.Constants;
 public class Elevator extends SubsystemBase {
 
   private final int m_ElevatorID = 2;
+  private final int e_ElevatorID = 2;
 
   private int elevatorCurrentLimit = 60;
 
@@ -34,13 +37,19 @@ public class Elevator extends SubsystemBase {
   public double restingposition = 0;
 
   private TalonFX m_Elevator;
+  private CANcoder e_Elevator;
 
   private final double m_ElevatorPGains = 0.0;
   private final double m_ElevatorIGains = 0.0;
   private final double m_ElevatorDGains = 0.0;
   private final double m_ElevatorFF = 5.0;
+  private final double magnetOffset = 0.0;
 
-  private Slot0Configs slotConfigs1;
+  private Slot0Configs slotConfigs;
+  private FeedbackConfigs feedbackConfigs;
+  private CurrentLimitsConfigs currentLimitConfigs;
+  private SoftwareLimitSwitchConfigs softLimitConfigs;
+  private MagnetSensorConfigs magnetConfigs;
 
   private TalonFXConfigurator config;
   private PositionVoltage m_Request;
@@ -50,37 +59,40 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
     m_Elevator = new TalonFX(m_ElevatorID);
+    e_Elevator = new CANcoder(e_ElevatorID);
 
-    config = m_Elevator.getConfigurator();
+    m_Elevator.getConfigurator().apply(slotConfigs);
+    m_Elevator.getConfigurator().apply(feedbackConfigs);
+    m_Elevator.getConfigurator().apply(softLimitConfigs);
+    m_Elevator.getConfigurator().apply(currentLimitConfigs);
 
-    m_Request = new PositionVoltage(0).withSlot(0);
+    e_Elevator.getConfigurator().apply(magnetConfigs);
 
-    config.apply(
-      new CurrentLimitsConfigs()
-      .withSupplyCurrentLimitEnable(true)
-      .withSupplyCurrentLimit(elevatorCurrentLimit)
-    );
 
-    config.apply(
-      new FeedbackConfigs()
-      .withSensorToMechanismRatio(Constants.ELEVATOR_ROTATIONS_TO_IN)
-    );
+    currentLimitConfigs = new CurrentLimitsConfigs()
+    .withSupplyCurrentLimitEnable(true)
+    .withSupplyCurrentLimit(elevatorCurrentLimit);
 
-    config.apply(
-      new SoftwareLimitSwitchConfigs()
-      .withForwardSoftLimitEnable(true)
-      .withForwardSoftLimitThreshold(inchesToMotorRotations(heightlimit))
-    );
+    feedbackConfigs = new FeedbackConfigs()
+    .withSensorToMechanismRatio(Constants.ELEVATOR_ROTATIONS_TO_IN);
+
+    softLimitConfigs = new SoftwareLimitSwitchConfigs()
+    .withForwardSoftLimitEnable(true)
+    .withForwardSoftLimitThreshold(inchesToMotorRotations(heightlimit));
+
+    magnetConfigs = new MagnetSensorConfigs()
+    .withMagnetOffset(magnetOffset);
     
 
-    slotConfigs1 = new Slot0Configs();
-    slotConfigs1.kP = m_ElevatorPGains;
-    slotConfigs1.kI = m_ElevatorIGains;
-    slotConfigs1.kD = m_ElevatorDGains;
+    slotConfigs = new Slot0Configs();
+    slotConfigs.kP = m_ElevatorPGains;
+    slotConfigs.kI = m_ElevatorIGains;
+    slotConfigs.kD = m_ElevatorDGains;
+
+
 
     
 
-    elevatorMotorConfig();
   }
 
   public void setElevatorPosition(double inches) {
@@ -113,10 +125,6 @@ public void endElevator() {
     }
   }
 
-  public void elevatorMotorConfig() {
-    m_Elevator.getConfigurator().apply(slotConfigs1);
-
-  }
 
   @Override
   public void periodic() {

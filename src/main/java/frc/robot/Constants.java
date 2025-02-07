@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -46,6 +47,8 @@ public final class Constants {
         public static final double rotateToAmpTargetAngle = 90;
 
         public static final double atPositionTolerance = 3.0;
+
+        public static RobotConfig robotConfig;
         
 
 

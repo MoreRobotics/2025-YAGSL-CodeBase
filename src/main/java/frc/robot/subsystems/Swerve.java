@@ -13,7 +13,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import java.io.IOException;
 import java.nio.file.Path;
+
+import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
@@ -23,6 +26,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.PoseEstimator;
@@ -97,10 +101,21 @@ public class Swerve extends SubsystemBase {
 
         };
 
-        path = PathPlannerPath.fromPathFile("New Path");
+        try {
+            path = PathPlannerPath.fromPathFile("New Path");
+        } catch (FileVersionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         constraints = new PathConstraints(
-            3.0, 4.0
+            3.0, 4.0,
             Units.degreesToRadians(540), Units.degreesToRadians(720)
         );
 
