@@ -13,13 +13,14 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Mailbox extends SubsystemBase {
-  private int lMailboxID = 0;
-  private int rMailboxID = 0;
-  private int breakbeamID = 0;
+  private int lMailboxID = 11;
+  private int rMailboxID = 12;
+  private int sensorID = 2;
   private int mailboxCurrentLimit = 0;
   private double lMailboxP = 0.0;
   private double lMailboxI = 0.0;
@@ -32,7 +33,7 @@ public class Mailbox extends SubsystemBase {
 
   private SparkMax m_MailboxL;
   private SparkMax m_MailboxR;
-  private DigitalInput breakbeam;
+  private DigitalInput sensor;
   private SparkMaxConfig lMailboxConfig;
   private SparkMaxConfig rMailboxConfig;
 
@@ -40,7 +41,7 @@ public class Mailbox extends SubsystemBase {
   public Mailbox() {
     m_MailboxL = new SparkMax(lMailboxID, MotorType.kBrushless);
     m_MailboxR = new SparkMax(rMailboxID, MotorType.kBrushless);
-    breakbeam = new DigitalInput(breakbeamID);
+    sensor = new DigitalInput(sensorID);
     lMailboxConfig = new SparkMaxConfig();
     rMailboxConfig = new SparkMaxConfig();
 
@@ -51,7 +52,7 @@ public class Mailbox extends SubsystemBase {
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
       .pid(lMailboxP, lMailboxI, lMailboxD);
     lMailboxConfig
-      .inverted(false)
+      .inverted(true)
       .idleMode(IdleMode.kCoast)
       .smartCurrentLimit(mailboxCurrentLimit);
 
@@ -77,12 +78,17 @@ public class Mailbox extends SubsystemBase {
     m_MailboxR.setVoltage(rightVoltage);
   }
 
-  public boolean getBreakBeamOutput() {
-    return breakbeam.get();
+  public boolean getSensorInput() {
+    return sensor.get();
   }
 
-  public Trigger getBreakTrigger() {
-    return new Trigger(() -> breakbeam.get());
+  public Trigger getSensorTrigger() {
+    return new Trigger(() -> sensor.get());
+  }
+
+  public void stopMailBox() {
+    m_MailboxL.setVoltage(0);
+    m_MailboxR.setVoltage(0);
   }
 
 
@@ -90,5 +96,6 @@ public class Mailbox extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Corral Sensor", getSensorInput());
   }
 }

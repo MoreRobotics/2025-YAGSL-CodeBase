@@ -120,6 +120,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final Shooter s_Shooter = new Shooter();
     private final Eyes s_Eyes = new Eyes(s_Swerve);
+    private final Mailbox s_Mailbox = new Mailbox();
 
 
 
@@ -190,6 +191,13 @@ public class RobotContainer {
 
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+
+        driverRightTrigger.onTrue(new InstantCommand(() -> s_Mailbox.setMailboxVolatge(3,3)));
+
+        driverLeftTrigger.whileTrue(
+            new IntakeCoral(s_Mailbox)
+            .until(() -> s_Mailbox.getSensorInput())
+        );
 
     }
     /**
