@@ -41,15 +41,21 @@ public class Climber extends SubsystemBase {
 
     m_Climber = new TalonFX(m_CimberID);
     e_Climber = new CANcoder(e_ClimberID);
-    m_Climber.getConfigurator().apply(slotConfigs);
-    m_Climber.getConfigurator().apply(feedbackConfigs);
-    m_Climber.getConfigurator().apply(currentLimitConfigs);
-    m_Climber.setNeutralMode(NeutralModeValue.Brake);
 
+    currentLimitConfigs = new CurrentLimitsConfigs();
+    currentLimitConfigs.SupplyCurrentLimitEnable = true;
+    currentLimitConfigs.SupplyCurrentLimit = currentLimit;
+    feedbackConfigs = new FeedbackConfigs();
+    feedbackConfigs.SensorToMechanismRatio = climberGearRatio;
     slotConfigs = new Slot0Configs();
     slotConfigs.kP = climberP;
     slotConfigs.kI = climberI;
     slotConfigs.kD = climberD;
+
+    m_Climber.getConfigurator().apply(slotConfigs);
+    m_Climber.getConfigurator().apply(feedbackConfigs);
+    m_Climber.getConfigurator().apply(currentLimitConfigs);
+    m_Climber.setNeutralMode(NeutralModeValue.Brake);
 
     CANcoderConfigurator cancoderConfigurator = e_Climber.getConfigurator();
 
@@ -58,13 +64,6 @@ public class Climber extends SubsystemBase {
       .withMagnetOffset(magnetOffset)
     );
 
-    feedbackConfigs = new FeedbackConfigs();
-    feedbackConfigs.SensorToMechanismRatio = climberGearRatio;
-
-    currentLimitConfigs = new CurrentLimitsConfigs();
-    currentLimitConfigs.SupplyCurrentLimitEnable = true;
-    currentLimitConfigs.SupplyCurrentLimit = currentLimit;
-    
  
 
   }
