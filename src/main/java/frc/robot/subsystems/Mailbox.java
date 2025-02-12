@@ -28,8 +28,10 @@ public class Mailbox extends SubsystemBase {
   private double rMailboxP = 0.0;
   private double rMailboxI = 0.0;
   private double rMailboxD = 0.0;
-  private double lMailboxGearRatio = 0.0;
-  private double rMailboxGearRatio = 0.0;
+
+  // TODO: Update the gear ratios
+  private double lMailboxGearRatio = 1.0;
+  private double rMailboxGearRatio = 1.0;
 
   private SparkMax m_MailboxL;
   private SparkMax m_MailboxR;
