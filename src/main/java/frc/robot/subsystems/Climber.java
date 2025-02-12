@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.configs.CANcoderConfigurator;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
@@ -12,6 +13,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,7 +44,7 @@ public class Climber extends SubsystemBase {
     m_Climber.getConfigurator().apply(slotConfigs);
     m_Climber.getConfigurator().apply(feedbackConfigs);
     m_Climber.getConfigurator().apply(currentLimitConfigs);
-
+    m_Climber.setNeutralMode(NeutralModeValue.Brake);
 
     slotConfigs = new Slot0Configs();
     slotConfigs.kP = climberP;
