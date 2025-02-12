@@ -24,7 +24,7 @@ public class Climber extends SubsystemBase {
   private double climberI = 0.0;
   private double climberD = 0.0;
   private double magnetOffset = 0.0;
-  private double climberGearRatio = 0.0;
+  private double climberGearRatio = 625;
   private double currentLimit = 0.0;
   private double climberFF = 0.0;
 

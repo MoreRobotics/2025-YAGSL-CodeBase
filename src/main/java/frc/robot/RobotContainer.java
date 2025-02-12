@@ -120,6 +120,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final Shooter s_Shooter = new Shooter();
     private final Eyes s_Eyes = new Eyes(s_Swerve);
+    private final Climber s_Climber = new Climber();
 
 
 
@@ -190,6 +191,7 @@ public class RobotContainer {
 
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        driverA.onTrue(new InstantCommand(() -> s_Climber.setClimberPosition(0)));
 
     }
     /**
