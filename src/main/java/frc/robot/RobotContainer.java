@@ -191,7 +191,7 @@ public class RobotContainer {
 
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        driverA.onTrue(new InstantCommand(() -> s_Climber.setClimberPosition(0)));
+        driverA.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(-1.5)));//end climb-0.75
 
     }
     /**
