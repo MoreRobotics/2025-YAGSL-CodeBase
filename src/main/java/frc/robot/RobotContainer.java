@@ -122,10 +122,11 @@ public class RobotContainer {
     private final Eyes s_Eyes = new Eyes(s_Swerve);
     private final Mailbox s_Mailbox = new Mailbox();
     private final Climber s_Climber = new Climber();
+    private final Elevator s_Elevator = new Elevator();
 
 
 
-   // private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser;
 
 
 
@@ -171,11 +172,10 @@ public class RobotContainer {
 
 
         
-        //autoChooser = AutoBuilder.buildAutoChooser();
+        autoChooser = AutoBuilder.buildAutoChooser();
 
         
-        //SmartDashboard.putData("Auto Chooser", autoChooser);
-        //SmartDashboard.putData("driver/Auto Chooser", autoChooser);
+        SmartDashboard.putData("Auto Chooser", autoChooser);
         
     }    
     
@@ -189,7 +189,6 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         driverA.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(-1.5)));//end climb-0.75
@@ -200,6 +199,9 @@ public class RobotContainer {
             new IntakeCoral(s_Mailbox)
             .until(() -> s_Mailbox.getSensorInput())
         );
+        driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
+        driverDpadDown.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
+        driverDpadLeft.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
 
     }
     /**
@@ -207,11 +209,11 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    // public Command getAutonomousCommand() {
-    //     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    //     return autoChooser.getSelected();
+    public Command getAutonomousCommand() {
+        // Create a path following command using AutoBuilder. This will also trigger event markers.
+        return autoChooser.getSelected();
         
-    // }
+    }
 
 
 }
