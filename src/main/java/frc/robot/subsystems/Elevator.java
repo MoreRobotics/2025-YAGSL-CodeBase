@@ -22,6 +22,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Timer;
+
 
 public class Elevator extends SubsystemBase {
 
@@ -90,7 +92,8 @@ public class Elevator extends SubsystemBase {
     slotConfigs.kD = m_ElevatorDGains;
 
 
-
+    Timer.delay(1.0);
+    setElevatorEncoder();
     
 
   }
@@ -114,6 +117,11 @@ public void endElevator() {
   public void stop() {
     m_Elevator.setPosition(0.0);
   }
+
+  public void setElevatorEncoder() {
+    m_Elevator.setPosition(e_Elevator.getPosition().getValue());
+  }
+
 
   public boolean atPosition() {
     double error = Math.abs(getPosition() - targetElevatorPosition);
