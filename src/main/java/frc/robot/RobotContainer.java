@@ -118,7 +118,6 @@ public class RobotContainer {
     
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final Shooter s_Shooter = new Shooter();
     private final Eyes s_Eyes = new Eyes(s_Swerve);
     private final Mailbox s_Mailbox = new Mailbox();
     private final Climber s_Climber = new Climber();
