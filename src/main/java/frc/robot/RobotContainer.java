@@ -201,6 +201,7 @@ public class RobotContainer {
         driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         driverDpadDown.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
         driverDpadLeft.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
+        driverDpadDown.onTrue(s_Swerve.pathfindingCommand);  
 
     }
     /**

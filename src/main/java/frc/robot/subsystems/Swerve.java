@@ -77,6 +77,7 @@ public class Swerve extends SubsystemBase {
     public SwerveDrivePoseEstimator m_poseEstimator;
     public PathPlannerPath path;
     public PathConstraints constraints;
+    public Command pathfindingCommand;
 
     // constructor
     public Swerve() {
@@ -93,11 +94,30 @@ public class Swerve extends SubsystemBase {
         gyro.getConfigurator().apply(configs);
         gyro.setYaw(Constants.Swerve.gyroOffset);
 
+        try {
+            path = PathPlannerPath.fromPathFile("New Path");
+        } catch (FileVersionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        constraints = new PathConstraints(
+            3.0, 4.0,
+            Units.degreesToRadians(540), Units.degreesToRadians(720)
+        );
+
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
             new SwerveModule(2, Constants.Swerve.Mod2.constants),
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
+
 
         };
 
@@ -158,6 +178,11 @@ public class Swerve extends SubsystemBase {
             },
             this // Reference to this subsystem to set requirements
     );
+
+    pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+        path,
+        constraints);
+
 
 
 

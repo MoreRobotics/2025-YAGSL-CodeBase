@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.config.RobotConfig;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode;
@@ -38,6 +40,13 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+        try{
+            Constants.Swerve.robotConfig = RobotConfig.fromGUISettings();
+            } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+            }
+
     m_robotContainer = new RobotContainer();
 
     DataLogManager.start();
@@ -75,7 +84,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-      //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+      m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 
 

@@ -47,8 +47,6 @@ public final class Constants {
         public static final double rotateToAmpTargetAngle = 90;
 
         public static final double atPositionTolerance = 3.0;
-
-        public static RobotConfig robotConfig;
         
 
 
