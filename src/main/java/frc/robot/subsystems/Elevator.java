@@ -23,12 +23,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Elevator extends SubsystemBase {
 
-  private final int m_ElevatorID = 2;
-  private final int e_ElevatorID = 2;
+  private final int m_ElevatorID = 15;
 
   private int elevatorCurrentLimit = 60;
 
@@ -38,12 +38,12 @@ public class Elevator extends SubsystemBase {
   public double elevatorspeed = 0.1;
   public double restingposition = 0;
 
-  private TalonFX m_Elevator;
-  private CANcoder e_Elevator;
 
-  private final double m_ElevatorPGains = 0.0;
-  private final double m_ElevatorIGains = 0.0;
-  private final double m_ElevatorDGains = 0.0;
+  private TalonFX m_Elevator;
+
+  private final double m_ElevatorPGains = 0.1;
+  private final double m_ElevatorIGains = 1e-4;
+  private final double m_ElevatorDGains = 1.0;
   private final double m_ElevatorFF = 5.0;
   private final double magnetOffset = 0.0;
 
@@ -51,7 +51,6 @@ public class Elevator extends SubsystemBase {
   private FeedbackConfigs feedbackConfigs;
   private CurrentLimitsConfigs currentLimitConfigs;
   private SoftwareLimitSwitchConfigs softLimitConfigs;
-  private MagnetSensorConfigs magnetConfigs;
 
   private TalonFXConfigurator config;
   private PositionVoltage m_Request;
@@ -61,14 +60,11 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
     m_Elevator = new TalonFX(m_ElevatorID);
-    e_Elevator = new CANcoder(e_ElevatorID);
 
     m_Elevator.getConfigurator().apply(slotConfigs);
     m_Elevator.getConfigurator().apply(feedbackConfigs);
     m_Elevator.getConfigurator().apply(softLimitConfigs);
     m_Elevator.getConfigurator().apply(currentLimitConfigs);
-
-    e_Elevator.getConfigurator().apply(magnetConfigs);
 
 
     currentLimitConfigs = new CurrentLimitsConfigs()
@@ -82,8 +78,6 @@ public class Elevator extends SubsystemBase {
     .withForwardSoftLimitEnable(true)
     .withForwardSoftLimitThreshold(inchesToMotorRotations(heightlimit));
 
-    magnetConfigs = new MagnetSensorConfigs()
-    .withMagnetOffset(magnetOffset);
     
 
     slotConfigs = new Slot0Configs();
@@ -93,7 +87,8 @@ public class Elevator extends SubsystemBase {
 
 
     Timer.delay(1.0);
-    setElevatorEncoder();
+    m_Elevator.setPosition(0);
+    setElevatorPosition(restingposition);
     
 
   }
@@ -114,13 +109,20 @@ public void endElevator() {
     return m_Elevator.getPosition().getValueAsDouble();
   }
 
+  public void elevatorUp() {
+    m_Elevator.setVoltage(3);
+  }
+
+  public void elevatorDown() {
+    m_Elevator.setVoltage(-3);
+  }
+
+
+
   public void stop() {
     m_Elevator.setPosition(0.0);
   }
 
-  public void setElevatorEncoder() {
-    m_Elevator.setPosition(e_Elevator.getPosition().getValue());
-  }
 
 
   public boolean atPosition() {
@@ -137,5 +139,6 @@ public void endElevator() {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Elevator Position", m_Elevator.getPosition().getValueAsDouble());
   }
 }

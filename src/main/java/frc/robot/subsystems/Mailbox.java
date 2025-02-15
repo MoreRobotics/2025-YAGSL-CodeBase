@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Mailbox extends SubsystemBase {
-  private int lMailboxID = 11;
-  private int rMailboxID = 12;
-  private int sensorID = 2;
+  private int lMailboxID = 0;
+  private int rMailboxID = 1;
+  private int sensorID = 0;
   private int mailboxCurrentLimit = 0;
   private double lMailboxP = 0.0;
   private double lMailboxI = 0.0;
@@ -32,6 +32,8 @@ public class Mailbox extends SubsystemBase {
   // TODO: Update the gear ratios
   private double lMailboxGearRatio = 1.0;
   private double rMailboxGearRatio = 1.0;
+
+  public double runMailboxVoltage = 0.0;
 
   private SparkMax m_MailboxL;
   private SparkMax m_MailboxR;

@@ -121,23 +121,23 @@ public class Swerve extends SubsystemBase {
 
         };
 
-        try {
-            path = PathPlannerPath.fromPathFile("New Path");
-        } catch (FileVersionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // try {
+        //     path = PathPlannerPath.fromPathFile("New Path");
+        // } catch (FileVersionException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // } catch (IOException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // } catch (ParseException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
 
-        constraints = new PathConstraints(
-            3.0, 4.0,
-            Units.degreesToRadians(540), Units.degreesToRadians(720)
-        );
+        // constraints = new PathConstraints(
+        //     3.0, 4.0,
+        //     Units.degreesToRadians(540), Units.degreesToRadians(720)
+        // );
 
         // delay reseting modules utill robRIO finishes startup
         Timer.delay(1.0);
@@ -179,9 +179,9 @@ public class Swerve extends SubsystemBase {
             this // Reference to this subsystem to set requirements
     );
 
-    pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
-        path,
-        constraints);
+    // pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+    //     path,
+    //     constraints);
 
 
 
@@ -332,7 +332,7 @@ public class Swerve extends SubsystemBase {
         
     }
 
-    public Command pathfindiCommand = AutoBuilder.pathfindThenFollowPath(path, constraints);
+    // public Command pathfindiCommand = AutoBuilder.pathfindThenFollowPath(path, constraints);
 
     public Rotation2d getGyroYaw(){
         return gyro.getRotation2d();

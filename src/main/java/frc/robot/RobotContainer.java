@@ -122,6 +122,7 @@ public class RobotContainer {
     private final Mailbox s_Mailbox = new Mailbox();
     private final Climber s_Climber = new Climber();
     private final Elevator s_Elevator = new Elevator();
+    private final Funnel s_Funnel = new Funnel(); 
 
 
 
@@ -190,18 +191,20 @@ public class RobotContainer {
 
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        driverA.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(-1.5)));//end climb-0.75
+        driverStart.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(-1.5)));//end climb-0.75
 
-        driverRightTrigger.onTrue(new InstantCommand(() -> s_Mailbox.setMailboxVolatge(3,3)));
+        driverRightTrigger.onTrue(new InstantCommand(() -> s_Mailbox.setMailboxVolatge(s_Mailbox.runMailboxVoltage,s_Mailbox.runMailboxVoltage)));
 
         driverLeftTrigger.whileTrue(
-            new IntakeCoral(s_Mailbox)
+            new IntakeCoral(s_Mailbox, s_Funnel)
             .until(() -> s_Mailbox.getSensorInput())
         );
-        driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
-        driverDpadDown.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
-        driverDpadLeft.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
-        driverDpadDown.onTrue(s_Swerve.pathfindingCommand);  
+        // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
+        //driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
+        driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
+        driverB.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
+        driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
+        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
 
     }
     /**

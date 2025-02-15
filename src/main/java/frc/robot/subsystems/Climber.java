@@ -25,11 +25,11 @@ public class Climber extends SubsystemBase {
 
   private int m_CimberID = 13;
   private int e_ClimberID = 15;
-  private double climberP = 1.0;
+  private double climberP = 0.0;
   private double climberI = 0.0;
   private double climberD = 0.0;
   private double magnetOffset = 0.0;
-  private double climberGearRatio = 625;
+  private double climberGearRatio = 625 * 20 / 12;
   private double currentLimit = 0.0;
   private double climberFF = 0.0; 
 
@@ -47,15 +47,15 @@ public class Climber extends SubsystemBase {
     e_Climber = new CANcoder(e_ClimberID);
     m_Request = new PositionVoltage(0).withSlot(0);
 
-    currentLimitConfigs = new CurrentLimitsConfigs();
-    currentLimitConfigs.SupplyCurrentLimitEnable = true;
-    currentLimitConfigs.SupplyCurrentLimit = currentLimit;
-    feedbackConfigs = new FeedbackConfigs();
-    feedbackConfigs.SensorToMechanismRatio = climberGearRatio;
+    currentLimitConfigs = new CurrentLimitsConfigs()
+      .withSupplyCurrentLimitEnable(true)
+      .withSupplyCurrentLimit(currentLimit);
+    feedbackConfigs = new FeedbackConfigs()
+      .withSensorToMechanismRatio(climberGearRatio);    
     slotConfigs = new Slot0Configs();
-    slotConfigs.kP = climberP;
-    slotConfigs.kI = climberI;
-    slotConfigs.kD = climberD;
+      slotConfigs.kP = climberP;
+      slotConfigs.kI = climberI;
+      slotConfigs.kD = climberD;
 
     m_Climber.getConfigurator().apply(slotConfigs);
     m_Climber.getConfigurator().apply(feedbackConfigs);
@@ -95,5 +95,6 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Climber Position", m_Climber.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Climber CANCoder", e_Climber.getPosition().getValueAsDouble());
   }
 }

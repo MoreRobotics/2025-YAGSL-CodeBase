@@ -13,9 +13,10 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Funnel extends SubsystemBase {
-  private int m_FunnelID = 0;
+  private int m_FunnelID = 14;
   private int currentLimit = 0;
   private double funnelGearRatio = 0.0;
+  public double runFunnelVoltage = 1.0;
 
 
   private SparkMax m_Funnel;
@@ -32,6 +33,14 @@ public class Funnel extends SubsystemBase {
     .inverted(false)
     .idleMode(IdleMode.kCoast)
     .smartCurrentLimit(currentLimit);
+  }
+
+  public void runFunnel(double voltage) {
+    m_Funnel.setVoltage(voltage);
+  }
+
+  public void stopFunnel() {
+    m_Funnel.setVoltage(0);
   }
 
   @Override
