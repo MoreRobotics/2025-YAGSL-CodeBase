@@ -121,6 +121,7 @@ public class RobotContainer {
     private final Shooter s_Shooter = new Shooter();
     private final Eyes s_Eyes = new Eyes(s_Swerve);
     private final Mailbox s_Mailbox = new Mailbox();
+    private final Climber s_Climber = new Climber();
 
 
 
@@ -191,6 +192,7 @@ public class RobotContainer {
 
         // zero gyro
         driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        driverA.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(-1.5)));//end climb-0.75
 
         driverRightTrigger.onTrue(new InstantCommand(() -> s_Mailbox.setMailboxVolatge(3,3)));
 
