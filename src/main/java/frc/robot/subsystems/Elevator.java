@@ -20,6 +20,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -35,7 +36,7 @@ public class Elevator extends SubsystemBase {
 
   public double targetElevatorPosition = 0;
 
-  private double heightlimit = 0;
+  private final double heightlimit = 197;
   public double elevatorspeed = 0.1;
   public double restingposition = 0;
 
@@ -99,7 +100,9 @@ public class Elevator extends SubsystemBase {
   }
 
   public void setElevatorPosition(double inches) {
-          m_Elevator.setControl(m_Request.withPosition(inches).withFeedForward(m_ElevatorFF));
+
+        m_Elevator.setControl(m_Request.withPosition(MathUtil.clamp(inches, 0, heightlimit)).withFeedForward(m_ElevatorFF));
+      
   }
 
 public void endElevator() {
