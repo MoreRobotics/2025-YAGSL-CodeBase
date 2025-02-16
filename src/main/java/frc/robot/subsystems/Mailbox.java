@@ -33,7 +33,7 @@ public class Mailbox extends SubsystemBase {
   private double lMailboxGearRatio = 1.0;
   private double rMailboxGearRatio = 1.0;
 
-  public double runMailboxVoltage = -5.0;
+  public double runMailboxVoltage = -12.0;
 
   private SparkMax m_MailboxL;
   private SparkMax m_MailboxR;
