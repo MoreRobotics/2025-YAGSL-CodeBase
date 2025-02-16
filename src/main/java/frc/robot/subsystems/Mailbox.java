@@ -21,7 +21,7 @@ public class Mailbox extends SubsystemBase {
   private int lMailboxID = 12;
   private int rMailboxID = 11;
   private int sensorID = 0;
-  private int mailboxCurrentLimit = 0;
+  private int mailboxCurrentLimit = 20;
   private double lMailboxP = 1.0;
   private double lMailboxI = 0.0;
   private double lMailboxD = 0.0;

@@ -193,7 +193,7 @@ public class RobotContainer {
         driverSelect.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         driverStart.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(-1.5)));//end climb-0.75
 
-        driverRightTrigger.whileTrue(new InstantCommand(() -> s_Mailbox.setMailboxSpeed(s_Mailbox.runMailboxSpeed,s_Mailbox.runMailboxSpeed))).onChange(new InstantCommand(() -> s_Mailbox.stopMailBox()));
+        driverRightTrigger.whileTrue(new OutakeCoral(s_Mailbox));
 
         driverLeftTrigger.whileTrue(
             new IntakeCoral(s_Mailbox, s_Funnel)
