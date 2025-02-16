@@ -33,7 +33,7 @@ public class Mailbox extends SubsystemBase {
   private double lMailboxGearRatio = 1.0;
   private double rMailboxGearRatio = 1.0;
 
-  public double runMailboxVoltage = -12.0;
+  public double runMailboxSpeed = 0.9;
 
   private SparkMax m_MailboxL;
   private SparkMax m_MailboxR;
@@ -56,7 +56,7 @@ public class Mailbox extends SubsystemBase {
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
       .pid(lMailboxP, lMailboxI, lMailboxD);
     lMailboxConfig
-      .inverted(true)
+      .inverted(false)
       .idleMode(IdleMode.kCoast)
       .smartCurrentLimit(mailboxCurrentLimit);
 
@@ -68,7 +68,7 @@ public class Mailbox extends SubsystemBase {
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
       .pid(rMailboxP, rMailboxI, rMailboxD);
     rMailboxConfig
-      .inverted(false)
+      .inverted(true)
       .idleMode(IdleMode.kCoast)
       .smartCurrentLimit(mailboxCurrentLimit);
 
@@ -77,9 +77,9 @@ public class Mailbox extends SubsystemBase {
 
   }
 
-  public void setMailboxVolatge(double leftVoltage, double rightVoltage) {
-    m_MailboxL.setVoltage(leftVoltage);
-    m_MailboxR.setVoltage(rightVoltage);
+  public void setMailboxSpeed(double leftSpeed, double rightSpeed) {
+    m_MailboxL.set(leftSpeed);
+    m_MailboxR.set(rightSpeed);
   }
 
   public boolean getSensorInput() {
@@ -91,8 +91,8 @@ public class Mailbox extends SubsystemBase {
   }
 
   public void stopMailBox() {
-    m_MailboxL.setVoltage(0);
-    m_MailboxR.setVoltage(0);
+    m_MailboxL.set(0);
+    m_MailboxR.set(0);
   }
 
 
