@@ -33,7 +33,8 @@ public class Mailbox extends SubsystemBase {
   private double lMailboxGearRatio = 1.0;
   private double rMailboxGearRatio = 1.0;
 
-  public double runMailboxSpeed = 0.9;
+  public double intakeSpeed = 0.25;
+  public double outtakeSpeed = 1.0;
 
   private SparkMax m_MailboxL;
   private SparkMax m_MailboxR;

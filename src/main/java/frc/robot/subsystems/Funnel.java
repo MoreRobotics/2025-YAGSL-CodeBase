@@ -16,7 +16,7 @@ public class Funnel extends SubsystemBase {
   private int m_FunnelID = 17;
   private int currentLimit = 60;
   private double funnelGearRatio = 0.0;
-  public double runFunnelVoltage = -5.0;
+  public double runFunnelSpeed = -0.5;
 
 
   private SparkMax m_Funnel;
@@ -34,12 +34,12 @@ public class Funnel extends SubsystemBase {
     .idleMode(IdleMode.kCoast);
   }
 
-  public void runFunnel(double voltage) {
-    m_Funnel.setVoltage(voltage);
+  public void runFunnel(double speed) {
+    m_Funnel.set(speed);
   }
 
   public void stopFunnel() {
-    m_Funnel.setVoltage(0);
+    m_Funnel.set(0);
   }
 
   @Override

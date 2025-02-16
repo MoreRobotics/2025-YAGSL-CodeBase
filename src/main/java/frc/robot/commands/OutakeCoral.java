@@ -22,7 +22,7 @@ public class OutakeCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_Mailbox.setMailboxSpeed(s_Mailbox.runMailboxSpeed,s_Mailbox.runMailboxSpeed);
+    s_Mailbox.setMailboxSpeed(s_Mailbox.outtakeSpeed,s_Mailbox.outtakeSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
