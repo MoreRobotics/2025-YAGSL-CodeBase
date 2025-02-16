@@ -18,6 +18,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,23 +29,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends SubsystemBase {
 
-  private final int m_ElevatorID = 15;
+  private final int m_ElevatorID = 14;
 
-  private int elevatorCurrentLimit = 60;
+  private int elevatorCurrentLimit = 0;
 
   public double targetElevatorPosition = 0;
 
-  private double heightlimit = 16;
+  private double heightlimit = 0;
   public double elevatorspeed = 0.1;
   public double restingposition = 0;
 
 
   private TalonFX m_Elevator;
 
-  private final double m_ElevatorPGains = 0.1;
-  private final double m_ElevatorIGains = 1e-4;
-  private final double m_ElevatorDGains = 1.0;
-  private final double m_ElevatorFF = 5.0;
+  private final double m_ElevatorPGains = 0.2;
+  private final double m_ElevatorIGains = 1e-3;
+  private final double m_ElevatorDGains = 0.0;
+  private final double m_ElevatorFF = 0.0;
   private final double magnetOffset = 0.0;
 
   private Slot0Configs slotConfigs;
@@ -60,16 +61,12 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
     m_Elevator = new TalonFX(m_ElevatorID);
-
-    m_Elevator.getConfigurator().apply(slotConfigs);
-    m_Elevator.getConfigurator().apply(feedbackConfigs);
-    m_Elevator.getConfigurator().apply(softLimitConfigs);
-    m_Elevator.getConfigurator().apply(currentLimitConfigs);
+    m_Request = new PositionVoltage(0).withSlot(0);
 
 
-    currentLimitConfigs = new CurrentLimitsConfigs()
-    .withSupplyCurrentLimitEnable(true)
-    .withSupplyCurrentLimit(elevatorCurrentLimit);
+    // currentLimitConfigs = new CurrentLimitsConfigs()
+    // .withSupplyCurrentLimitEnable(true)
+    // .withSupplyCurrentLimit(elevatorCurrentLimit);
 
     feedbackConfigs = new FeedbackConfigs()
     .withSensorToMechanismRatio(Constants.ELEVATOR_ROTATIONS_TO_IN);
@@ -84,6 +81,14 @@ public class Elevator extends SubsystemBase {
     slotConfigs.kP = m_ElevatorPGains;
     slotConfigs.kI = m_ElevatorIGains;
     slotConfigs.kD = m_ElevatorDGains;
+
+    m_Elevator.getConfigurator().apply(slotConfigs);
+    m_Elevator.getConfigurator().apply(feedbackConfigs);
+    m_Elevator.setNeutralMode(NeutralModeValue.Brake);
+
+
+
+    
 
 
     Timer.delay(1.0);

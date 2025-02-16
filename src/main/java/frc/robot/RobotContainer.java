@@ -190,21 +190,21 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // zero gyro
-        driverY.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        driverSelect.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         driverStart.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(-1.5)));//end climb-0.75
 
-        driverRightTrigger.onTrue(new InstantCommand(() -> s_Mailbox.setMailboxVolatge(s_Mailbox.runMailboxVoltage,s_Mailbox.runMailboxVoltage)));
+        driverRightTrigger.whileTrue(new InstantCommand(() -> s_Mailbox.setMailboxVolatge(s_Mailbox.runMailboxVoltage,s_Mailbox.runMailboxVoltage)));
 
         driverLeftTrigger.whileTrue(
             new IntakeCoral(s_Mailbox, s_Funnel)
-            .until(() -> s_Mailbox.getSensorInput())
+            .until(() -> s_Mailbox.getSensorInput() == false)
         );
         // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         //driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
         driverB.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
-        driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
-        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
+        driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(80.77)));
+        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(180.239)));
 
     }
     /**
