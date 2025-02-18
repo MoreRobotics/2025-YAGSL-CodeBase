@@ -9,11 +9,13 @@ import com.ctre.phoenix6.configs.CANcoderConfigurator;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -25,58 +27,65 @@ public class Climber extends SubsystemBase {
 
   private int m_CimberID = 13;
   private int e_ClimberID = 15;
-  private double climberP = 0.0;
+  private double climberP = 2.0;
   private double climberI = 0.0;
   private double climberD = 0.0;
   private double magnetOffset = 0.0;
-  private double climberGearRatio = 625 * 20 / 12;
-  private double currentLimit = 0.0;
+  private double climberGearRatio = 125 * 20 / 12;
+  private double currentLimit = 80.0;
   private double climberFF = 0.0; 
+  private double target = 0.0;
 
-  private Slot0Configs slotConfigs;
+  private Slot0Configs pidConfig;
   private TalonFX m_Climber;
   private CANcoder e_Climber;
-  private CurrentLimitsConfigs currentLimitConfigs;
-  private FeedbackConfigs feedbackConfigs;
+  private CurrentLimitsConfigs currentLimitConfig;
+  private FeedbackConfigs feedbackConfig;
   private ArmFeedforward feedforward;
   private PositionVoltage m_Request;
+  private MotorOutputConfigs motorOutputConfigs;
   /** Creates a new Climber. */
   public Climber() {
 
     m_Climber = new TalonFX(m_CimberID);
     e_Climber = new CANcoder(e_ClimberID);
     m_Request = new PositionVoltage(0).withSlot(0);
+ 
+    pidConfig = new Slot0Configs();
+      pidConfig.kP = climberP;
+      pidConfig.kI = climberI;
+      pidConfig.kD = climberD;
 
-    currentLimitConfigs = new CurrentLimitsConfigs()
+    feedbackConfig = new FeedbackConfigs()
+      .withSensorToMechanismRatio(climberGearRatio);
+      
+    currentLimitConfig = new CurrentLimitsConfigs()
       .withSupplyCurrentLimitEnable(true)
       .withSupplyCurrentLimit(currentLimit);
-    feedbackConfigs = new FeedbackConfigs()
-      .withSensorToMechanismRatio(climberGearRatio);    
-    slotConfigs = new Slot0Configs();
-      slotConfigs.kP = climberP;
-      slotConfigs.kI = climberI;
-      slotConfigs.kD = climberD;
 
-    m_Climber.getConfigurator().apply(slotConfigs);
-    m_Climber.getConfigurator().apply(feedbackConfigs);
-    m_Climber.getConfigurator().apply(currentLimitConfigs);
+    motorOutputConfigs = new MotorOutputConfigs()
+      .withInverted(InvertedValue.CounterClockwise_Positive);
+
+    m_Climber.getConfigurator().apply(pidConfig);
+    m_Climber.getConfigurator().apply(feedbackConfig);
+    m_Climber.getConfigurator().apply(currentLimitConfig);
+    m_Climber.getConfigurator().apply(motorOutputConfigs);
+    
     m_Climber.setNeutralMode(NeutralModeValue.Brake);
 
-    CANcoderConfigurator cancoderConfigurator = e_Climber.getConfigurator();
-
-    cancoderConfigurator.apply(
+    e_Climber.getConfigurator().apply(
       new MagnetSensorConfigs()
       .withMagnetOffset(magnetOffset)
     );
+
     Timer.delay(1.0);
     setInternalEncoder();
-
- 
 
   }
 
   public void setClimberPosition(double setpoint) {
-    m_Climber.setControl(m_Request.withPosition(setpoint));
+    target = setpoint;
+    m_Climber.setControl(m_Request.withPosition(target));
   }
 
   public void setInternalEncoder() {
@@ -96,5 +105,6 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Climber Position", m_Climber.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Climber CANCoder", e_Climber.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Climber Set Point", target);
   }
 }

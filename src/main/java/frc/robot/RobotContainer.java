@@ -191,7 +191,7 @@ public class RobotContainer {
 
         // zero gyro
         driverSelect.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        driverStart.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(-1.5)));//end climb-0.75
+        driverStart.whileTrue(new InstantCommand(() -> s_Climber.setClimberPosition(1.5)));//end climb-0.75
 
         driverRightTrigger.whileTrue(new OutakeCoral(s_Mailbox));
 
