@@ -203,8 +203,8 @@ public class RobotContainer {
         //driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
         driverB.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
-        driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(84.77)));
-        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(184.239)));
+        driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(95.77)));
+        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(194.0)));
 
     }
     /**
