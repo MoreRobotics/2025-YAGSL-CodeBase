@@ -27,7 +27,7 @@ public class Climber extends SubsystemBase {
 
   private int m_CimberID = 13;
   private int e_ClimberID = 15;
-  private double climberP = 2.0;
+  private double climberP = 24.0;
   private double climberI = 0.0;
   private double climberD = 0.0;
   private double magnetOffset = 0.0;
@@ -64,14 +64,13 @@ public class Climber extends SubsystemBase {
       .withSupplyCurrentLimit(currentLimit);
 
     motorOutputConfigs = new MotorOutputConfigs()
-      .withInverted(InvertedValue.CounterClockwise_Positive);
+      .withInverted(InvertedValue.CounterClockwise_Positive)
+      .withNeutralMode(NeutralModeValue.Brake);
 
+    m_Climber.getConfigurator().apply(motorOutputConfigs);
     m_Climber.getConfigurator().apply(pidConfig);
     m_Climber.getConfigurator().apply(feedbackConfig);
     m_Climber.getConfigurator().apply(currentLimitConfig);
-    m_Climber.getConfigurator().apply(motorOutputConfigs);
-    
-    m_Climber.setNeutralMode(NeutralModeValue.Brake);
 
     e_Climber.getConfigurator().apply(
       new MagnetSensorConfigs()
@@ -106,5 +105,7 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putNumber("Climber Position", m_Climber.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Climber CANCoder", e_Climber.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Climber Set Point", target);
+    SmartDashboard.putNumber("Climber Current", m_Climber.getSupplyCurrent().getValueAsDouble());
+    SmartDashboard.putNumber("Climber Voltage", m_Climber.getSupplyVoltage().getValueAsDouble());
   }
 }
