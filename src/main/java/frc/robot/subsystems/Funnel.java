@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Funnel extends SubsystemBase {
-  private int m_FunnelID = 17;
+  private int m_FunnelID = 10;
   private int currentLimit = 60;
   private double funnelGearRatio = 0.0;
   public double runFunnelSpeed = -0.5;

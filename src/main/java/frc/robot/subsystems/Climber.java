@@ -11,6 +11,7 @@ import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -34,7 +35,15 @@ public class Climber extends SubsystemBase {
   private double climberGearRatio = 125 * 20 / 12;
   private double currentLimit = 80.0;
   private double climberFF = 0.0; 
-  private double target = 0.0;
+  private double target = 0.1;
+  private double forwardLimit = 0.3;
+  private double reverseLimit = -0.35;
+  
+  private double climberSafePose = 0.1;
+  private double climberReadyPose = 0;
+  private double climberEndPose = -0.2;
+  public boolean hasClimbed = false;
+  private double tolerance = 0.05;
 
   private Slot0Configs pidConfig;
   private TalonFX m_Climber;
@@ -44,6 +53,7 @@ public class Climber extends SubsystemBase {
   private ArmFeedforward feedforward;
   private PositionVoltage m_Request;
   private MotorOutputConfigs motorOutputConfigs;
+  private SoftwareLimitSwitchConfigs softwareLimitSwitchConfigs;
   /** Creates a new Climber. */
   public Climber() {
 
@@ -56,6 +66,12 @@ public class Climber extends SubsystemBase {
       pidConfig.kI = climberI;
       pidConfig.kD = climberD;
 
+    softwareLimitSwitchConfigs =  new SoftwareLimitSwitchConfigs()
+      .withForwardSoftLimitEnable(true)
+      .withForwardSoftLimitThreshold(forwardLimit)
+      .withReverseSoftLimitEnable(true)
+      .withReverseSoftLimitThreshold(reverseLimit);
+
     feedbackConfig = new FeedbackConfigs()
       .withSensorToMechanismRatio(climberGearRatio);
       
@@ -65,12 +81,13 @@ public class Climber extends SubsystemBase {
 
     motorOutputConfigs = new MotorOutputConfigs()
       .withInverted(InvertedValue.CounterClockwise_Positive)
-      .withNeutralMode(NeutralModeValue.Brake);
+      .withNeutralMode(NeutralModeValue.Coast);
 
     m_Climber.getConfigurator().apply(motorOutputConfigs);
     m_Climber.getConfigurator().apply(pidConfig);
     m_Climber.getConfigurator().apply(feedbackConfig);
     m_Climber.getConfigurator().apply(currentLimitConfig);
+    m_Climber.getConfigurator().apply(softwareLimitSwitchConfigs);
 
     e_Climber.getConfigurator().apply(
       new MagnetSensorConfigs()
@@ -79,12 +96,32 @@ public class Climber extends SubsystemBase {
 
     Timer.delay(1.0);
     setInternalEncoder();
+    setClimberSafePose();
 
   }
 
-  public void setClimberPosition(double setpoint) {
-    target = setpoint;
-    m_Climber.setControl(m_Request.withPosition(target));
+  public void changeTarget() {
+    if (hasClimbed == false) {
+      target = climberReadyPose;
+    } else {
+      target = climberEndPose;
+    }
+  }
+
+  public boolean checkClimb() {
+    return hasClimbed = !hasClimbed;
+  }
+
+  public void setClimberPosition() {
+    m_Climber.setControl(m_Request.withPosition(target).withLimitForwardMotion(true).withLimitReverseMotion(true));
+  }
+
+  public void setClimberSafePose() {
+    m_Climber.setControl(m_Request.withPosition(climberSafePose));
+  }
+
+  public boolean atPosition() {
+    return(m_Climber.getPosition().getValueAsDouble()>(target - tolerance) && m_Climber.getPosition().getValueAsDouble()<= (target + tolerance));
   }
 
   public void setInternalEncoder() {
@@ -107,5 +144,6 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putNumber("Climber Set Point", target);
     SmartDashboard.putNumber("Climber Current", m_Climber.getSupplyCurrent().getValueAsDouble());
     SmartDashboard.putNumber("Climber Voltage", m_Climber.getSupplyVoltage().getValueAsDouble());
+    SmartDashboard.putBoolean("Toggle Value", hasClimbed);
   }
 }
