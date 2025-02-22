@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 
 import java.sql.DriverPropertyInfo;
 
@@ -18,6 +19,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
@@ -56,6 +58,7 @@ public class Elevator extends SubsystemBase {
 
   private TalonFXConfigurator config;
   private PositionVoltage m_Request;
+  private MotorOutputConfigs motorOutputConfigs;
   private double voltage = 0.0;
 
 
@@ -76,22 +79,20 @@ public class Elevator extends SubsystemBase {
     .withForwardSoftLimitEnable(true)
     .withForwardSoftLimitThreshold(inchesToMotorRotations(heightlimit));
 
-    
+    motorOutputConfigs = new MotorOutputConfigs()
+    .withInverted(InvertedValue.Clockwise_Positive)
+    .withNeutralMode(NeutralModeValue.Brake);
 
     slotConfigs = new Slot0Configs();
     slotConfigs.kP = m_ElevatorPGains;
     slotConfigs.kI = m_ElevatorIGains;
     slotConfigs.kD = m_ElevatorDGains;
 
+    m_Elevator.getConfigurator().apply(motorOutputConfigs);
     m_Elevator.getConfigurator().apply(slotConfigs);
     m_Elevator.getConfigurator().apply(feedbackConfigs);
-    m_Elevator.setNeutralMode(NeutralModeValue.Brake);
-
-
 
     
-
-
     Timer.delay(1.0);
     m_Elevator.setPosition(0);
     setElevatorPosition(restingposition);
