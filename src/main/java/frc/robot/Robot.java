@@ -11,6 +11,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -31,6 +32,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private PowerDistribution pdh;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -50,6 +53,9 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     DataLogManager.start();
+
+    pdh = new PowerDistribution();
+    pdh.setSwitchableChannel(true);
 
     final UsbCamera usbCamera = CameraServer.startAutomaticCapture();
 
