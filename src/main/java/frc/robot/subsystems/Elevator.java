@@ -23,6 +23,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,6 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Elevator extends SubsystemBase {
 
   private final int m_ElevatorID = 14;
+  private final int m_BotSensorID = 1;
 
   private int elevatorCurrentLimit = 0;
 
@@ -44,6 +46,7 @@ public class Elevator extends SubsystemBase {
 
 
   private TalonFX m_Elevator;
+  private DigitalInput botSensor;
 
   private final double m_ElevatorPGains = 0.2;
   private final double m_ElevatorIGains = 1e-3;
@@ -66,6 +69,8 @@ public class Elevator extends SubsystemBase {
   public Elevator() {
     m_Elevator = new TalonFX(m_ElevatorID);
     m_Request = new PositionVoltage(0).withSlot(0);
+    
+    botSensor = new DigitalInput(m_BotSensorID);
 
 
     // currentLimitConfigs = new CurrentLimitsConfigs()
@@ -96,8 +101,6 @@ public class Elevator extends SubsystemBase {
     Timer.delay(1.0);
     m_Elevator.setPosition(0);
     setElevatorPosition(restingposition);
-    
-
   }
 
   public void setElevatorPosition(double inches) {
@@ -149,5 +152,12 @@ public void endElevator() {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Elevator Position", m_Elevator.getPosition().getValueAsDouble());
+    SmartDashboard.putBoolean("Elevator Sensor", botSensor.get());
+
+    // TODO uncomment below to enable encoder reset on sensor
+    if(botSensor.get() == false)
+    {
+      m_Elevator.setPosition(0);
+    }
   }
 }
