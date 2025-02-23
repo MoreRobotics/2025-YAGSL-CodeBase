@@ -81,8 +81,7 @@ public class Eyes extends SubsystemBase {
          * ta = pitch in degrees in limelight FOV
          * tID = target ID number
          */
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-        System.out.println(table.getEntry("tx").getDouble(0.22));
+        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-front");
         NetworkTableEntry tx = table.getEntry("tx");
         NetworkTableEntry ty = table.getEntry("ty");
         NetworkTableEntry ta = table.getEntry("ta");
@@ -105,7 +104,7 @@ public class Eyes extends SubsystemBase {
         // txnc = LimelightHelpers.getTXNC("limelight");  // Horizontal offset from principal pixel/point to target in degrees
         // tync = LimelightHelpers.getTYNC("limelight");  // Vertical  offset from principal pixel/point to target in degrees
 
-        LimelightHelpers.setPipelineIndex("limelight", 0);
+        LimelightHelpers.setPipelineIndex("limelight-front", 0);
 
         // log target data
         SmartDashboard.putNumber("AprilTagID", tID);
@@ -146,9 +145,14 @@ public class Eyes extends SubsystemBase {
 
         Pose2d pose;
 
-        pose = LimelightHelpers.getBotPose2d("limelight");
+        if(DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Red) {
+        pose = LimelightHelpers.getBotPose2d_wpiRed("limelight-front");
 
         return pose;
+        } else {
+            pose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-front");
+            return pose;
+        }
 
     }
     
@@ -292,54 +296,14 @@ public class Eyes extends SubsystemBase {
 
     }
 
-    /*public void updatePoseEstimatorWithVisionBotPose() {
-        //invalid limelight
-        if (LimelightHelpers.getTV("") == false) {
-          return;
-        }
-        
-        // distance from current pose to vision estimated pose
-        double poseDifference = s_Swerve.m_poseEstimator.getEstimatedPosition().getTranslation()
-            .getDistance(getRobotPose().getTranslation());
-    
-          double xyStds;
-          double degStds;
-          // multiple targets detected
-          if (limelight.getNumberOfTargetsVisible() >= 2) {
-            xyStds = 0.5;
-            degStds = 6;
-          }
-          // 1 target with large area and close to estimated pose
-          else if (LimelightHelpers.getTA() > 0.8 && poseDifference < 0.5) {
-            xyStds = 1.0;
-            degStds = 12;
-          }
-          // 1 target farther away and estimated pose is close
-          else if (limelight.getBestTargetArea() > 0.1 && poseDifference < 0.3) {
-            xyStds = 2.0;
-            degStds = 30;
-          }
-          // conditions don't match to add a vision measurement
-          else {
-            return;
-          }
-    
-          s_Swerve.m_poseEstimator.setVisionMeasurementStdDevs(
-              VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds)));
-          s_Swerve.m_poseEstimator.addVisionMeasurement(getRobotPose(),
-              Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("")/1000.0) - (LimelightHelpers.getLatency_Capture("")/1000.0));
-        }
-      }
-/* */
-
     @Override
     public void periodic() {
         s_Swerve.m_poseEstimator.update(s_Swerve.getGyroYaw(), s_Swerve.getModulePositions());
 
-        if (LimelightHelpers.getTV("limelight") == true) {
+        if (LimelightHelpers.getTV("limelight-front") == true) {
             s_Swerve.m_poseEstimator.addVisionMeasurement(
                 getRobotPose(), 
-                Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("limelight")/1000.0) - (LimelightHelpers.getLatency_Capture("limelight")/1000.0)
+                Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("limelight-front")/1000.0) - (LimelightHelpers.getLatency_Capture("limelight")/1000.0)
             );
         }
 

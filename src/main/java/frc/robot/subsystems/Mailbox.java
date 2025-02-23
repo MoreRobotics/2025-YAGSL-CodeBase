@@ -45,7 +45,7 @@ public class Mailbox extends SubsystemBase {
   private CurrentLimitsConfigs currentLimitConfig;
   private MotorOutputConfigs outputConfigs;
   private Slot0Configs pid;
-  private VelocityVoltage m_request;
+  private VelocityVoltage m_request = new VelocityVoltage(0);
 
   /** Creates a new Mailbox. */
   public Mailbox() {
@@ -71,7 +71,8 @@ public class Mailbox extends SubsystemBase {
   }
 
   public void setMailboxSpeed(double speed) {
-    m_Mailbox.setControl(m_request.withVelocity(speed));
+    //m_Mailbox.setControl(m_request.withVelocity(speed));
+    m_Mailbox.setVoltage(4.0);
   }
 
   public boolean getSensorInput() {
@@ -83,7 +84,7 @@ public class Mailbox extends SubsystemBase {
   }
 
   public void stopMailBox() {
-    
+    m_Mailbox.setVoltage(0);;
   }
 
 
@@ -92,5 +93,7 @@ public class Mailbox extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Corral Sensor", getSensorInput());
+    SmartDashboard.putNumber("Mailbox speed",m_Mailbox.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("mailbox voltage",m_Mailbox.getMotorVoltage().getValueAsDouble());
   }
 }

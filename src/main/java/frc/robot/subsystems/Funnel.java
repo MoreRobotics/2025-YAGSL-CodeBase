@@ -17,6 +17,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Funnel extends SubsystemBase {
@@ -33,7 +34,7 @@ public class Funnel extends SubsystemBase {
   private Slot0Configs pid;
   private FeedbackConfigs feedbackConfigs;
   private MotorOutputConfigs outputConfigs;
-  private VelocityVoltage m_request;
+  private VelocityVoltage m_request = new VelocityVoltage(0);
 
   /** Creates a new Funnel. */
   public Funnel() {
@@ -59,7 +60,8 @@ public class Funnel extends SubsystemBase {
   }
 
   public void runFunnel(double speed) {
-    m_Funnel.setControl(m_request.withVelocity(speed));
+    //m_Funnel.setControl(m_request.withVelocity(speed));
+    m_Funnel.setVoltage(2.0);
   }
 
   public void stopFunnel() {
@@ -69,5 +71,6 @@ public class Funnel extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("funnel speed", m_Funnel.getVelocity().getValueAsDouble());
   }
 }
