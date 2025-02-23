@@ -57,11 +57,11 @@ public class Robot extends TimedRobot {
     pdh = new PowerDistribution();
     pdh.setSwitchableChannel(true);
 
-    final UsbCamera usbCamera = CameraServer.startAutomaticCapture();
+    // final UsbCamera usbCamera = CameraServer.startAutomaticCapture();
 
-    if (isReal()) {
-      usbCamera.setVideoMode(new VideoMode(PixelFormat.kMJPEG, 160, 120, 30));
-    }
+    // if (isReal()) {
+    //   usbCamera.setVideoMode(new VideoMode(PixelFormat.kMJPEG, 160, 120, 30));
+    // }
   }
 
   /**

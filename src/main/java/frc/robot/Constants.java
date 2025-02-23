@@ -16,9 +16,10 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
-    public static final double ELEVATOR_SPROCKET_DIAMETER = 1.751;
-    public static final double ELEVATOR_GEAR_RATIO = 20.0;
-    public static final double ELEVATOR_ROTATIONS_TO_IN = (1.0 / ELEVATOR_GEAR_RATIO) * ELEVATOR_SPROCKET_DIAMETER * Math.PI * 2.0;
+    public static final double ELEVATOR_SPROCKET_DIAMETER = 1.75;
+    public static final double ELEVATOR_GEAR_RATIO = 5.0;
+    public static final double ELEVATOR_CHAIN_RATIO = 2.5;
+    public static final double ELEVATOR_ROTATIONS_TO_IN = (1.0 / ELEVATOR_GEAR_RATIO) * ELEVATOR_SPROCKET_DIAMETER * Math.PI / ELEVATOR_CHAIN_RATIO;
     public static final double ELEVATOR_TOLERANCE = 1.0;
     public static final double ELEVATOR_HIGH_LEVEL = 16.0;
     public static final double ELEVATOR_SAFE_LEVEL = 7.0;

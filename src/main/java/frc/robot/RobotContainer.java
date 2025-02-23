@@ -205,14 +205,15 @@ public class RobotContainer {
 
         driverLeftTrigger.whileTrue(
             new IntakeCoral(s_Mailbox, s_Funnel)
+
             .until(() -> s_Mailbox.getSensorInput() == false)
         );
         // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         //driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
-        driverB.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
-        driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(95.77)));
-        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(194.0)));
+        driverB.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
+        driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)));
+        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(48.2)));
 
     }
     /**

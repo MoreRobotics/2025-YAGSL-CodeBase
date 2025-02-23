@@ -15,10 +15,12 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.DifferentialPositionVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -36,11 +38,12 @@ public class Elevator extends SubsystemBase {
   private final int m_ElevatorID = 14;
   private final int m_BotSensorID = 1;
 
-  private int elevatorCurrentLimit = 0;
+  private int elevatorCurrentLimit = 60;
+  private int elevatorCurrentLowerLimit = 30;
 
   public double targetElevatorPosition = 0;
 
-  private final double heightlimit = 197;
+  private final double heightlimit = 50;
   public double elevatorspeed = 0.1;
   public double restingposition = 0;
 
@@ -48,11 +51,14 @@ public class Elevator extends SubsystemBase {
   private TalonFX m_Elevator;
   private DigitalInput botSensor;
 
-  private final double m_ElevatorPGains = 0.2;
-  private final double m_ElevatorIGains = 1e-3;
-  private final double m_ElevatorDGains = 0.0;
-  private final double m_ElevatorFF = 0.0;
+  private final double m_ElevatorPGains = 0.4;//0.5
+  private final double m_ElevatorIGains = 0.075;
+  private final double m_ElevatorDGains = 0.001;
+  private final double m_ElevatorGGains = 0.45;//.45
+  private final double m_ElevatorSGains = 0.4;
+  // private final double m_ElevatorVGains = 0.001;
   private final double magnetOffset = 0.0;
+  private double target;
 
   private Slot0Configs slotConfigs;
   private FeedbackConfigs feedbackConfigs;
@@ -63,19 +69,22 @@ public class Elevator extends SubsystemBase {
   private PositionVoltage m_Request;
   private MotorOutputConfigs motorOutputConfigs;
   private double voltage = 0.0;
+  private boolean debounceSensor = true;
 
 
   /** Creates a new Elevator. */
   public Elevator() {
     m_Elevator = new TalonFX(m_ElevatorID);
-    m_Request = new PositionVoltage(0).withSlot(0);
+    
+     m_Request = new PositionVoltage(0).withSlot(0);
     
     botSensor = new DigitalInput(m_BotSensorID);
 
 
-    // currentLimitConfigs = new CurrentLimitsConfigs()
-    // .withSupplyCurrentLimitEnable(true)
-    // .withSupplyCurrentLimit(elevatorCurrentLimit);
+    currentLimitConfigs = new CurrentLimitsConfigs()
+    .withSupplyCurrentLimitEnable(true)
+    .withSupplyCurrentLimit(elevatorCurrentLimit)
+    .withSupplyCurrentLowerLimit(elevatorCurrentLowerLimit);
 
     feedbackConfigs = new FeedbackConfigs()
     .withSensorToMechanismRatio(Constants.ELEVATOR_ROTATIONS_TO_IN);
@@ -88,14 +97,18 @@ public class Elevator extends SubsystemBase {
     .withInverted(InvertedValue.Clockwise_Positive)
     .withNeutralMode(NeutralModeValue.Brake);
 
-    slotConfigs = new Slot0Configs();
+    slotConfigs = new Slot0Configs().withGravityType(GravityTypeValue.Elevator_Static);
     slotConfigs.kP = m_ElevatorPGains;
     slotConfigs.kI = m_ElevatorIGains;
     slotConfigs.kD = m_ElevatorDGains;
+    slotConfigs.kG = m_ElevatorGGains;
+    slotConfigs.kS = m_ElevatorSGains;
+    //slotConfigs.kV = m_ElevatorVGains;
 
     m_Elevator.getConfigurator().apply(motorOutputConfigs);
     m_Elevator.getConfigurator().apply(slotConfigs);
     m_Elevator.getConfigurator().apply(feedbackConfigs);
+    m_Elevator.getConfigurator().apply(currentLimitConfigs);
 
     
     Timer.delay(1.0);
@@ -105,8 +118,8 @@ public class Elevator extends SubsystemBase {
 
   public void setElevatorPosition(double inches) {
 
-        m_Elevator.setControl(m_Request.withPosition(MathUtil.clamp(inches, 0, heightlimit)).withFeedForward(m_ElevatorFF));
-      
+      m_Elevator.setControl(m_Request.withPosition(MathUtil.clamp(inches, 0, heightlimit)));
+      target = inches;
   }
 
 public void endElevator() {
@@ -153,11 +166,20 @@ public void endElevator() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Elevator Position", m_Elevator.getPosition().getValueAsDouble());
     SmartDashboard.putBoolean("Elevator Sensor", botSensor.get());
+    SmartDashboard.putNumber("Elevator Target", target);
 
-    // TODO uncomment below to enable encoder reset on sensor
+
     if(botSensor.get() == false)
     {
-      m_Elevator.setPosition(0);
+      if (debounceSensor)
+      {
+        m_Elevator.setPosition(0);
+        debounceSensor = false;
+      }
+    }
+    else
+    {
+      debounceSensor = true;
     }
   }
 }
