@@ -198,6 +198,55 @@ public final class Constants {
         public static final double ampRedY = 8.0;
         public static final double ampRedR = 270;
 
+
+        public static final double r1ReefX = 0.0;
+        public static final double r1ReefY = 0.0;
+        public static final double r1ReefR = 0.0;
+
+        public static final double r2ReefX = 0.0;
+        public static final double r2ReefY = 0.0;
+        public static final double r2ReefR = 0.0;
+
+        public static final double r3ReefX = 0.0;
+        public static final double r3ReefY = 0.0;
+        public static final double r3ReefR = 0.0;
+
+        public static final double r4ReefX = 0.0;
+        public static final double r4ReefY = 0.0;
+        public static final double r4ReefR = 0.0;
+
+        public static final double r5ReefX = 0.0;
+        public static final double r5ReefY = 0.0;
+        public static final double r5ReefR = 0.0;
+
+        public static final double r6ReefX = 0.0;
+        public static final double r6ReefY = 0.0;
+        public static final double r6ReefR = 0.0;
+
+        public static final double l1ReefX = 0.0;
+        public static final double l1ReefY = 0.0;
+        public static final double l1ReefR = 0.0;
+
+        public static final double l2ReefX = 0.0;
+        public static final double l2ReefY = 0.0;
+        public static final double l2ReefR = 0.0;
+
+        public static final double l3ReefX = 0.0;
+        public static final double l3ReefY = 0.0;
+        public static final double l3ReefR = 0.0;
+
+        public static final double l4ReefX = 0.0;
+        public static final double l4ReefY = 0.0;
+        public static final double l4ReefR = 0.0;
+
+        public static final double l5ReefX = 0.0;
+        public static final double l5ReefY = 0.0;
+        public static final double l5ReefR = 0.0;
+
+        public static final double l6ReefX = 0.0;
+        public static final double l6ReefY = 0.0;
+        public static final double l6ReefR = 0.0;
+
         
 
     }

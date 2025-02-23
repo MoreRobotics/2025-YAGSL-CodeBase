@@ -14,6 +14,9 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import java.util.List;
+
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
@@ -26,6 +29,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.Swerve;
 
 
@@ -34,6 +40,7 @@ public class Eyes extends SubsystemBase {
 
     // Swerve subsystem for pose estimator
     Swerve s_Swerve;
+    LimelightHelpers r_LimelightHelpers;
 
     // create objects and variables
     public LimelightHelpers limelight;
@@ -41,13 +48,18 @@ public class Eyes extends SubsystemBase {
     public double ty;
     public double ta;
     public double tID;
+    public double txnc;
+    public double tync;
 
+   
     public boolean controllerRumble = false;
-  
+    public PathPlannerPath rReefPath;
+    public PathPlannerPath lReefPath;
     // constuctor
     public Eyes(Swerve swerve) {
 
         s_Swerve = swerve;
+        
     }
 
  
@@ -69,15 +81,33 @@ public class Eyes extends SubsystemBase {
          * ta = pitch in degrees in limelight FOV
          * tID = target ID number
          */
-        tx = LimelightHelpers.getTX("");
-        ty = LimelightHelpers.getTY("");
-        ta = LimelightHelpers.getTA("");
-        tID = LimelightHelpers.getFiducialID("");
+        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+        System.out.println(table.getEntry("tx").getDouble(0.22));
+        NetworkTableEntry tx = table.getEntry("tx");
+        NetworkTableEntry ty = table.getEntry("ty");
+        NetworkTableEntry ta = table.getEntry("ta");
+
+        //read values periodically
+        double x = tx.getDouble(tID);
+        double y = ty.getDouble(0.0);
+        double area = ta.getDouble(0.0);
+
+        //post to smart dashboard periodically
+        SmartDashboard.putNumber("LimelightX", x);
+        SmartDashboard.putNumber("LimelightY", y);
+        SmartDashboard.putNumber("LimelightArea", area);
+
+        // tx = LimelightHelpers.getTX("limelight");
+        // ty = LimelightHelpers.getTY("limelight");
+        // ta = LimelightHelpers.getTA("limelight");
+        // tID = LimelightHelpers.getFiducialID("limelight");
+
+        // txnc = LimelightHelpers.getTXNC("limelight");  // Horizontal offset from principal pixel/point to target in degrees
+        // tync = LimelightHelpers.getTYNC("limelight");  // Vertical  offset from principal pixel/point to target in degrees
+
+        LimelightHelpers.setPipelineIndex("limelight", 0);
 
         // log target data
-        SmartDashboard.putNumber("AprilTagX", tx);
-        SmartDashboard.putNumber("AprilTagY", ty);
-        SmartDashboard.putNumber("AprilTagA", ta);
         SmartDashboard.putNumber("AprilTagID", tID);
 
     }
@@ -116,7 +146,7 @@ public class Eyes extends SubsystemBase {
 
         Pose2d pose;
 
-        pose = LimelightHelpers.getBotPose2d_wpiBlue("");
+        pose = LimelightHelpers.getBotPose2d("limelight");
 
         return pose;
 
@@ -306,12 +336,14 @@ public class Eyes extends SubsystemBase {
     public void periodic() {
         s_Swerve.m_poseEstimator.update(s_Swerve.getGyroYaw(), s_Swerve.getModulePositions());
 
-        if (LimelightHelpers.getTV("") == true) {
+        if (LimelightHelpers.getTV("limelight") == true) {
             s_Swerve.m_poseEstimator.addVisionMeasurement(
                 getRobotPose(), 
-                Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("")/1000.0) - (LimelightHelpers.getLatency_Capture("")/1000.0)
+                Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("limelight")/1000.0) - (LimelightHelpers.getLatency_Capture("limelight")/1000.0)
             );
         }
+
+        updateData();
 
         SmartDashboard.putNumber("Pose estimator rotations", s_Swerve.m_poseEstimator.getEstimatedPosition().getRotation().getDegrees());
         SmartDashboard.putNumber("Pose Estimator X", s_Swerve.m_poseEstimator.getEstimatedPosition().getX());
