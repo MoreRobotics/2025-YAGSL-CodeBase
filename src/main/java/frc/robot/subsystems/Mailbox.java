@@ -51,6 +51,7 @@ public class Mailbox extends SubsystemBase {
   public Mailbox() {
     m_Mailbox = new TalonFX(MailboxID);
     sensor = new DigitalInput(sensorID);
+    m_request = new VelocityVoltage(0.0).withSlot(0);
 
 
     pid = new Slot0Configs();
@@ -65,9 +66,10 @@ public class Mailbox extends SubsystemBase {
       .withInverted(InvertedValue.Clockwise_Positive)
       .withNeutralMode(NeutralModeValue.Coast);
 
+    m_Mailbox.getConfigurator().apply(outputConfigs);
     m_Mailbox.getConfigurator().apply(pid);
     m_Mailbox.getConfigurator().apply(currentLimitConfig);
-    m_Mailbox.getConfigurator().apply(outputConfigs);
+    
   }
 
   public void setMailboxSpeed(double speed) {
@@ -83,7 +85,7 @@ public class Mailbox extends SubsystemBase {
   }
 
   public void stopMailBox() {
-    
+    m_Mailbox.setControl(m_request.withVelocity(0.0));
   }
 
 

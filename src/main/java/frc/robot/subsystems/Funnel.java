@@ -23,8 +23,10 @@ public class Funnel extends SubsystemBase {
   private int m_FunnelID = 10;
   private int currentLimit = 60;
   private double funnelGearRatio = 0.0;
-  public double runFunnelSpeed = -0.5;
-  private double funnelP = 0.0;
+  public double runFunnelSpeed = 1.0;
+  private double funnelS = 0.1;
+  private double funnelV = 0.12;
+  private double funnelP = 0.11;
   private double funnelI = 0.0;
   private double funnelD = 0.0;
 
@@ -38,18 +40,22 @@ public class Funnel extends SubsystemBase {
   /** Creates a new Funnel. */
   public Funnel() {
     m_Funnel =  new TalonFX(m_FunnelID);
+    m_request = new VelocityVoltage(0.0).withSlot(0);
     
     
     pid = new Slot0Configs();
     pid.kP = funnelP;
     pid.kI = funnelI;
     pid.kD = funnelD;
+    pid.kS = funnelS;
+    pid.kV = funnelV;
     outputConfigs = new MotorOutputConfigs()
       .withInverted(InvertedValue.Clockwise_Positive)
       .withNeutralMode(NeutralModeValue.Coast);
 
-  m_Funnel.getConfigurator().apply(pid);
   m_Funnel.getConfigurator().apply(outputConfigs);
+  m_Funnel.getConfigurator().apply(pid);
+ 
     
 
     // funnelConfig.encoder
