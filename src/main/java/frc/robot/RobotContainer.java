@@ -204,9 +204,11 @@ public class RobotContainer {
         driverRightTrigger.whileTrue(new OutakeCoral(s_Mailbox));
 
         driverLeftTrigger.whileTrue(
-            new IntakeCoral(s_Mailbox, s_Funnel)
-
-            .until(() -> s_Mailbox.getSensorInput() == false)
+            new ParallelCommandGroup(
+                new InstantCommand(() -> s_Elevator.setElevatorPosition(0)),
+                new IntakeCoral(s_Mailbox, s_Funnel)
+                .until(() -> s_Mailbox.getSensorInput() == false))
+            
         );
         // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         //driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);

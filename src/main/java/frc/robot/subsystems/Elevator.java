@@ -51,11 +51,11 @@ public class Elevator extends SubsystemBase {
   private TalonFX m_Elevator;
   private DigitalInput botSensor;
 
-  private final double m_ElevatorPGains = 0.4;//0.5
-  private final double m_ElevatorIGains = 0.075;
-  private final double m_ElevatorDGains = 0.001;
+  private final double m_ElevatorPGains = 0.35;//0.5
+  private final double m_ElevatorIGains = 0.045;
+  private final double m_ElevatorDGains = 0.0;
   private final double m_ElevatorGGains = 0.45;//.45
-  private final double m_ElevatorSGains = 0.4;
+  private final double m_ElevatorSGains = 0.0;
   // private final double m_ElevatorVGains = 0.001;
   private final double magnetOffset = 0.0;
   private double target;
@@ -83,8 +83,8 @@ public class Elevator extends SubsystemBase {
 
     currentLimitConfigs = new CurrentLimitsConfigs()
     .withSupplyCurrentLimitEnable(true)
-    .withSupplyCurrentLimit(elevatorCurrentLimit)
-    .withSupplyCurrentLowerLimit(elevatorCurrentLowerLimit);
+    .withSupplyCurrentLimit(elevatorCurrentLimit);
+    // .withSupplyCurrentLowerLimit(elevatorCurrentLowerLimit);
 
     feedbackConfigs = new FeedbackConfigs()
     .withSensorToMechanismRatio(Constants.ELEVATOR_ROTATIONS_TO_IN);
@@ -167,13 +167,14 @@ public void endElevator() {
     SmartDashboard.putNumber("Elevator Position", m_Elevator.getPosition().getValueAsDouble());
     SmartDashboard.putBoolean("Elevator Sensor", botSensor.get());
     SmartDashboard.putNumber("Elevator Target", target);
+    SmartDashboard.putNumber("Elevator Current", m_Elevator.getSupplyCurrent().getValueAsDouble());
 
 
     if(botSensor.get() == false)
     {
       if (debounceSensor)
       {
-        m_Elevator.setPosition(0);
+        //m_Elevator.setPosition(0.07);
         debounceSensor = false;
       }
     }
