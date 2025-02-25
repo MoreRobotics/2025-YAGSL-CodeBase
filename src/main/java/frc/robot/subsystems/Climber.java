@@ -6,11 +6,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.configs.CANcoderConfigurator;
+import com.ctre.phoenix6.configs.ClosedLoopGeneralConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -28,24 +30,29 @@ public class Climber extends SubsystemBase {
 
   private int m_CimberID = 13;
   private int e_ClimberID = 15;
-  private double climberP = 24.0;
+  private double climberP = 200.0; //24
   private double climberI = 0.0;
   private double climberD = 0.0;
+  private double climberLoadedP = 3.0;
+  private double climberLoadedI = 0.1; //3
+  private double climberLoadedD = 0.1;
+
   private double magnetOffset = 0.0;
   private double climberGearRatio = 125 * 20 / 12;
-  private double currentLimit = 80.0;
+  private double currentLimit = 60.0;
   private double climberFF = 0.0; 
-  private double target = 0.1;
+  private double target = 0.15;
   private double forwardLimit = 0.3;
-  private double reverseLimit = -0.35;
+  private double reverseLimit = -0.33;
   
-  private double climberSafePose = 0.1;
-  private double climberReadyPose = 0;
-  private double climberEndPose = -0.2;
+  private double climberSafePose = 0.0;//between ready and end climb
+  private double climberReadyPose = 0.2;
+  private double climberEndPose = -0.32; //0.27
   public boolean hasClimbed = false;
-  private double tolerance = 0.05;
+  private double tolerance = 0.2;
 
   private Slot0Configs pidConfig;
+  private Slot1Configs loadedPidConfig;
   private TalonFX m_Climber;
   private CANcoder e_Climber;
   private CurrentLimitsConfigs currentLimitConfig;
@@ -54,6 +61,7 @@ public class Climber extends SubsystemBase {
   private PositionVoltage m_Request;
   private MotorOutputConfigs motorOutputConfigs;
   private SoftwareLimitSwitchConfigs softwareLimitSwitchConfigs;
+  private ClosedLoopGeneralConfigs closedLoopGeneralConfigs;
   /** Creates a new Climber. */
   public Climber() {
 
@@ -65,6 +73,14 @@ public class Climber extends SubsystemBase {
       pidConfig.kP = climberP;
       pidConfig.kI = climberI;
       pidConfig.kD = climberD;
+
+    loadedPidConfig = new Slot1Configs();
+      loadedPidConfig.kP = climberLoadedP;
+      loadedPidConfig.kI = climberLoadedI;
+      loadedPidConfig.kD = climberLoadedD;
+
+    closedLoopGeneralConfigs = new ClosedLoopGeneralConfigs()
+      .withContinuousWrap(false);
 
     softwareLimitSwitchConfigs =  new SoftwareLimitSwitchConfigs()
       .withForwardSoftLimitEnable(true)
@@ -81,13 +97,15 @@ public class Climber extends SubsystemBase {
 
     motorOutputConfigs = new MotorOutputConfigs()
       .withInverted(InvertedValue.CounterClockwise_Positive)
-      .withNeutralMode(NeutralModeValue.Coast);
+      .withNeutralMode(NeutralModeValue.Brake);
 
     m_Climber.getConfigurator().apply(motorOutputConfigs);
     m_Climber.getConfigurator().apply(pidConfig);
+    m_Climber.getConfigurator().apply(loadedPidConfig);
     m_Climber.getConfigurator().apply(feedbackConfig);
     m_Climber.getConfigurator().apply(currentLimitConfig);
     m_Climber.getConfigurator().apply(softwareLimitSwitchConfigs);
+    m_Climber.getConfigurator().apply(closedLoopGeneralConfigs);
 
     e_Climber.getConfigurator().apply(
       new MagnetSensorConfigs()
@@ -113,15 +131,19 @@ public class Climber extends SubsystemBase {
   }
 
   public void setClimberPosition() {
-    m_Climber.setControl(m_Request.withPosition(target).withLimitForwardMotion(true).withLimitReverseMotion(true));
+    m_Climber.setControl(m_Request.withPosition(target));
   }
 
   public void setClimberSafePose() {
-    m_Climber.setControl(m_Request.withPosition(climberSafePose));
+    target = climberSafePose;
+    m_Climber.setControl(m_Request.withPosition(target));
   }
 
   public boolean atPosition() {
-    return(m_Climber.getPosition().getValueAsDouble()>(target - tolerance) && m_Climber.getPosition().getValueAsDouble()<= (target + tolerance));
+    double currentPosition = m_Climber.getPosition().getValueAsDouble();
+    System.out.println(Math.abs(currentPosition - target));
+
+    return(Math.abs(currentPosition - target)<tolerance);
   }
 
   public void setInternalEncoder() {

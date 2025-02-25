@@ -19,13 +19,14 @@ public class ClimberSafe extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    s_Climber.setClimberSafePose();
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    s_Climber.setClimberSafePose();
-  }
+  public void execute() {  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -34,6 +35,7 @@ public class ClimberSafe extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    
     return s_Climber.atPosition();
   }
 }

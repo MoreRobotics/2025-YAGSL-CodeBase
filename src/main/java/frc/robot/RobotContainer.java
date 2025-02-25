@@ -191,6 +191,7 @@ public class RobotContainer {
 
         // zero gyro
         driverSelect.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        //climb
         driverStart.onTrue(
             new SequentialCommandGroup(
                 new ClimberSafe(s_Climber),
@@ -212,10 +213,10 @@ public class RobotContainer {
         );
         // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         //driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
-        driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
+        // driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
         driverB.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
         driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)));
-        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(48.2)));
+        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(49.2)));
 
     }
     /**
