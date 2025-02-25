@@ -23,7 +23,7 @@ public class Funnel extends SubsystemBase {
   private int m_FunnelID = 10;
   private int currentLimit = 60;
   private double funnelGearRatio = 0.0;
-  public double runFunnelSpeed = 1.0;
+  public double runFunnelSpeed = 20.0;
   private double funnelS = 0.1;
   private double funnelV = 0.12;
   private double funnelP = 0.11;
