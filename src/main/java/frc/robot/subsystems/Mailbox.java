@@ -29,7 +29,9 @@ public class Mailbox extends SubsystemBase {
   private int rMailboxID = 11;
   private int sensorID = 0;
   private double mailboxCurrentLimit = 20;
-  private double mailboxP = 1.0;
+  private double mailboxS = 0.1;
+  private double mailboxV = 0.12;
+  private double mailboxP = 0.1;
   private double mailboxI = 0.0;
   private double mailboxD = 0.0;
 
@@ -37,8 +39,8 @@ public class Mailbox extends SubsystemBase {
   private double lMailboxGearRatio = 1.0;
   private double rMailboxGearRatio = 1.0;
 
-  public double intakeSpeed = 0.25;
-  public double outtakeSpeed = 1.0;
+  public double intakeSpeed = 30.0;//slower
+  public double outtakeSpeed = 20.0;
 
   private TalonFX m_Mailbox;
   private DigitalInput sensor;
@@ -51,12 +53,15 @@ public class Mailbox extends SubsystemBase {
   public Mailbox() {
     m_Mailbox = new TalonFX(MailboxID);
     sensor = new DigitalInput(sensorID);
+    m_request = new VelocityVoltage(0.0).withSlot(0);
 
 
     pid = new Slot0Configs();
     pid.kP = mailboxP;
     pid.kI = mailboxI;
     pid.kD = mailboxD;
+    pid.kS = mailboxS;
+    pid.kV = mailboxV;
 
     currentLimitConfig = new CurrentLimitsConfigs()
       .withSupplyCurrentLimitEnable(true)
@@ -65,9 +70,10 @@ public class Mailbox extends SubsystemBase {
       .withInverted(InvertedValue.Clockwise_Positive)
       .withNeutralMode(NeutralModeValue.Coast);
 
+    m_Mailbox.getConfigurator().apply(outputConfigs);
     m_Mailbox.getConfigurator().apply(pid);
     m_Mailbox.getConfigurator().apply(currentLimitConfig);
-    m_Mailbox.getConfigurator().apply(outputConfigs);
+    
   }
 
   public void setMailboxSpeed(double speed) {
@@ -84,7 +90,7 @@ public class Mailbox extends SubsystemBase {
   }
 
   public void stopMailBox() {
-    m_Mailbox.setVoltage(0);;
+    m_Mailbox.setControl(m_request.withVelocity(0.0));
   }
 
 

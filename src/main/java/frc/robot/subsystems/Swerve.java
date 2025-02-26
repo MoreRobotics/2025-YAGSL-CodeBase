@@ -12,9 +12,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import com.pathplanner.lib.commands.FollowPathCommand;
+
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.function.Supplier;
 
 import org.json.simple.parser.ParseException;
 
@@ -24,6 +27,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
@@ -76,6 +80,7 @@ public class Swerve extends SubsystemBase {
     public StructPublisher<Pose2d> estimatedRobotPosePublisher;
     public SwerveDrivePoseEstimator m_poseEstimator;
     public PathPlannerPath path;
+    //private StructPublisher<Pose2d> reefStructPublisher;
     public PathConstraints constraints;
     public Command pathfindingCommand;
 
@@ -179,9 +184,42 @@ public class Swerve extends SubsystemBase {
             this // Reference to this subsystem to set requirements
     );
 
-    // pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+    // pathfindingCommand = AutoBuilder.pathfindToPose(
     //     path,
     //     constraints);
+
+    public Command onTheFly(Supplier<PathPlannerPath> pathSupplier) {
+    
+        PathPlannerPath path = pathSupplier.get();
+
+        //reefPathCurrentPosePub.set(path.getPathPoses().get(0));
+
+        return new FollowPathCommand(
+                path,
+                this::getEstimatedPose, // Robot pose supplier
+                this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                new PathFollowingController( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                        Constants.Swerve.maxSpeed, // Max module speed, in m/s
+                        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                        new ReplanningConfig() // Default path replanning config. See the API for the options here
+                ),
+                () -> {
+                  // Boolean supplier that controls when the path will be mirrored for the red alliance
+                  // This will flip the path being followed to the red side of the field.
+                  // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+    
+                  var alliance = DriverStation.getAlliance();
+                  if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                  }
+                  return false;
+                },
+                this // Reference to this subsystem to set requirements
+        );
+      }
 
 
 
@@ -332,7 +370,9 @@ public class Swerve extends SubsystemBase {
         
     }
 
-    // public Command pathfindiCommand = AutoBuilder.pathfindThenFollowPath(path, constraints);
+    //  public Command pathfindiCommand = AutoBuilder.pathfindToPose(
+
+    //  );
 
     public Rotation2d getGyroYaw(){
         return gyro.getRotation2d();

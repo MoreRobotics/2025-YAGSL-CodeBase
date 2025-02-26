@@ -167,6 +167,13 @@ public class RobotContainer {
 
         }
 
+        NamedCommands.registerCommand("Outake", new OutakeCoral(s_Mailbox));
+        NamedCommands.registerCommand("Intake", new IntakeCoral(s_Mailbox, s_Funnel));
+        NamedCommands.registerCommand("Elevator Lvl 2", new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
+        NamedCommands.registerCommand("Elevator Lvl 3", new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)));
+        NamedCommands.registerCommand("Elevator Lvl 4", new InstantCommand(() -> s_Elevator.setElevatorPosition(49.2)));
+
+
         // Configure the button bindings
         configureButtonBindings();
 
@@ -191,6 +198,7 @@ public class RobotContainer {
 
         // zero gyro
         driverSelect.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        //climb
         driverStart.onTrue(
             new SequentialCommandGroup(
                 new ClimberSafe(s_Climber),
@@ -204,16 +212,18 @@ public class RobotContainer {
         driverRightTrigger.whileTrue(new OutakeCoral(s_Mailbox));
 
         driverLeftTrigger.whileTrue(
-            new IntakeCoral(s_Mailbox, s_Funnel)
-
-            .until(() -> s_Mailbox.getSensorInput() == false)
+            new ParallelCommandGroup(
+                new InstantCommand(() -> s_Elevator.setElevatorPosition(0)),
+                new IntakeCoral(s_Mailbox, s_Funnel)
+                .until(() -> s_Mailbox.getSensorInput() == false))
+            
         );
         // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
         //driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
-        driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
+        // driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
         driverB.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
         driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)));
-        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(48.2)));
+        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(49.2)));
 
     }
     /**
