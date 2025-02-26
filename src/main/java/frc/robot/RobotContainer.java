@@ -167,6 +167,13 @@ public class RobotContainer {
 
         }
 
+        NamedCommands.registerCommand("Outake", new OutakeCoral(s_Mailbox));
+        NamedCommands.registerCommand("Intake", new IntakeCoral(s_Mailbox, s_Funnel));
+        NamedCommands.registerCommand("Elevator Lvl 2", new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
+        NamedCommands.registerCommand("Elevator Lvl 3", new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)));
+        NamedCommands.registerCommand("Elevator Lvl 4", new InstantCommand(() -> s_Elevator.setElevatorPosition(49.2)));
+
+
         // Configure the button bindings
         configureButtonBindings();
 
