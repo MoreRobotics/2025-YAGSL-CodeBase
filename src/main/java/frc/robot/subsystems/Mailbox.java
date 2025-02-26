@@ -78,7 +78,7 @@ public class Mailbox extends SubsystemBase {
 
   public void setMailboxSpeed(double speed) {
     //m_Mailbox.setControl(m_request.withVelocity(speed));
-    m_Mailbox.setVoltage(4.0);
+    m_Mailbox.setControl(m_request.withVelocity(speed));
   }
 
   public boolean getSensorInput() {

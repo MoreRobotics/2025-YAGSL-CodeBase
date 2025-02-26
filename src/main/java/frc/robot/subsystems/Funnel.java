@@ -67,7 +67,7 @@ public class Funnel extends SubsystemBase {
 
   public void runFunnel(double speed) {
     //m_Funnel.setControl(m_request.withVelocity(speed));
-    m_Funnel.setVoltage(2.0);
+    m_Funnel.setControl(m_request.withVelocity(speed));
   }
 
   public void stopFunnel() {
