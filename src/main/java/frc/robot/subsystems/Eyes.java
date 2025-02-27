@@ -59,6 +59,9 @@ public class Eyes extends SubsystemBase {
     public double txnc;
     public double tync;
 
+    public int closestReefSide;
+
+
    
     public boolean controllerRumble = false;
     public PathPlannerPath reefPath;
@@ -279,7 +282,6 @@ public class Eyes extends SubsystemBase {
         double reef4Distance;
         double reef5Distance;
 
-        int closestReefSide;
         double closestDistance;
 
         closestReefSide = -1;
@@ -292,7 +294,7 @@ public class Eyes extends SubsystemBase {
             reef4Distance = getDistanceFromTargetReef(Constants.AprilTagConstants.APRIL_TAGS.getTagPose(22).get().toPose2d());
             reef5Distance = getDistanceFromTargetReef(Constants.AprilTagConstants.APRIL_TAGS.getTagPose(17).get().toPose2d());
 
-            closestDistance = Math.min(reef0Distance, Math.min(reef1Distance, Math.min(reef3Distance, Math.min(reef3Distance, Math.min(reef4Distance, reef5Distance)))));
+            closestDistance = Math.min(reef0Distance, Math.min(reef1Distance, Math.min(reef2Distance, Math.min(reef3Distance, Math.min(reef4Distance, reef5Distance)))));
 
             if (closestDistance == reef0Distance) {
                 closestReefSide = 0;
@@ -315,7 +317,7 @@ public class Eyes extends SubsystemBase {
             reef4Distance = getDistanceFromTargetReef(Constants.AprilTagConstants.APRIL_TAGS.getTagPose(9).get().toPose2d());
             reef5Distance = getDistanceFromTargetReef(Constants.AprilTagConstants.APRIL_TAGS.getTagPose(8).get().toPose2d());
 
-            closestDistance = Math.min(reef0Distance, Math.min(reef1Distance, Math.min(reef3Distance, Math.min(reef3Distance, Math.min(reef4Distance, reef5Distance)))));
+            closestDistance = Math.min(reef0Distance, Math.min(reef1Distance, Math.min(reef2Distance, Math.min(reef3Distance, Math.min(reef4Distance, reef5Distance)))));
 
             if (closestDistance == reef0Distance) {
                 closestReefSide = 0;
@@ -426,6 +428,7 @@ public class Eyes extends SubsystemBase {
         SmartDashboard.putNumber("target X", getTargetPose().getX());
         SmartDashboard.putNumber("target Y", getTargetPose().getY());
         SmartDashboard.putNumber("Distance to Target", getDistanceFromTarget());
+        SmartDashboard.putNumber("Closest Reef Sise", closestReefSide);
 
     }
 }

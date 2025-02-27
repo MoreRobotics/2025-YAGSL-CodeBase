@@ -225,11 +225,25 @@ public class RobotContainer {
         }),
         new InstantCommand(),
 
-        () -> s_Eyes.closeToReef)
+        () -> !s_Eyes.closeToReef)
 
              .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
     )
     ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
+
+
+    // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
+    driverLB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+        s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(1)).schedule();
+
+    }),
+    new InstantCommand(),
+
+    () -> !s_Eyes.closeToReef)
+
+         .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
+)
+).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
         driverA.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)))
         .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
         driverB.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));

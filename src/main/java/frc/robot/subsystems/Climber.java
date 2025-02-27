@@ -38,16 +38,16 @@ public class Climber extends SubsystemBase {
   private double climberLoadedD = 0.1;
 
   private double magnetOffset = 0.0;
-  private double climberGearRatio = 125 * 20 / 12;
+  private double climberGearRatio = 300;
   private double currentLimit = 60.0;
   private double climberFF = 0.0; 
   private double target = 0.15;
-  private double forwardLimit = 0.3;
-  private double reverseLimit = -0.33;
+  private double forwardLimit = 0.31;
+  private double reverseLimit = -0.37;
   
-  private double climberSafePose = 0.0;//between ready and end climb
-  private double climberReadyPose = 0.2;
-  private double climberEndPose = -0.32; //0.27
+  private double climberSafePose = -0.05;//between ready and end climb
+  private double climberReadyPose = 0.15;
+  private double climberEndPose = -0.13; //0.27
   public boolean hasClimbed = false;
   private double tolerance = 0.2;
 

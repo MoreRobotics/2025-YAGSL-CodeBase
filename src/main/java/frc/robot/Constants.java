@@ -40,7 +40,7 @@ public final class Constants {
     public static final double ROTATE_VELOCITY = 200.0;
     public static final double ROTATE_ACCELERATION = 400.0;
 
-    
+
 
     /* slow mode */
     public static final double SLOW_MODE_PERCENT_TRANSLATION = 0.5;
@@ -201,7 +201,7 @@ public final class Constants {
         public static final double kPXController = 1;
         public static final double kPYController = 1;
         public static final double kPThetaController = 1;
-                public static final Distance BUMPER_THICKNESS = Units.Inches.of(2);//TODO: get bumper thickness
+                public static final Distance BUMPER_THICKNESS = Units.Inches.of(3.75);//TODO: get bumper thickness
 
 
         public static final Distance DISTANCE_TO_REEF = Units.Inches.of(26.5 / 2).plus(BUMPER_THICKNESS);
@@ -230,7 +230,7 @@ public final class Constants {
         public static final double ampRedY = 8.0;
         public static final double ampRedR = 270;
 
-        public static final double distanceLimit = 1.0;
+        public static final double distanceLimit = 0.1;
 
         public static final double blue1ReefX = 0.0;
         public static final double blue1ReefY = 0.0;
