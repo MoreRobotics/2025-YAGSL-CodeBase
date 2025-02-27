@@ -1,15 +1,23 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+
+import org.ejml.simple.AutomaticSimpleMatrixConvert;
+ import edu.wpi.first.units.Units;
+
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.pathplanner.lib.config.RobotConfig;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Distance;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
@@ -31,6 +39,8 @@ public final class Constants {
     public static final double ROTATE_KD = 0.001;
     public static final double ROTATE_VELOCITY = 200.0;
     public static final double ROTATE_ACCELERATION = 400.0;
+
+    
 
     /* slow mode */
     public static final double SLOW_MODE_PERCENT_TRANSLATION = 0.5;
@@ -56,8 +66,8 @@ public final class Constants {
         COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2_16T);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(21.73); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(21.73); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = edu.wpi.first.math.util.Units.inchesToMeters(21.73); //TODO: This must be tuned to specific robot
+        public static final double wheelBase = edu.wpi.first.math.util.Units.inchesToMeters(21.73); //TODO: This must be tuned to specific robot
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 
@@ -121,6 +131,17 @@ public final class Constants {
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
         public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
 
+
+        // output: m/s, measure: m
+        // public static final ControlConstants SCORING_PID_X = new ControlConstants()
+        //         .withPID(2, 0.2, 0.0).withTolerance(Inches.of(2).in(Meters));
+        // public static final ControlConstants SCORING_PID_Y = new ControlConstants()
+        //         .withPID(2, 0.2, 0.0).withTolerance(Units.inchesToMeters(2));
+
+        // // output: deg/s, measure: deg
+        // public static final ControlConstants SCORING_PID_ANGLE = new ControlConstants()
+        //         .withPID(5, 0.4, 0.0).withTolerance(1);
+
        /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 { //TODO: This must be tuned to specific robot
@@ -164,6 +185,13 @@ public final class Constants {
 
     }
 
+
+    public static final class AprilTagConstants {
+        public static final AprilTagFieldLayout APRIL_TAGS = AprilTagFieldLayout
+        .loadField(AprilTagFields.k2025ReefscapeWelded);
+
+    }
+
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
@@ -173,6 +201,10 @@ public final class Constants {
         public static final double kPXController = 1;
         public static final double kPYController = 1;
         public static final double kPThetaController = 1;
+                public static final Distance BUMPER_THICKNESS = Units.Inches.of(2);//TODO: get bumper thickness
+
+
+        public static final Distance DISTANCE_TO_REEF = Units.Inches.of(26.5 / 2).plus(BUMPER_THICKNESS);
     
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
@@ -198,55 +230,57 @@ public final class Constants {
         public static final double ampRedY = 8.0;
         public static final double ampRedR = 270;
 
+        public static final double distanceLimit = 1.0;
 
-        public static final double r1ReefX = 0.0;
-        public static final double r1ReefY = 0.0;
-        public static final double r1ReefR = 0.0;
+        public static final double blue1ReefX = 0.0;
+        public static final double blue1ReefY = 0.0;
+        public static final double blue1ReefR = 0.0;
 
-        public static final double r2ReefX = 0.0;
-        public static final double r2ReefY = 0.0;
-        public static final double r2ReefR = 0.0;
+        public static final double blue2ReefX = 0.0;
+        public static final double blue2ReefY = 0.0;
+        public static final double blue2ReefR = 0.0;
 
-        public static final double r3ReefX = 0.0;
-        public static final double r3ReefY = 0.0;
-        public static final double r3ReefR = 0.0;
+        public static final double blue3ReefX = 0.0;
+        public static final double blue3ReefY = 0.0;
+        public static final double blue3ReefR = 0.0;
 
-        public static final double r4ReefX = 0.0;
-        public static final double r4ReefY = 0.0;
-        public static final double r4ReefR = 0.0;
+        public static final double blue4ReefX = 0.0;
+        public static final double blue4ReefY = 0.0;
+        public static final double blue4ReefR = 0.0;
 
-        public static final double r5ReefX = 0.0;
-        public static final double r5ReefY = 0.0;
-        public static final double r5ReefR = 0.0;
+        public static final double blue5ReefX = 0.0;
+        public static final double blue5ReefY = 0.0;
+        public static final double blue5ReefR = 0.0;
 
-        public static final double r6ReefX = 0.0;
-        public static final double r6ReefY = 0.0;
-        public static final double r6ReefR = 0.0;
+        public static final double blue6ReefX = 0.0;
+        public static final double blue6ReefY = 0.0;
+        public static final double blue6ReefR = 0.0;
 
-        public static final double l1ReefX = 0.0;
-        public static final double l1ReefY = 0.0;
-        public static final double l1ReefR = 0.0;
+        public static final double red1ReefX = 0.0;
+        public static final double red1ReefY = 0.0;
+        public static final double red1ReefR = 0.0;
 
-        public static final double l2ReefX = 0.0;
-        public static final double l2ReefY = 0.0;
-        public static final double l2ReefR = 0.0;
+        public static final double red2ReefX = 0.0;
+        public static final double red2ReefY = 0.0;
+        public static final double red2ReefR = 0.0;
 
-        public static final double l3ReefX = 0.0;
-        public static final double l3ReefY = 0.0;
-        public static final double l3ReefR = 0.0;
+        public static final double red3ReefX = 0.0;
+        public static final double red3ReefY = 0.0;
+        public static final double red3ReefR = 0.0;
 
-        public static final double l4ReefX = 0.0;
-        public static final double l4ReefY = 0.0;
-        public static final double l4ReefR = 0.0;
+        public static final double red4ReefX = 0.0;
+        public static final double red4ReefY = 0.0;
+        public static final double red4ReefR = 0.0;
 
-        public static final double l5ReefX = 0.0;
-        public static final double l5ReefY = 0.0;
-        public static final double l5ReefR = 0.0;
+        public static final double red5ReefX = 0.0;
+        public static final double red5ReefY = 0.0;
+        public static final double red5ReefR = 0.0;
 
-        public static final double l6ReefX = 0.0;
-        public static final double l6ReefY = 0.0;
-        public static final double l6ReefR = 0.0;
+        public static final double red6ReefX = 0.0;
+        public static final double red6ReefY = 0.0;
+        public static final double red6ReefR = 0.0;
 
+        
         
 
     }

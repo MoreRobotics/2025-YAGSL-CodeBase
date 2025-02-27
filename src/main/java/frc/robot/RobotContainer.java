@@ -219,11 +219,24 @@ public class RobotContainer {
             
         );
         // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
-        //driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
-        // driverA.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)));
-        driverB.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
-        driverX.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)));
-        driverY.onTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(49.2)));
+        driverRB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+            s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(-1)).schedule();
+
+        }),
+        new InstantCommand(),
+
+        () -> s_Eyes.closeToReef)
+
+             .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
+    )
+    ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
+        driverA.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)))
+        .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
+        driverB.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
+        driverX.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)))
+        .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
+        driverY.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(49.2)))
+        .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
 
     }
     /**

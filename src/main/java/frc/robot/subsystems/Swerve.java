@@ -12,7 +12,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+
 import com.pathplanner.lib.commands.FollowPathCommand;
+
 
 
 import java.io.IOException;
@@ -27,9 +29,9 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.controllers.PathFollowingController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.math.VecBuilder;
@@ -47,6 +49,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
@@ -54,6 +58,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -99,18 +104,18 @@ public class Swerve extends SubsystemBase {
         gyro.getConfigurator().apply(configs);
         gyro.setYaw(Constants.Swerve.gyroOffset);
 
-        try {
-            path = PathPlannerPath.fromPathFile("New Path");
-        } catch (FileVersionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // try {
+        //     path = PathPlannerPath.fromPathFile("New Path");
+        // } catch (FileVersionException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // } catch (IOException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // } catch (ParseException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
 
         constraints = new PathConstraints(
             3.0, 4.0,
@@ -126,24 +131,7 @@ public class Swerve extends SubsystemBase {
 
         };
 
-        // try {
-        //     path = PathPlannerPath.fromPathFile("New Path");
-        // } catch (FileVersionException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // } catch (IOException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // } catch (ParseException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-
-        // constraints = new PathConstraints(
-        //     3.0, 4.0,
-        //     Units.degreesToRadians(540), Units.degreesToRadians(720)
-        // );
-
+        
         // delay reseting modules utill robRIO finishes startup
         Timer.delay(1.0);
         resetModulesToAbsolute();
@@ -188,42 +176,6 @@ public class Swerve extends SubsystemBase {
     //     path,
     //     constraints);
 
-    public Command onTheFly(Supplier<PathPlannerPath> pathSupplier) {
-    
-        PathPlannerPath path = pathSupplier.get();
-
-        //reefPathCurrentPosePub.set(path.getPathPoses().get(0));
-
-        return new FollowPathCommand(
-                path,
-                this::getEstimatedPose, // Robot pose supplier
-                this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-                new PathFollowingController( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-                        Constants.Swerve.maxSpeed, // Max module speed, in m/s
-                        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
-                        new ReplanningConfig() // Default path replanning config. See the API for the options here
-                ),
-                () -> {
-                  // Boolean supplier that controls when the path will be mirrored for the red alliance
-                  // This will flip the path being followed to the red side of the field.
-                  // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-    
-                  var alliance = DriverStation.getAlliance();
-                  if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                  }
-                  return false;
-                },
-                this // Reference to this subsystem to set requirements
-        );
-      }
-
-
-
-
                 // create pose estimator
         m_poseEstimator =
                 new SwerveDrivePoseEstimator(
@@ -236,6 +188,38 @@ public class Swerve extends SubsystemBase {
                 );
                 
     }
+
+    public Command followPathCommand(Supplier<PathPlannerPath> pathSupplier) {
+
+            PathPlannerPath path = pathSupplier.get();
+    
+            return new FollowPathCommand(
+                    path,
+                    this::getPose, // Robot pose supplier
+                    this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                    this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds, AND feedforwards
+                    new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                            new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+                    ),
+                    Constants.Swerve.robotConfig, // The robot configuration
+                    () -> {
+                      // Boolean supplier that controls when the path will be mirrored for the red alliance
+                      // This will flip the path being followed to the red side of the field.
+                      // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+    
+                      var alliance = DriverStation.getAlliance();
+                      if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                      }
+                      return false;
+                    },
+                    this // Reference to this subsystem to set requirements
+            );
+        
+    }
+
+    
 
 
 
@@ -298,7 +282,7 @@ public class Swerve extends SubsystemBase {
      * returns:
      * none
      */
-    public void setChassisSpeed(ChassisSpeeds chassisSpeed) {
+    public void setChassisSpeed(ChassisSpeeds chassisSpeed, DriveFeedforwards feedforward) {
 
         SwerveModuleState[] desiredStates = swerveKinematics.toSwerveModuleStates(chassisSpeed);
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
@@ -406,8 +390,6 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Robot X", swerveOdometry.getPoseMeters().getX());
         SmartDashboard.putNumber("Robot Y", swerveOdometry.getPoseMeters().getY());
         SmartDashboard.putNumber("gyro angle", getGyroYaw().getDegrees());
-
-        
 
 
 
