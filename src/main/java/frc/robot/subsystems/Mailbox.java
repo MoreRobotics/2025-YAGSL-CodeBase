@@ -41,9 +41,10 @@ public class Mailbox extends SubsystemBase {
 
   public double intakeSpeed = 30.0;//slower
   public double outtakeSpeed = 20.0;
+  public double reverseSpeed = -20.0;
 
   private TalonFX m_Mailbox;
-  private DigitalInput sensor;
+  public DigitalInput sensor;
   private CurrentLimitsConfigs currentLimitConfig;
   private MotorOutputConfigs outputConfigs;
   private Slot0Configs pid;

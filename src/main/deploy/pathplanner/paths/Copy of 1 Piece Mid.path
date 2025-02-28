@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.813,
-        "y": 4.010042613636363
+        "x": 5.75,
+        "y": 3.861
       },
       "prevControl": {
-        "x": 6.103719334529929,
-        "y": 4.010042613636363
+        "x": 6.040719334529929,
+        "y": 3.861
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "1 Piece path 1 end"
+      "linkedName": "1 piece path end copy"
     }
   ],
   "rotationTargets": [],
