@@ -249,7 +249,7 @@ public class RobotContainer {
         driverB.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
         driverX.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)))
         .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
-        driverY.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(49.2)))
+        driverY.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(49.45)))
         .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)));
 
     }
