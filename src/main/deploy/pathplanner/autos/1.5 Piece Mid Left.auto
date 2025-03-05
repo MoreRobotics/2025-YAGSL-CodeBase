@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 Piece Mid"
+            "pathName": "Copy of 1 Piece Mid"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Elevator Lvl 4"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
           }
         },
         {
@@ -25,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 Piece Mid 2"
+            "pathName": "1.5 Piece path 2 Left"
           }
         },
         {

@@ -157,15 +157,11 @@ public class Eyes extends SubsystemBase {
 
         Pose2d pose;
 
-        if(DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Red) {
-        pose = LimelightHelpers.getBotPose2d_wpiRed("limelight-front");
-
+        
+        pose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-front");
         return pose;
-        } else {
-            pose = LimelightHelpers.getBotPose2d_wpiBlue("limelight-front");
-            return pose;
-        }
-
+        
+        
     }
     
 
