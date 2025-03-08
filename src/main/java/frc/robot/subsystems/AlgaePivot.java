@@ -33,13 +33,21 @@ public class AlgaePivot extends SubsystemBase {
   private RelativeEncoder e_AlgaePivotIntegrated;
 
   private int e_AlgaePivotID = 1;
-  private int m_AlgaePivotID = 0;
-  private double algaePivotP = 1.0;
+  private int m_AlgaePivotID = 10;
+  private double algaePivotP = 0.07;//0.042
   private double algaePivotI = 0.0;
   private double algaePivotD = 0.0;
-  private double m_setpoint = 0.0;
+  private double m_setpoint = -8.3;
+
+  //safe = -0.02, grab off reef = 0.19, lvl 3 = .28, ground = .28;
+  public double safePose = 51.1;
+  public double stowPose = 15.74;
+  public double reefLvl2 = 55.8;
+  public double reefLvl3 = 89.37;
+  public double groundPose = 103.6;
   private double algaePivotVoltage = 0;
-  private double algaePivotGearRatio = 10.0;
+  private double algaePivotGearRatio = 24.0;
+  private double tolerance = 6.0;
   /** Creates a new AlgaePivot. */
   public AlgaePivot() {
     m_AlgaePivot = new SparkMax(m_AlgaePivotID, MotorType.kBrushless);
@@ -50,13 +58,14 @@ public class AlgaePivot extends SubsystemBase {
 
     algaePivotConfig
       .inverted(false)
-      .idleMode(IdleMode.kCoast);
+      .idleMode(IdleMode.kBrake);
     algaePivotConfig.encoder
-      .positionConversionFactor(algaePivotGearRatio);
+      .positionConversionFactor(360/ algaePivotGearRatio);
     algaePivotConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     
     m_AlgaePivot.configure(algaePivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_AlgaePivot.getEncoder().setPosition(cancoderInDegrees());
 
   }
 
@@ -68,12 +77,21 @@ public class AlgaePivot extends SubsystemBase {
     return e_AlgaePivot.getPosition().getValueAsDouble() * 360;
   }
 
+  public boolean atPosition() {
+    double currentPosition = m_AlgaePivot.getEncoder().getPosition();
+    return(Math.abs(currentPosition - m_setpoint)<tolerance);
+
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    algaePivotVoltage = algaePivotPID.calculate(cancoderInDegrees(), m_setpoint);
+    algaePivotVoltage = algaePivotPID.calculate(m_AlgaePivot.getEncoder().getPosition(), m_setpoint);
     m_AlgaePivot.setVoltage(algaePivotVoltage);
 
-    SmartDashboard.putNumber("Algae Pivot Cancoder", e_AlgaePivot.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Algae Pivot Cancoder", cancoderInDegrees());
+    SmartDashboard.putNumber("Algae Pivot Setpoint", m_setpoint);
+    SmartDashboard.putNumber("Algae Pivot Internal Encoder", m_AlgaePivot.getEncoder().getPosition());
+    SmartDashboard.putNumber("Algae Pivot Current", m_AlgaePivot.getOutputCurrent());
   }
 }

@@ -51,14 +51,15 @@ public class Elevator extends SubsystemBase {
   private TalonFX m_Elevator;
   private DigitalInput botSensor;
 
-  private final double m_ElevatorPGains = 0.36;//0.5
-  private final double m_ElevatorIGains = 0.025;//0.045
+  private final double m_ElevatorPGains = 0.48;//0.5
+  private final double m_ElevatorIGains = 0.0;//0.045, 0.025
   private final double m_ElevatorDGains = 0.0;
-  private final double m_ElevatorGGains = 0.47;//.45
-  private final double m_ElevatorSGains = 0.65;
+  private final double m_ElevatorGGains = 0.85;//.45
+  private final double m_ElevatorSGains = 0.6;
   // private final double m_ElevatorVGains = 0.001;
   private final double magnetOffset = 0.0;
   private double target;
+  private double tolerance = 0.5;
 
   private Slot0Configs slotConfigs;
   private FeedbackConfigs feedbackConfigs;
@@ -151,13 +152,9 @@ public void endElevator() {
 
 
   public boolean atPosition() {
-    double error = Math.abs(getPosition() - targetElevatorPosition);
+    double currentPosition = m_Elevator.getPosition().getValueAsDouble();
 
-    if (Constants.ELEVATOR_TOLERANCE >= error) {
-      return true;
-    } else {
-      return false;
-    }
+    return(Math.abs(currentPosition - target)<tolerance);
   }
 
 

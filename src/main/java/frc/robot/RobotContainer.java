@@ -123,6 +123,8 @@ public class RobotContainer {
     private final Climber s_Climber = new Climber();
     private final Elevator s_Elevator = new Elevator();
     private final Funnel s_Funnel = new Funnel(); 
+    private final AlgaePivot s_AlgaePivot = new AlgaePivot();
+    private final AlgaeIntake s_AlgaeIntake = new AlgaeIntake();
 
 
 
@@ -250,12 +252,44 @@ public class RobotContainer {
 // ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
         driverA.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)))
         .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(6.0)));
+
         driverB.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(4.76)))
         .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(6.0)));
-        driverX.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(21.22)))
-        .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(6.0)));
-        driverY.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(49.45)))
-        .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(6.0)));
+
+        driverX.whileTrue(new SequentialCommandGroup(
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+            new MoveElevator(s_Elevator, 21.22),
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.stowPose)
+            )
+        )
+        .onFalse(new SequentialCommandGroup(
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+            new MoveElevator(s_Elevator, 6.0),//6.0
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.stowPose)));
+        
+        driverY.whileTrue(new SequentialCommandGroup(
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+            new MoveElevator(s_Elevator, 49.45),//49.45
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.stowPose)
+            )
+        )
+        .onFalse(new SequentialCommandGroup(
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+            new MoveElevator(s_Elevator, 6.0),
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.stowPose)
+            )
+        );
+
+        // Operator
+        operatorA.onTrue(new InstantCommand(() -> s_AlgaePivot.moveAlgaePivot(s_AlgaePivot.groundPose)));
+        operatorB.onTrue(new InstantCommand(() -> s_AlgaePivot.moveAlgaePivot(s_AlgaePivot.reefLvl2)));
+        operatorX.onTrue(new InstantCommand(() -> s_AlgaePivot.moveAlgaePivot(s_AlgaePivot.reefLvl3)));
+
+        operatorLeftTrigger.whileTrue(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed)))
+        .onFalse(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(0)));
+
+        operatorRightTrigger.whileTrue(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeOutakeSpeed)))
+        .onFalse(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(0)));
 
     }
     /**
