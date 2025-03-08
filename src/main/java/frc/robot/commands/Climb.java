@@ -36,6 +36,7 @@ public class Climb extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+     s_Climber.setServo();
   }
 
   // Called once the command ends or is interrupted.

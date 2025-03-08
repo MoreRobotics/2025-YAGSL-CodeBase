@@ -22,6 +22,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,6 +31,7 @@ public class Climber extends SubsystemBase {
 
   private int m_CimberID = 13;
   private int e_ClimberID = 15;
+  private int servoID = 0;
   private double climberP = 200.0; //24
   private double climberI = 0.0;
   private double climberD = 0.0;
@@ -38,7 +40,7 @@ public class Climber extends SubsystemBase {
   private double climberLoadedD = 0.1;
 
   private double magnetOffset = 0.0;
-  private double climberGearRatio = 300;
+  private double climberGearRatio = 208;
   private double currentLimit = 60.0;
   private double climberFF = 0.0; 
   private double target = 0.15;
@@ -47,14 +49,18 @@ public class Climber extends SubsystemBase {
   
   private double climberSafePose = -0.05;//between ready and end climb
   private double climberReadyPose = 0.20;
-  private double climberEndPose = -0.19; //0.27
+  private double climberEndPose = -0.16; //-.09, -.19
   public boolean hasClimbed = false;
-  private double tolerance = 0.2;
+  private double tolerance = 0.03;
+
+  public double servoClimb = 0.55;
+  public double servoNeutral = 0.25;
 
   private Slot0Configs pidConfig;
   private Slot1Configs loadedPidConfig;
   private TalonFX m_Climber;
   private CANcoder e_Climber;
+  private Servo servo;
   private CurrentLimitsConfigs currentLimitConfig;
   private FeedbackConfigs feedbackConfig;
   private ArmFeedforward feedforward;
@@ -68,6 +74,7 @@ public class Climber extends SubsystemBase {
     m_Climber = new TalonFX(m_CimberID);
     e_Climber = new CANcoder(e_ClimberID);
     m_Request = new PositionVoltage(0).withSlot(0);
+    servo = new Servo(servoID);
  
     pidConfig = new Slot0Configs();
       pidConfig.kP = climberP;
@@ -115,6 +122,9 @@ public class Climber extends SubsystemBase {
     Timer.delay(1.0);
     setInternalEncoder();
     setClimberSafePose();
+    // servo.set(0.25);//0.55
+    setServo();
+
 
   }
 
@@ -132,6 +142,18 @@ public class Climber extends SubsystemBase {
 
   public void setClimberPosition() {
     m_Climber.setControl(m_Request.withPosition(target));
+  }
+
+  public void setServo() {
+    if (target == climberEndPose) {
+      if (atPosition()) {
+        servo.set(servoClimb);
+      } else {
+        servo.set(servoNeutral);
+      }
+    } else {
+      servo.set(servoNeutral);
+    }
   }
 
   public void setClimberSafePose() {
@@ -167,5 +189,6 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putNumber("Climber Current", m_Climber.getSupplyCurrent().getValueAsDouble());
     SmartDashboard.putNumber("Climber Voltage", m_Climber.getSupplyVoltage().getValueAsDouble());
     SmartDashboard.putBoolean("Toggle Value", hasClimbed);
+    SmartDashboard.putNumber("Servo Pose", servo.getPosition());
   }
 }
