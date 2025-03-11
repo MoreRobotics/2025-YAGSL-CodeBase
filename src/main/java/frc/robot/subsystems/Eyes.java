@@ -16,6 +16,7 @@ import frc.robot.Constants;
 import java.util.List;
 
 import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.IdealStartingState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.Waypoint;
@@ -40,6 +41,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import frc.robot.subsystems.Swerve;
 
 
@@ -60,6 +62,7 @@ public class Eyes extends SubsystemBase {
     public double tync;
 
     public int closestReefSide;
+    private StructPublisher<Pose2d> reefPose;
 
 
    
@@ -372,11 +375,13 @@ public class Eyes extends SubsystemBase {
         );
 
         PathPlannerPath path = new PathPlannerPath(
-            wayPoints, new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), 
-            null, new GoalEndState(0.0, closestReef.getRotation())
+            wayPoints,
+             new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), 
+            new IdealStartingState(0.0, currentPose.getRotation()),
+             new GoalEndState(0.0, closestReef.getRotation())
             );
 
-            path.preventFlipping = true;
+            // path.preventFlipping = true;
 
             return path;
 
@@ -424,7 +429,9 @@ public class Eyes extends SubsystemBase {
         SmartDashboard.putNumber("target X", getTargetPose().getX());
         SmartDashboard.putNumber("target Y", getTargetPose().getY());
         SmartDashboard.putNumber("Distance to Target", getDistanceFromTarget());
-        SmartDashboard.putNumber("Closest Reef Sise", closestReefSide);
+        SmartDashboard.putNumber("Closest Reef Side", getClosestReefSide());
+
+        // reefPose.set(AlignToReefCommands.getReefPose(getClosestReefSide(), ));
 
     }
 }

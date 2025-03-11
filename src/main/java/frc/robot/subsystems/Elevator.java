@@ -51,7 +51,7 @@ public class Elevator extends SubsystemBase {
   private TalonFX m_Elevator;
   private DigitalInput botSensor;
 
-  private final double m_ElevatorPGains = 0.48;//0.5
+  private final double m_ElevatorPGains = 0.3;//0.5
   private final double m_ElevatorIGains = 0.0;//0.045, 0.025
   private final double m_ElevatorDGains = 0.0;
   private final double m_ElevatorGGains = 0.85;//.45

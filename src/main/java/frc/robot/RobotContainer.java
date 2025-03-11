@@ -156,8 +156,8 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(leftY), 
-                () -> -driver.getRawAxis(leftX), 
+                () -> driver.getRawAxis(leftY), 
+                () -> driver.getRawAxis(leftX), 
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
@@ -239,17 +239,19 @@ public class RobotContainer {
 
 
     // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
-//     driverLB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
-//         s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(1)).schedule();
+    driverLB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+        s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(-1)).schedule();
 
-//     }),
-//     new InstantCommand(),
+    }),
+    new InstantCommand(),
 
-//     () -> !s_Eyes.closeToReef)
+    () -> !s_Eyes.closeToReef)
 
-//          .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
-// )
-// ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
+        //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
+    )
+).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
+
+
         driverA.whileTrue(new InstantCommand(() -> s_Elevator.setElevatorPosition(0)))
         .onFalse(new InstantCommand(() -> s_Elevator.setElevatorPosition(6.0)));
 
@@ -263,9 +265,16 @@ public class RobotContainer {
             )
         )
         .onFalse(new SequentialCommandGroup(
-            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+            new ConditionalCommand(new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+             new InstantCommand(),
+              () -> s_AlgaeIntake.m_AlgaeIntake.getSupplyCurrent().getValueAsDouble() < 4.0),
             new MoveElevator(s_Elevator, 6.0),//6.0
-            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.stowPose)));
+            new ConditionalCommand(
+                new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.stowPose),
+                new InstantCommand(),
+                () -> s_AlgaeIntake.m_AlgaeIntake.getSupplyCurrent().getValueAsDouble() < 4.0)
+            )
+        );
         
         driverY.whileTrue(new SequentialCommandGroup(
             new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
@@ -274,9 +283,14 @@ public class RobotContainer {
             )
         )
         .onFalse(new SequentialCommandGroup(
-            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+            new ConditionalCommand(new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+             new InstantCommand(),
+              () -> s_AlgaeIntake.m_AlgaeIntake.getSupplyCurrent().getValueAsDouble() < 4.0),
             new MoveElevator(s_Elevator, 6.0),
-            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.stowPose)
+            new ConditionalCommand(
+                new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.stowPose),
+                new InstantCommand(),
+                () -> s_AlgaeIntake.m_AlgaeIntake.getSupplyCurrent().getValueAsDouble() < 4.0)
             )
         );
 
@@ -284,9 +298,10 @@ public class RobotContainer {
         operatorA.onTrue(new InstantCommand(() -> s_AlgaePivot.moveAlgaePivot(s_AlgaePivot.groundPose)));
         operatorB.onTrue(new InstantCommand(() -> s_AlgaePivot.moveAlgaePivot(s_AlgaePivot.reefLvl2)));
         operatorX.onTrue(new InstantCommand(() -> s_AlgaePivot.moveAlgaePivot(s_AlgaePivot.reefLvl3)));
+        operatorY.onTrue(new InstantCommand(() -> s_AlgaePivot.moveAlgaePivot(s_AlgaePivot.safePose)));
 
         operatorLeftTrigger.whileTrue(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed)))
-        .onFalse(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(0)));
+        .onFalse(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(5)));
 
         operatorRightTrigger.whileTrue(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeOutakeSpeed)))
         .onFalse(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(0)));

@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Meter;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,7 +34,7 @@ public class AlignToReefCommands {
     // Found by taking distance from tag 18 to center and adding offset from reef
     private static final Distance REEF_APOTHEM = Units.Meters.of(
             Constants.AprilTagConstants.APRIL_TAGS.getTagPose(18).get().toPose2d().getTranslation().getDistance(REEF_CENTER_BLUE))
-            .plus(Constants.AutoConstants.DISTANCE_TO_REEF);
+            .plus(Constants.AutoConstants.DISTANCE_TO_REEF);//.plus(Distance.ofBaseUnits(2, Meter));
 
     // translation to move from centered on a side to scoring position for the left branch
     private static final Translation2d CENTERED_TO_LEFT_BRANCH = new Translation2d(Units.Meters.of(0),

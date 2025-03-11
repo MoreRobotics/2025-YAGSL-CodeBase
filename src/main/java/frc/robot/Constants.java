@@ -111,7 +111,7 @@ public final class Constants {
         public static final double angleKD = chosenModule.angleKD;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.12; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.115; //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
@@ -203,7 +203,7 @@ public final class Constants {
         public static final double kPThetaController = 1;
                 public static final Distance BUMPER_THICKNESS = Units.Inches.of(3.75);//TODO: get bumper thickness
 
-
+        //horizontal distance from robot center to reef
         public static final Distance DISTANCE_TO_REEF = Units.Inches.of(26.5 / 2).plus(BUMPER_THICKNESS);
     
         /* Constraint for the motion profilied robot angle controller */
@@ -230,7 +230,7 @@ public final class Constants {
         public static final double ampRedY = 8.0;
         public static final double ampRedR = 270;
 
-        public static final double distanceLimit = 0.1;
+        public static final double distanceLimit = 1.0;
 
         public static final double blue1ReefX = 0.0;
         public static final double blue1ReefY = 0.0;

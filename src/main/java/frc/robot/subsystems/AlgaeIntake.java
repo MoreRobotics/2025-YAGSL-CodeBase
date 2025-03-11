@@ -13,6 +13,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AlgaeIntake extends SubsystemBase {
@@ -22,14 +23,14 @@ public class AlgaeIntake extends SubsystemBase {
   private double algaeIntakeP = 0.11;
   private double algaeIntakeI = 0.0;
   private double algaeIntakeD = 0.0;
-  public double algaeIntakeSpeed = 20.0;
-  public double algaeOutakeSpeed = -20.0;
+  public double algaeIntakeSpeed = 40.0;
+  public double algaeOutakeSpeed = -40.0;
   private double gearRatio = 0.0;
   private double currentLimit = 40.0;
 
 
 
-  private TalonFX m_AlgaeIntake;
+  public TalonFX m_AlgaeIntake;
   private Slot0Configs pid;
   private MotorOutputConfigs outputConfigs;
   private VelocityVoltage m_Request;
@@ -69,5 +70,6 @@ public class AlgaeIntake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Algae Intake Current", m_AlgaeIntake.getSupplyCurrent().getValueAsDouble());
   }
 }
