@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 
 import java.sql.DriverPropertyInfo;
@@ -51,12 +52,14 @@ public class Elevator extends SubsystemBase {
   private TalonFX m_Elevator;
   private DigitalInput botSensor;
 
-  private final double m_ElevatorPGains = 0.3;//0.5
+  private final double m_ElevatorPGains = 0.75;//0.5
   private final double m_ElevatorIGains = 0.0;//0.045, 0.025
-  private final double m_ElevatorDGains = 0.0;
-  private final double m_ElevatorGGains = 0.85;//.45
-  private final double m_ElevatorSGains = 0.6;
+  private final double m_ElevatorDGains = 0.1;
+  private final double m_ElevatorGGains = 0.85;//.45, 0.85
+  private final double m_ElevatorSGains = 0.8;
   // private final double m_ElevatorVGains = 0.001;
+  private final double m_ElevatorAcceleration = 350.0;
+  private final double m_ElevatorCoastV = 225.0;
   private final double magnetOffset = 0.0;
   private double target;
   private double tolerance = 0.5;
@@ -67,8 +70,9 @@ public class Elevator extends SubsystemBase {
   private SoftwareLimitSwitchConfigs softLimitConfigs;
 
   private TalonFXConfigurator config;
-  private PositionVoltage m_Request;
+  private MotionMagicVoltage m_Request;
   private MotorOutputConfigs motorOutputConfigs;
+  private MotionMagicConfigs motionMagicConfigs;
   private double voltage = 0.0;
   private boolean debounceSensor = true;
 
@@ -77,7 +81,7 @@ public class Elevator extends SubsystemBase {
   public Elevator() {
     m_Elevator = new TalonFX(m_ElevatorID);
     
-     m_Request = new PositionVoltage(0).withSlot(0);
+     m_Request = new MotionMagicVoltage(0).withSlot(0);
     
     botSensor = new DigitalInput(m_BotSensorID);
 
@@ -106,8 +110,14 @@ public class Elevator extends SubsystemBase {
     slotConfigs.kS = m_ElevatorSGains;
     //slotConfigs.kV = m_ElevatorVGains;
 
+    motionMagicConfigs = new MotionMagicConfigs();
+    motionMagicConfigs.MotionMagicAcceleration = m_ElevatorAcceleration;
+    motionMagicConfigs.MotionMagicCruiseVelocity = m_ElevatorCoastV;
+
+
     m_Elevator.getConfigurator().apply(motorOutputConfigs);
     m_Elevator.getConfigurator().apply(slotConfigs);
+    m_Elevator.getConfigurator().apply(motionMagicConfigs);
     m_Elevator.getConfigurator().apply(feedbackConfigs);
     m_Elevator.getConfigurator().apply(currentLimitConfigs);
 

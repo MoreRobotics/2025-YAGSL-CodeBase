@@ -62,7 +62,8 @@ public class Eyes extends SubsystemBase {
     public double tync;
 
     public int closestReefSide;
-    private StructPublisher<Pose2d> reefPose;
+    private StructPublisher<Pose2d> reefPose = NetworkTableInstance.getDefault()
+        .getStructTopic("Goal Pose", Pose2d.struct).publish();
 
 
    
@@ -431,7 +432,7 @@ public class Eyes extends SubsystemBase {
         SmartDashboard.putNumber("Distance to Target", getDistanceFromTarget());
         SmartDashboard.putNumber("Closest Reef Side", getClosestReefSide());
 
-        // reefPose.set(AlignToReefCommands.getReefPose(getClosestReefSide(), ));
+         reefPose.set(AlignToReefCommands.getReefPose(getClosestReefSide(), 1));
 
     }
 }

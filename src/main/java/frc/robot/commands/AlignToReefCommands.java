@@ -40,7 +40,7 @@ public class AlignToReefCommands {
     private static final Translation2d CENTERED_TO_LEFT_BRANCH = new Translation2d(Units.Meters.of(0),
             Units.Inches.of(12.94 / 2));
     private static final Translation2d BRANCH_MAILBOX_OFFSEST = new Translation2d(Units.Meters.of(0),
-        Units.Inches.of(2.75));
+        Units.Inches.of(2.8));
 
     /**
      * Calculates the pose of the robot for scoring on a branch or trough.

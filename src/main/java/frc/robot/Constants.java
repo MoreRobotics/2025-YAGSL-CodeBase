@@ -62,6 +62,7 @@ public final class Constants {
         public static RobotConfig robotConfig;
 
 
+
         public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
         COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
@@ -148,7 +149,7 @@ public final class Constants {
             public static final int driveMotorID = 0;
             public static final int angleMotorID = 1;
             public static final int cancoderID = 0;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(132.6); //133.39
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(134.69); //133.39
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
@@ -158,7 +159,7 @@ public final class Constants {
             public static final int driveMotorID = 2;
             public static final int angleMotorID = 3;
             public static final int cancoderID = 2;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(202.73); //203.08
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(204.12); //203.08
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
@@ -168,7 +169,7 @@ public final class Constants {
             public static final int driveMotorID = 6;
             public static final int angleMotorID = 7;
             public static final int cancoderID = 3;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(241.32);//243.05
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(244.01);//243.05
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
@@ -178,7 +179,7 @@ public final class Constants {
             public static final int driveMotorID = 4;
             public static final int angleMotorID = 5;
             public static final int cancoderID = 1;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(181.44); //183.44
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(182.05); //183.44
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
@@ -201,7 +202,7 @@ public final class Constants {
         public static final double kPXController = 1;
         public static final double kPYController = 1;
         public static final double kPThetaController = 1;
-                public static final Distance BUMPER_THICKNESS = Units.Inches.of(3.75);//TODO: get bumper thickness
+                public static final Distance BUMPER_THICKNESS = Units.Inches.of(3.0);//TODO: get bumper thickness
 
         //horizontal distance from robot center to reef
         public static final Distance DISTANCE_TO_REEF = Units.Inches.of(26.5 / 2).plus(BUMPER_THICKNESS);
@@ -230,56 +231,9 @@ public final class Constants {
         public static final double ampRedY = 8.0;
         public static final double ampRedR = 270;
 
-        public static final double distanceLimit = 1.0;
+        public static final double distanceLimit = 0.0;
 
-        public static final double blue1ReefX = 0.0;
-        public static final double blue1ReefY = 0.0;
-        public static final double blue1ReefR = 0.0;
-
-        public static final double blue2ReefX = 0.0;
-        public static final double blue2ReefY = 0.0;
-        public static final double blue2ReefR = 0.0;
-
-        public static final double blue3ReefX = 0.0;
-        public static final double blue3ReefY = 0.0;
-        public static final double blue3ReefR = 0.0;
-
-        public static final double blue4ReefX = 0.0;
-        public static final double blue4ReefY = 0.0;
-        public static final double blue4ReefR = 0.0;
-
-        public static final double blue5ReefX = 0.0;
-        public static final double blue5ReefY = 0.0;
-        public static final double blue5ReefR = 0.0;
-
-        public static final double blue6ReefX = 0.0;
-        public static final double blue6ReefY = 0.0;
-        public static final double blue6ReefR = 0.0;
-
-        public static final double red1ReefX = 0.0;
-        public static final double red1ReefY = 0.0;
-        public static final double red1ReefR = 0.0;
-
-        public static final double red2ReefX = 0.0;
-        public static final double red2ReefY = 0.0;
-        public static final double red2ReefR = 0.0;
-
-        public static final double red3ReefX = 0.0;
-        public static final double red3ReefY = 0.0;
-        public static final double red3ReefR = 0.0;
-
-        public static final double red4ReefX = 0.0;
-        public static final double red4ReefY = 0.0;
-        public static final double red4ReefR = 0.0;
-
-        public static final double red5ReefX = 0.0;
-        public static final double red5ReefY = 0.0;
-        public static final double red5ReefR = 0.0;
-
-        public static final double red6ReefX = 0.0;
-        public static final double red6ReefY = 0.0;
-        public static final double red6ReefR = 0.0;
-
+       
         
         
 

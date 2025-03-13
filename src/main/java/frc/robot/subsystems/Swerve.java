@@ -172,9 +172,7 @@ public class Swerve extends SubsystemBase {
             this // Reference to this subsystem to set requirements
     );
 
-    // pathfindingCommand = AutoBuilder.pathfindToPose(
-    //     path,
-    //     constraints);
+    
 
                 // create pose estimator
         m_poseEstimator =
@@ -195,11 +193,11 @@ public class Swerve extends SubsystemBase {
     
             return new FollowPathCommand(
                     path,
-                    this::getPose, // Robot pose supplier
+                    this::getEstimatedPose, // Robot pose supplier
                     this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                     this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds, AND feedforwards
                     new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                            new PIDConstants(2.0, 0.0, 0.0), // Translation PID constants
                             new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
                     ),
                     Constants.Swerve.robotConfig, // The robot configuration
@@ -217,6 +215,20 @@ public class Swerve extends SubsystemBase {
                     this // Reference to this subsystem to set requirements
             );
         
+    }
+
+    public Command pathfindingCommand(Pose2d targetPose) {
+        // Create the constraints to use while pathfinding
+        PathConstraints constraints = new PathConstraints(
+        3.0, 4.0,
+        Units.degreesToRadians(540), Units.degreesToRadians(720));
+        
+        return AutoBuilder.pathfindToPose(
+        targetPose,
+        constraints,
+        0.0 // Goal end velocity in meters/sec
+        // 0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+        );
     }
 
     
