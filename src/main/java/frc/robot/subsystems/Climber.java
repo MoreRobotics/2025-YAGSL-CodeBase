@@ -47,9 +47,9 @@ public class Climber extends SubsystemBase {
   private double forwardLimit = 0.31;
   private double reverseLimit = -0.37;
   
-  private double climberSafePose = -0.05;//between ready and end climb
-  private double climberReadyPose = 0.20;
-  private double climberEndPose = -0.16; //-.09, -.19
+  private double climberSafePose = -0.112;//between ready and end climb
+  private double climberReadyPose = 0.17;
+  private double climberEndPose = -0.176; //-.09, -.19
   public boolean hasClimbed = false;
   private double tolerance = 0.03;
 

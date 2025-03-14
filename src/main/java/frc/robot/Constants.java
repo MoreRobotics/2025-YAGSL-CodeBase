@@ -51,7 +51,7 @@ public final class Constants {
 
     public static final class Swerve {
 
-        public static final double maxEncoderVoltage = 5.057;
+        public static final double maxEncoderVoltage = 4.907; //TODO: Must be tuned for Roborio
         public static final int pigeonID = 8;
         public static final double gyroOffset = 0;
 
@@ -103,7 +103,7 @@ public final class Constants {
 
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
-        public static final double openLoopRamp = 0.0;
+        public static final double openLoopRamp = 0.1;
         public static final double closedLoopRamp = 0.0;
 
         /* Angle Motor PID Values */
@@ -149,7 +149,7 @@ public final class Constants {
             public static final int driveMotorID = 0;
             public static final int angleMotorID = 1;
             public static final int cancoderID = 0;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(134.69); //133.39
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(134.086); //133.39
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
@@ -159,7 +159,7 @@ public final class Constants {
             public static final int driveMotorID = 2;
             public static final int angleMotorID = 3;
             public static final int cancoderID = 2;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(204.12); //203.08
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(210.18); //203.08
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
@@ -169,7 +169,7 @@ public final class Constants {
             public static final int driveMotorID = 6;
             public static final int angleMotorID = 7;
             public static final int cancoderID = 3;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(244.01);//243.05
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(251.29);//243.05
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
@@ -179,7 +179,7 @@ public final class Constants {
             public static final int driveMotorID = 4;
             public static final int angleMotorID = 5;
             public static final int cancoderID = 1;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(182.05); //183.44
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(187.53); //183.44
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
