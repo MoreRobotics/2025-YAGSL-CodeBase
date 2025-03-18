@@ -32,7 +32,7 @@ public class Climber extends SubsystemBase {
   private int m_CimberID = 13;
   private int e_ClimberID = 15;
   private int servoID = 0;
-  private double climberP = 200.0; //24
+  private double climberP = 50.0; //24
   private double climberI = 0.0;
   private double climberD = 0.0;
   private double climberLoadedP = 3.0;
@@ -43,18 +43,18 @@ public class Climber extends SubsystemBase {
   private double climberGearRatio = 208;
   private double currentLimit = 60.0;
   private double climberFF = 0.0; 
-  private double target = 0.15;
+  public double target = 0.15;
   private double forwardLimit = 0.31;
-  private double reverseLimit = -0.37;
+  private double reverseLimit = -0.31;
   
-  private double climberSafePose = -0.112;//between ready and end climb
-  private double climberReadyPose = 0.17;
-  private double climberEndPose = -0.176; //-.09, -.19
+  private double climberSafePose = -0.10;//between ready and end climb
+  public double climberReadyPose = 0.155;
+  public double climberEndPose = -0.169; //-.09, -.19
   public boolean hasClimbed = false;
   private double tolerance = 0.03;
 
-  public double servoClimb = 0.55;
-  public double servoNeutral = 0.25;
+  public double servoClimb = 0.35;
+  public double servoNeutral = 0.0;
 
   private Slot0Configs pidConfig;
   private Slot1Configs loadedPidConfig;
@@ -155,6 +155,7 @@ public class Climber extends SubsystemBase {
       servo.set(servoNeutral);
     }
   }
+
 
   public void setClimberSafePose() {
     target = climberSafePose;

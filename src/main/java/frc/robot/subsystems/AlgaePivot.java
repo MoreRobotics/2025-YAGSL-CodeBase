@@ -37,14 +37,14 @@ public class AlgaePivot extends SubsystemBase {
   private double algaePivotP = 0.07;//0.042
   private double algaePivotI = 0.0;
   private double algaePivotD = 0.0;
-  private double m_setpoint = 142;
+  private double m_setpoint = 52.1;
 
   //safe = -0.02, grab off reef = 0.19, lvl 3 = .28, ground = .28;
-  public double safePose = 142;
-  public double stowPose = 142;
-  public double reefLvl2 = -212.96;
-  public double reefLvl3 = -194.89;
-  public double groundPose = -196.24;
+  public double safePose = 86.43;
+  public double stowPose = 52.1;
+  public double reefLvl2 = 138.0;
+  public double reefLvl3 = 138.0;
+  public double groundPose = 138.0;
   private double algaePivotVoltage = 0;
   private double algaePivotGearRatio = 24.0;
   private double tolerance = 6.0;

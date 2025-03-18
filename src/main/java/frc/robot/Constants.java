@@ -103,8 +103,8 @@ public final class Constants {
 
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
-        public static final double openLoopRamp = 0.1;
-        public static final double closedLoopRamp = 0.0;
+        public static final double openLoopRamp = 0.0;//0.25
+        public static final double closedLoopRamp = 0.1;
 
         /* Angle Motor PID Values */
         public static final double angleKP = chosenModule.angleKP;
@@ -202,7 +202,7 @@ public final class Constants {
         public static final double kPXController = 1;
         public static final double kPYController = 1;
         public static final double kPThetaController = 1;
-                public static final Distance BUMPER_THICKNESS = Units.Inches.of(3.0);//TODO: get bumper thickness
+                public static final Distance BUMPER_THICKNESS = Units.Inches.of(2.5);//TODO: get bumper thickness, 3.0 real, 1.9
 
         //horizontal distance from robot center to reef
         public static final Distance DISTANCE_TO_REEF = Units.Inches.of(26.5 / 2).plus(BUMPER_THICKNESS);
@@ -231,7 +231,7 @@ public final class Constants {
         public static final double ampRedY = 8.0;
         public static final double ampRedR = 270;
 
-        public static final double distanceLimit = 0.0;
+        public static final double distanceLimit = 0.1;
 
        
         

@@ -14,6 +14,7 @@ public class Climb extends Command {
 
   Climber s_Climber;
   int slot;
+  double setpoint;
   /** Creates a new Climb. */
   public Climb(Climber s_Climber) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,11 +25,11 @@ public class Climb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (s_Climber.hasClimbed == false) {
-      slot = 0;
-    } else {
-      slot = 1;
-    }
+    // if (s_Climber.hasClimbed == false) {
+    //   slot = 0;
+    // } else {
+    //   slot = 1;
+    // }
     s_Climber.setClimberPosition();
 
   }

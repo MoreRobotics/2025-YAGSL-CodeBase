@@ -46,7 +46,14 @@ public class Elevator extends SubsystemBase {
 
   private final double heightlimit = 50;
   public double elevatorspeed = 0.1;
-  public double restingposition = 0;
+  public double restingposition = 5.0;
+  public double lvl1Position = 0.0;
+  public double lvl2Position = 4.76;
+  public double lvl3Position = 21.22;
+  public double lvl4Position = 49.45;
+  public double algaeLvl2Position = 0.0;
+  public double algaeLvl3Position = 0.0;
+
 
 
   private TalonFX m_Elevator;
@@ -124,7 +131,7 @@ public class Elevator extends SubsystemBase {
     
     Timer.delay(1.0);
     m_Elevator.setPosition(0);
-    setElevatorPosition(restingposition);
+    setElevatorPosition(lvl1Position);
   }
 
   public void setElevatorPosition(double inches) {

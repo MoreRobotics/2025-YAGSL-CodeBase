@@ -36,11 +36,12 @@ public class AlignToReefCommands {
             Constants.AprilTagConstants.APRIL_TAGS.getTagPose(18).get().toPose2d().getTranslation().getDistance(REEF_CENTER_BLUE))
             .plus(Constants.AutoConstants.DISTANCE_TO_REEF);//.plus(Distance.ofBaseUnits(2, Meter));
 
+    private static final double mailboxOffset = 2.0;
     // translation to move from centered on a side to scoring position for the left branch
     private static final Translation2d CENTERED_TO_LEFT_BRANCH = new Translation2d(Units.Meters.of(0),
             Units.Inches.of(12.94 / 2));
     private static final Translation2d BRANCH_MAILBOX_OFFSEST = new Translation2d(Units.Meters.of(0),
-        Units.Inches.of(2.8));
+        Units.Inches.of(mailboxOffset));
 
     /**
      * Calculates the pose of the robot for scoring on a branch or trough.
