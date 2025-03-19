@@ -233,6 +233,104 @@ public final class Constants {
 
         public static final double distanceLimit = 0.1;
 
+        // blue reef positions
+        public static final double lblue1ReefX = 0.0;
+        public static final double lblue1ReefY = 0.0;
+        public static final double lblue1ReefR = 0.0;
+
+        public static final double lblue2ReefX = 0.0;
+        public static final double lblue2ReefY = 0.0;
+        public static final double lblue2ReefR = 0.0;
+
+        public static final double lblue3ReefX = 0.0;
+        public static final double lblue3ReefY = 0.0;
+        public static final double lblue3ReefR = 0.0;
+
+        public static final double lblue4ReefX = 0.0;
+        public static final double lblue4ReefY = 0.0;
+        public static final double lblue4ReefR = 0.0;
+
+        public static final double lblue5ReefX = 0.0;
+        public static final double lblue5ReefY = 0.0;
+        public static final double lblue5ReefR = 0.0;
+
+        public static final double lblue0ReefX = 0.0;
+        public static final double lblue0ReefY = 0.0;
+        public static final double lblue0ReefR = 0.0;
+
+        public static final double rblue1ReefX = 0.0;
+        public static final double rblue1ReefY = 0.0;
+        public static final double rblue1ReefR = 0.0;
+
+        public static final double rblue2ReefX = 0.0;
+        public static final double rblue2ReefY = 0.0;
+        public static final double rblue2ReefR = 0.0;
+
+        public static final double rblue3ReefX = 5.77;
+        public static final double rblue3ReefY = 3.88;
+        public static final double rblue3ReefR = 178.7;
+
+        public static final double rblue4ReefX = 0.0;
+        public static final double rblue4ReefY = 0.0;
+        public static final double rblue4ReefR = 0.0;
+
+        public static final double rblue5ReefX = 0.0;
+        public static final double rblue5ReefY = 0.0;
+        public static final double rblue5ReefR = 0.0;
+
+        public static final double rblue0ReefX = 0.0;
+        public static final double rblue0ReefY = 0.0;
+        public static final double rblue0ReefR = 0.0;
+
+        // red reef positions
+        public static final double lred1ReefX = 0.0;
+        public static final double lred1ReefY = 0.0;
+        public static final double lred1ReefR = 0.0;
+
+        public static final double lred2ReefX = 0.0;
+        public static final double lred2ReefY = 0.0;
+        public static final double lred2ReefR = 0.0;
+
+        public static final double lred3ReefX = 0.0;
+        public static final double lred3ReefY = 0.0;
+        public static final double lred3ReefR = 0.0;
+
+        public static final double lred4ReefX = 0.0;
+        public static final double lred4ReefY = 0.0;
+        public static final double lred4ReefR = 0.0;
+
+        public static final double lred5ReefX = 0.0;
+        public static final double lred5ReefY = 0.0;
+        public static final double lred5ReefR = 0.0;
+
+        public static final double lred0ReefX = 0.0;
+        public static final double lred0ReefY = 0.0;
+        public static final double lred0ReefR = 0.0;
+
+        public static final double rRed1ReefX = 0.0;
+        public static final double rRed1ReefY = 0.0;
+        public static final double rRed1ReefR = 0.0;
+
+        public static final double rRed2ReefX = 0.0;
+        public static final double rRed2ReefY = 0.0;
+        public static final double rRed2ReefR = 0.0;
+
+        public static final double rRed3ReefX = 0.0;
+        public static final double rRed3ReefY = 0.0;
+        public static final double rRed3ReefR = 0.0;
+
+        public static final double rRed4ReefX = 0.0;
+        public static final double rRed4ReefY = 0.0;
+        public static final double rRed4ReefR = 0.0;
+
+        public static final double rRed5ReefX = 0.0;
+        public static final double rRed5ReefY = 0.0;
+        public static final double rRed5ReefR = 0.0;
+
+        public static final double rRed0ReefX = 0.0;
+        public static final double rRed0ReefY = 0.0;
+        public static final double rRed0ReefR = 0.0;
+
        
         
         

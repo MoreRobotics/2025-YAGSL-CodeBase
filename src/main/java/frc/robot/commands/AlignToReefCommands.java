@@ -89,6 +89,78 @@ public class AlignToReefCommands {
         return reefPose;
     }
 
+    public static Pose2d getReefPoseL(int side) {
+        Pose2d reefPose2d = new Pose2d();
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            if (side == 1) {
+                reefPose2d = new Pose2d(Constants.Positions.lblue1ReefX, Constants.Positions.lblue1ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue1ReefR));
+            } else if (side == 2) {
+                reefPose2d = new Pose2d(Constants.Positions.lblue2ReefX, Constants.Positions.lblue2ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue2ReefR));
+            } else if (side == 3) {
+                reefPose2d = new Pose2d(Constants.Positions.lblue3ReefX, Constants.Positions.lblue3ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue3ReefR));
+            } else if (side == 4) {
+                reefPose2d = new Pose2d(Constants.Positions.lblue4ReefX, Constants.Positions.lblue4ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue4ReefR));
+            } else if (side == 5) {
+                reefPose2d = new Pose2d(Constants.Positions.lblue5ReefX, Constants.Positions.lblue5ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue5ReefR));
+            } else if (side == 0){
+                reefPose2d = new Pose2d(Constants.Positions.lblue0ReefX, Constants.Positions.lblue0ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue0ReefR));
+            }
+            return reefPose2d;
+        } else {
+            if (side == 1) {
+                reefPose2d = new Pose2d(Constants.Positions.lred1ReefX, Constants.Positions.lred1ReefY, Rotation2d.fromDegrees(Constants.Positions.lred1ReefR));
+            } else if (side == 2) {
+                reefPose2d = new Pose2d(Constants.Positions.lred2ReefX, Constants.Positions.lred2ReefY, Rotation2d.fromDegrees(Constants.Positions.lred2ReefR));
+            } else if (side == 3) {
+                reefPose2d = new Pose2d(Constants.Positions.lred3ReefX, Constants.Positions.lred3ReefY, Rotation2d.fromDegrees(Constants.Positions.lred3ReefR));
+            } else if (side == 4) {
+                reefPose2d = new Pose2d(Constants.Positions.lred4ReefX, Constants.Positions.lred4ReefY, Rotation2d.fromDegrees(Constants.Positions.lred4ReefR));
+            } else if (side == 5) {
+                reefPose2d = new Pose2d(Constants.Positions.lred5ReefX, Constants.Positions.lred5ReefY, Rotation2d.fromDegrees(Constants.Positions.lred5ReefR));
+            } else if (side == 0){
+                reefPose2d = new Pose2d(Constants.Positions.lred0ReefX, Constants.Positions.lred0ReefY, Rotation2d.fromDegrees(Constants.Positions.lred0ReefR));
+            }
+            return reefPose2d;
+        }
+    }
+
+    public static Pose2d getReefPoseR(int side, boolean leftRight) {
+        Pose2d reefPose2d = new Pose2d();
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            if (side == 1) {
+                reefPose2d = new Pose2d(Constants.Positions.rblue1ReefX, Constants.Positions.rblue1ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue1ReefR));
+            } else if (side == 2) {
+                reefPose2d = new Pose2d(Constants.Positions.rblue2ReefX, Constants.Positions.rblue2ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue2ReefR));
+            } else if (side == 3) {
+                reefPose2d = new Pose2d(Constants.Positions.rblue3ReefX, Constants.Positions.rblue3ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue3ReefR));
+            } else if (side == 4) {
+                reefPose2d = new Pose2d(Constants.Positions.rblue4ReefX, Constants.Positions.rblue4ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue4ReefR));
+            } else if (side == 5) {
+                reefPose2d = new Pose2d(Constants.Positions.rblue5ReefX, Constants.Positions.rblue5ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue5ReefR));
+            } else if (side == 0){
+                reefPose2d = new Pose2d(Constants.Positions.rblue0ReefX, Constants.Positions.rblue0ReefY, Rotation2d.fromDegrees(Constants.Positions.lblue0ReefR));
+            }
+            return reefPose2d;
+        } else { 
+            if (side == 1) {
+                reefPose2d = new Pose2d(Constants.Positions.rRed1ReefX, Constants.Positions.rRed1ReefY, Rotation2d.fromDegrees(Constants.Positions.rRed1ReefR));
+            } else if (side == 2) {
+                reefPose2d = new Pose2d(Constants.Positions.rRed2ReefX, Constants.Positions.rRed2ReefY, Rotation2d.fromDegrees(Constants.Positions.rRed2ReefR));
+            } else if (side == 3) {
+                reefPose2d = new Pose2d(Constants.Positions.rRed3ReefX, Constants.Positions.rRed3ReefY, Rotation2d.fromDegrees(Constants.Positions.rRed3ReefR));
+            } else if (side == 4) {
+                reefPose2d = new Pose2d(Constants.Positions.rRed4ReefX, Constants.Positions.rRed4ReefY, Rotation2d.fromDegrees(Constants.Positions.rRed4ReefR));
+            } else if (side == 5) {
+                reefPose2d = new Pose2d(Constants.Positions.rRed5ReefX, Constants.Positions.rRed5ReefY, Rotation2d.fromDegrees(Constants.Positions.rRed5ReefR));
+            } else if (side == 0){
+                reefPose2d = new Pose2d(Constants.Positions.rRed0ReefX, Constants.Positions.rRed0ReefY, Rotation2d.fromDegrees(Constants.Positions.rRed0ReefR));
+            }
+            return reefPose2d;
+        }
+    }
+
+
+
     private static Pose2d flipPose(Pose2d pose) {
         Translation2d center = REEF_CENTER_BLUE.interpolate(REEF_CENTER_RED, 0.5);
         Translation2d poseTranslation = pose.getTranslation();

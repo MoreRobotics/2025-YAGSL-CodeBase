@@ -248,7 +248,7 @@ public class RobotContainer {
     // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
     // Auto Align Left
     driverLStick.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
-        s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(1)).schedule();
+        s_Swerve.followPathCommand(() -> s_Eyes.closestLReefpath()).schedule();
 
     }),
     new InstantCommand(),

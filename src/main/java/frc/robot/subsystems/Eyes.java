@@ -389,6 +389,31 @@ public class Eyes extends SubsystemBase {
 
     }
 
+    public PathPlannerPath closestLReefpath() {
+        int closestSide = getClosestReefSide();
+        Pose2d currentPose = s_Swerve.m_poseEstimator.getEstimatedPosition();
+        Pose2d closestReef = AlignToReefCommands.getReefPoseL(closestSide);
+
+        List<Waypoint> wayPoints = PathPlannerPath.waypointsFromPoses(
+            
+            new Pose2d(currentPose.getX(), currentPose.getY(), closestReef.minus(currentPose).getRotation()),
+            new Pose2d(closestReef.getX(), closestReef.getY(), closestReef.minus(currentPose).getRotation())
+        );
+
+        PathPlannerPath path = new PathPlannerPath(
+            wayPoints,
+             new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), 
+            new IdealStartingState(0.0, currentPose.getRotation()),
+             new GoalEndState(0.0, closestReef.getRotation())
+            );
+
+            // path.preventFlipping = true;
+
+            return path;
+
+
+    }
+
     public double getDistanceFromTargetAuto() {
 
         double distance;
