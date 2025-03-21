@@ -364,6 +364,8 @@ public class Eyes extends SubsystemBase {
 
     }
 
+    
+
     public PathPlannerPath closestReefpath(int leftRight) {
         int closestSide = getClosestReefSide();
         Pose2d currentPose = s_Swerve.m_poseEstimator.getEstimatedPosition();
@@ -393,6 +395,31 @@ public class Eyes extends SubsystemBase {
         int closestSide = getClosestReefSide();
         Pose2d currentPose = s_Swerve.m_poseEstimator.getEstimatedPosition();
         Pose2d closestReef = AlignToReefCommands.getReefPoseL(closestSide);
+
+        List<Waypoint> wayPoints = PathPlannerPath.waypointsFromPoses(
+            
+            new Pose2d(currentPose.getX(), currentPose.getY(), closestReef.minus(currentPose).getRotation()),
+            new Pose2d(closestReef.getX(), closestReef.getY(), closestReef.minus(currentPose).getRotation())
+        );
+
+        PathPlannerPath path = new PathPlannerPath(
+            wayPoints,
+             new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), 
+            new IdealStartingState(0.0, currentPose.getRotation()),
+             new GoalEndState(0.0, closestReef.getRotation())
+            );
+
+            // path.preventFlipping = true;
+
+            return path;
+
+
+    }
+
+    public PathPlannerPath closestRReefpath() {
+        int closestSide = getClosestReefSide();
+        Pose2d currentPose = s_Swerve.m_poseEstimator.getEstimatedPosition();
+        Pose2d closestReef = AlignToReefCommands.getReefPoseR(closestSide);
 
         List<Waypoint> wayPoints = PathPlannerPath.waypointsFromPoses(
             
@@ -456,8 +483,11 @@ public class Eyes extends SubsystemBase {
         SmartDashboard.putNumber("target Y", getTargetPose().getY());
         SmartDashboard.putNumber("Distance to Target", getDistanceFromTarget());
         SmartDashboard.putNumber("Closest Reef Side", getClosestReefSide());
+        SmartDashboard.putNumber("Reef X", AlignToReefCommands.getReefPoseL(getClosestReefSide()).getX());
+        SmartDashboard.putNumber("Reef Y", AlignToReefCommands.getReefPoseL(getClosestReefSide()).getY());
 
-         reefPose.set(AlignToReefCommands.getReefPose(getClosestReefSide(), 1));
+
+         reefPose.set(AlignToReefCommands.getReefPoseL(getClosestReefSide()));
 
     }
 }

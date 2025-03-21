@@ -124,7 +124,7 @@ public class AlignToReefCommands {
         }
     }
 
-    public static Pose2d getReefPoseR(int side, boolean leftRight) {
+    public static Pose2d getReefPoseR(int side) {
         Pose2d reefPose2d = new Pose2d();
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
             if (side == 1) {
