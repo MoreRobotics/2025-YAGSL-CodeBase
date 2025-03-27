@@ -39,7 +39,7 @@ public class Elevator extends SubsystemBase {
   private final int m_ElevatorID = 14;
   private final int m_BotSensorID = 1;
 
-  private int elevatorCurrentLimit = 60;
+  private int elevatorCurrentLimit = 65;
   private int elevatorCurrentLowerLimit = 30;
 
 
@@ -47,30 +47,31 @@ public class Elevator extends SubsystemBase {
 
   private final double heightlimit = 50;
   public double elevatorspeed = 0.1;
-  public double restingposition = 5.0;
-  public double lvl1Position = 0.0;
-  public double lvl2Position = 4.76;
-  public double lvl3Position = 21.22;
-  public double lvl4Position = 49.45;
-  public double algaeLvl2Position = 0.0;
-  public double algaeLvl3Position = 0.0;
+  public double restingposition = 5.8;//
+  public double lvl1Position = 0.0;//
+  public double lvl2Position = 5.81;//5.81
+  public double lvl3Position = 21.59;//21.59
+  public double lvl4Position = 46.31;//46.31
+  public double algaeLvl2Position = 27.41;//27.41
+  public double algaeLvl3Position = 41.17;//41.17
+  public double algaeGroundPosition = 4.25;
 
 
 
   private TalonFX m_Elevator;
   private DigitalInput botSensor;
 
-  private final double m_ElevatorPGains = 0.75;//0.5
-  private final double m_ElevatorIGains = 0.0;//0.045, 0.025
-  private final double m_ElevatorDGains = 0.1;
-  private final double m_ElevatorGGains = 0.85;//.45, 0.85
-  private final double m_ElevatorSGains = 0.8;
+  private final double m_ElevatorPGains = 0.7;//0.85
+  private final double m_ElevatorIGains = 0.05;//.1,
+  private final double m_ElevatorDGains = 0.0;//0.15
+  private final double m_ElevatorGGains = 0.45;//0.99
+  // private final double m_ElevatorSGains = 0.8;//0.8
   // private final double m_ElevatorVGains = 0.001;
   private final double m_ElevatorAcceleration = 350.0;
   private final double m_ElevatorCoastV = 225.0;
   private final double magnetOffset = 0.0;
   private double target;
-  private double tolerance = 0.5;
+  private double tolerance = 2.0;
 
   private Slot0Configs slotConfigs;
   private FeedbackConfigs feedbackConfigs;
@@ -115,7 +116,7 @@ public class Elevator extends SubsystemBase {
     slotConfigs.kI = m_ElevatorIGains;
     slotConfigs.kD = m_ElevatorDGains;
     slotConfigs.kG = m_ElevatorGGains;
-    slotConfigs.kS = m_ElevatorSGains;
+    // slotConfigs.kS = m_ElevatorSGains;
     //slotConfigs.kV = m_ElevatorVGains;
 
     motionMagicConfigs = new MotionMagicConfigs();

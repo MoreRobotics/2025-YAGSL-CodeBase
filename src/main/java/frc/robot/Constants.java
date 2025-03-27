@@ -25,8 +25,8 @@ public final class Constants {
     public static final double stickDeadband = 0.1;
 
     public static final double ELEVATOR_SPROCKET_DIAMETER = 1.75;
-    public static final double ELEVATOR_GEAR_RATIO = 5.0;
-    public static final double ELEVATOR_CHAIN_RATIO = 2.5;
+    public static final double ELEVATOR_GEAR_RATIO = 9.0;
+    public static final double ELEVATOR_CHAIN_RATIO = 0.75;
     public static final double ELEVATOR_ROTATIONS_TO_IN = (1.0 / ELEVATOR_GEAR_RATIO) * ELEVATOR_SPROCKET_DIAMETER * Math.PI / ELEVATOR_CHAIN_RATIO;
     public static final double ELEVATOR_TOLERANCE = 1.0;
     public static final double ELEVATOR_HIGH_LEVEL = 16.0;
@@ -234,102 +234,102 @@ public final class Constants {
         public static final double distanceLimit = 1.0;
 
         // blue reef positions
-        public static final double lblue1ReefX = 0.0;
-        public static final double lblue1ReefY = 0.0;
-        public static final double lblue1ReefR = 0.0;
+        public static final double lblue1ReefX = 3.91;//3.91
+        public static final double lblue1ReefY = 5.11;//5.11
+        public static final double lblue1ReefR = -61.39;//-61.39
 
-        public static final double lblue2ReefX = 0.0;
-        public static final double lblue2ReefY = 0.0;
-        public static final double lblue2ReefR = 0.0;
+        public static final double lblue2ReefX = 5.19;//5.19
+        public static final double lblue2ReefY = 5.00;//5.00
+        public static final double lblue2ReefR = -124.59;//-124.59
 
-        public static final double lblue3ReefX = 5.75;
-        public static final double lblue3ReefY = 3.90;
-        public static final double lblue3ReefR = 177.24;
+        public static final double lblue3ReefX = 5.55;//5.55
+        public static final double lblue3ReefY = 3.90;//3.9
+        public static final double lblue3ReefR = 178.69;//178.69
 
-        public static final double lblue4ReefX = 0.0;
-        public static final double lblue4ReefY = 0.0;
-        public static final double lblue4ReefR = 0.0;
+        public static final double lblue4ReefX = 5.04;//5.04
+        public static final double lblue4ReefY = 2.92;//2.92
+        public static final double lblue4ReefR = 118.91;//118.91
 
-        public static final double lblue5ReefX = 0.0;
-        public static final double lblue5ReefY = 0.0;
-        public static final double lblue5ReefR = 0.0;
+        public static final double lblue5ReefX = 3.76;//3.76
+        public static final double lblue5ReefY = 2.98;//2.98
+        public static final double lblue5ReefR = 56.79;//56.79
 
-        public static final double lblue0ReefX = 0.0;
-        public static final double lblue0ReefY = 0.0;
-        public static final double lblue0ReefR = 0.0;
+        public static final double lblue0ReefX = 3.26;//3.26
+        public static final double lblue0ReefY = 4.09;//4.09
+        public static final double lblue0ReefR = 1.20;//1.20
 
-        public static final double rblue1ReefX = 0.0;
-        public static final double rblue1ReefY = 0.0;
-        public static final double rblue1ReefR = 0.0;
+        public static final double rblue1ReefX = 3.67;//3.65
+        public static final double rblue1ReefY = 4.95;//4.85
+        public static final double rblue1ReefR = -61.77;//-57.64
 
-        public static final double rblue2ReefX = 0.0;
-        public static final double rblue2ReefY = 0.0;
-        public static final double rblue2ReefR = 0.0;
+        public static final double rblue2ReefX = 4.85;//4.85
+        public static final double rblue2ReefY = 5.17;//5.17
+        public static final double rblue2ReefR = -119.86;//-119.86
 
-        public static final double rblue3ReefX = 5.75;
-        public static final double rblue3ReefY = 4.24;
-        public static final double rblue3ReefR = 177.24;
+        public static final double rblue3ReefX = 5.61;//5.61
+        public static final double rblue3ReefY = 4.25;//4.25
+        public static final double rblue3ReefR = 178.30;//178.30
 
-        public static final double rblue4ReefX = 0.0;
-        public static final double rblue4ReefY = 0.0;
-        public static final double rblue4ReefR = 0.0;
+        public static final double rblue4ReefX = 5.26;
+        public static final double rblue4ReefY = 3.09;
+        public static final double rblue4ReefR = 117.37;
 
-        public static final double rblue5ReefX = 0.0;
-        public static final double rblue5ReefY = 0.0;
-        public static final double rblue5ReefR = 0.0;
+        public static final double rblue5ReefX = 4.11;//4.11
+        public static final double rblue5ReefY = 2.82;//2.82
+        public static final double rblue5ReefR = 59.44;//59.44
 
-        public static final double rblue0ReefX = 0.0;
-        public static final double rblue0ReefY = 0.0;
-        public static final double rblue0ReefR = 0.0;
+        public static final double rblue0ReefX = 3.27;//3.27
+        public static final double rblue0ReefY = 3.77;//3.77
+        public static final double rblue0ReefR = -3.59;//-3.59
 
         // red reef positions
-        public static final double lred1ReefX = 0.0;
-        public static final double lred1ReefY = 0.0;
-        public static final double lred1ReefR = 0.0;
+        public static final double lred1ReefX = 13.59;
+        public static final double lred1ReefY = 3.04;
+        public static final double lred1ReefR = 118.97;
 
-        public static final double lred2ReefX = 0.0;
-        public static final double lred2ReefY = 0.0;
-        public static final double lred2ReefR = 0.0;
+        public static final double lred2ReefX = 12.49;
+        public static final double lred2ReefY = 3.08;
+        public static final double lred2ReefR = 59.15;
 
-        public static final double lred3ReefX = 0.0;
-        public static final double lred3ReefY = 0.0;
-        public static final double lred3ReefR = 0.0;
+        public static final double lred3ReefX = 11.97;
+        public static final double lred3ReefY = 4.13;
+        public static final double lred3ReefR = -0.79;
 
-        public static final double lred4ReefX = 0.0;
-        public static final double lred4ReefY = 0.0;
-        public static final double lred4ReefR = 0.0;
+        public static final double lred4ReefX = 12.55;
+        public static final double lred4ReefY = 5.12;
+        public static final double lred4ReefR = -60.25;
 
-        public static final double lred5ReefX = 0.0;
-        public static final double lred5ReefY = 0.0;
-        public static final double lred5ReefR = 0.0;
+        public static final double lred5ReefX = 13.75;
+        public static final double lred5ReefY = 4.94;
+        public static final double lred5ReefR = -121.91;
 
-        public static final double lred0ReefX = 0.0;
-        public static final double lred0ReefY = 0.0;
-        public static final double lred0ReefR = 0.0;
+        public static final double lred0ReefX = 14.26;
+        public static final double lred0ReefY = 3.91;
+        public static final double lred0ReefR = 177.31;
 
-        public static final double rRed1ReefX = 0.0;
-        public static final double rRed1ReefY = 0.0;
-        public static final double rRed1ReefR = 0.0;
+        public static final double rRed1ReefX = 13.85;
+        public static final double rRed1ReefY = 3.09;
+        public static final double rRed1ReefR = 117.82;
 
-        public static final double rRed2ReefX = 0.0;
-        public static final double rRed2ReefY = 0.0;
-        public static final double rRed2ReefR = 0.0;
+        public static final double rRed2ReefX = 12.64;
+        public static final double rRed2ReefY = 2.88;
+        public static final double rRed2ReefR = 59.26;
 
-        public static final double rRed3ReefX = 0.0;
-        public static final double rRed3ReefY = 0.0;
-        public static final double rRed3ReefR = 0.0;
+        public static final double rRed3ReefX = 12.0;
+        public static final double rRed3ReefY = 3.70;
+        public static final double rRed3ReefR = 1.02;
 
-        public static final double rRed4ReefX = 0.0;
-        public static final double rRed4ReefY = 0.0;
-        public static final double rRed4ReefR = 0.0;
+        public static final double rRed4ReefX = 12.30;
+        public static final double rRed4ReefY = 4.91;
+        public static final double rRed4ReefR = -59.90;
 
-        public static final double rRed5ReefX = 0.0;
-        public static final double rRed5ReefY = 0.0;
-        public static final double rRed5ReefR = 0.0;
+        public static final double rRed5ReefX = 13.29;
+        public static final double rRed5ReefY = 5.12;
+        public static final double rRed5ReefR = -121.97;
 
-        public static final double rRed0ReefX = 0.0;
-        public static final double rRed0ReefY = 0.0;
-        public static final double rRed0ReefR = 0.0;
+        public static final double rRed0ReefX = 14.25;
+        public static final double rRed0ReefY = 4.27;
+        public static final double rRed0ReefR = -179.77;
 
        
         

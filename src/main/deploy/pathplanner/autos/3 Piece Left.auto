@@ -17,33 +17,85 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Outake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Outake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.6
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator Safe"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2 Piece Left 2"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Elevator Safe"
+            "name": "Elevator Lvl 1"
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "2 Piece Left 2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "2 Piece Left 3"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2 Piece Left 3"
+                }
+              }
+            ]
           }
         },
         {
@@ -53,33 +105,85 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Outake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Outake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.6
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator Safe"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2.5 Piece Left 4 "
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Elevator Safe"
+            "name": "Elevator Lvl 1"
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "2.5 Piece Left 4 "
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "3 Piece Left 5"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3 Piece Left 5"
+                }
+              }
+            ]
           }
         },
         {
@@ -89,9 +193,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Outake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Outake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.9
+                }
+              }
+            ]
           }
         },
         {

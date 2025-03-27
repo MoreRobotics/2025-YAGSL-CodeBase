@@ -62,8 +62,10 @@ public class Eyes extends SubsystemBase {
     public double tync;
 
     public int closestReefSide;
-    private StructPublisher<Pose2d> reefPose = NetworkTableInstance.getDefault()
-        .getStructTopic("Goal Pose", Pose2d.struct).publish();
+    private StructPublisher<Pose2d> lReefPose = NetworkTableInstance.getDefault()
+        .getStructTopic("Left Reef Pose", Pose2d.struct).publish();
+    private StructPublisher <Pose2d> rReefPose = NetworkTableInstance.getDefault()
+        .getStructTopic("Right Reef Pose", Pose2d.struct).publish();
 
 
    
@@ -483,11 +485,14 @@ public class Eyes extends SubsystemBase {
         SmartDashboard.putNumber("target Y", getTargetPose().getY());
         SmartDashboard.putNumber("Distance to Target", getDistanceFromTarget());
         SmartDashboard.putNumber("Closest Reef Side", getClosestReefSide());
-        SmartDashboard.putNumber("Reef X", AlignToReefCommands.getReefPoseL(getClosestReefSide()).getX());
-        SmartDashboard.putNumber("Reef Y", AlignToReefCommands.getReefPoseL(getClosestReefSide()).getY());
+        SmartDashboard.putNumber("Left Reef X", AlignToReefCommands.getReefPoseL(getClosestReefSide()).getX());
+        SmartDashboard.putNumber("Left Reef Y", AlignToReefCommands.getReefPoseL(getClosestReefSide()).getY());
+        SmartDashboard.putNumber("Right Reef X", AlignToReefCommands.getReefPoseR(getClosestReefSide()).getX());
+        SmartDashboard.putNumber("Right Reef Y", AlignToReefCommands.getReefPoseR(getClosestReefSide()).getY());
 
 
-         reefPose.set(AlignToReefCommands.getReefPoseL(getClosestReefSide()));
+         lReefPose.set(AlignToReefCommands.getReefPoseL(getClosestReefSide()));
+         rReefPose.set(AlignToReefCommands.getReefPoseR(getClosestReefSide()));
 
     }
 }

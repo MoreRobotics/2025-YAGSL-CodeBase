@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6076670042097752,
-        "y": 0.6737864528672253
+        "x": 1.4059943181818182,
+        "y": 0.8390767045454538
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3901184289537696,
-        "y": 1.6874208249260092
+        "x": 2.188445742925812,
+        "y": 1.8527110766042376
       },
       "isLocked": false,
       "linkedName": "2.5 Piece Right 4 End "
     },
     {
       "anchor": {
-        "x": 3.6854881293693023,
-        "y": 2.984374613031379
+        "x": 3.6894886363636368,
+        "y": 2.8333948863636365
       },
       "prevControl": {
-        "x": 1.089689219341818,
-        "y": 2.4688897291829917
+        "x": 2.239982873376256,
+        "y": 0.6191614547123057
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Right Side",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -125.00000000000001
+    "rotation": 48.545057608034924
   },
   "useDefaultConstraints": true
 }

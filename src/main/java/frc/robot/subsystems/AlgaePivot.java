@@ -40,11 +40,12 @@ public class AlgaePivot extends SubsystemBase {
   private double m_setpoint = 52.1;
 
   //safe = -0.02, grab off reef = 0.19, lvl 3 = .28, ground = .28;
-  public double safePose = 86.43;
-  public double stowPose = 52.1;
-  public double reefLvl2 = 138.0;
-  public double reefLvl3 = 138.0;
-  public double groundPose = 138.0;
+  public double safePose = 2.2;
+  // public double stowPose = 52.1;
+  public double reefLvl2 = 57.1;
+  public double reefLvl3 = 57.1;
+  public double groundPose = 61.61;
+  public double processorPose = 20.2;
   private double algaePivotVoltage = 0;
   private double algaePivotGearRatio = 24.0;
   private double tolerance = 6.0;
@@ -66,6 +67,7 @@ public class AlgaePivot extends SubsystemBase {
     
     m_AlgaePivot.configure(algaePivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_AlgaePivot.getEncoder().setPosition(cancoderInDegrees());
+    moveAlgaePivot(safePose);
 
   }
 

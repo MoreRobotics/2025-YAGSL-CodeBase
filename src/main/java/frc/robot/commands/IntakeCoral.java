@@ -25,14 +25,15 @@ public class IntakeCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    s_Funnel.runFunnel(s_Funnel.runFunnelSpeed);
+    s_Mailbox.setMailboxSpeed(s_Mailbox.intakeSpeed);
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_Funnel.runFunnel(s_Funnel.runFunnelSpeed);
-    s_Mailbox.setMailboxSpeed(s_Mailbox.intakeSpeed);
+    
   }
 
   // Called once the command ends or is interrupted.

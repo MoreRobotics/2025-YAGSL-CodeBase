@@ -53,8 +53,8 @@ public class Climber extends SubsystemBase {
   public boolean hasClimbed = false;
   private double tolerance = 0.03;
 
-  public double servoClimb = 0.35;
-  public double servoNeutral = 0.0;
+  public int servoClimb = 1250;
+  public int servoNeutral = 550;
 
   private Slot0Configs pidConfig;
   private Slot1Configs loadedPidConfig;
@@ -75,6 +75,9 @@ public class Climber extends SubsystemBase {
     e_Climber = new CANcoder(e_ClimberID);
     m_Request = new PositionVoltage(0).withSlot(0);
     servo = new Servo(servoID);
+
+    servo.setBoundsMicroseconds(2500, 0, 0, 0, 500); 
+    
  
     pidConfig = new Slot0Configs();
       pidConfig.kP = climberP;
@@ -147,12 +150,12 @@ public class Climber extends SubsystemBase {
   public void setServo() {
     if (target == climberEndPose) {
       if (atPosition()) {
-        servo.set(servoClimb);
+        servo.setPulseTimeMicroseconds(servoClimb);
       } else {
-        servo.set(servoNeutral);
+        servo.setPulseTimeMicroseconds(servoNeutral);
       }
     } else {
-      servo.set(servoNeutral);
+      servo.setPulseTimeMicroseconds(servoNeutral);
     }
   }
 

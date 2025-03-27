@@ -40,7 +40,7 @@ public class Mailbox extends SubsystemBase {
   private double rMailboxGearRatio = 1.0;
 
   public double intakeSpeed = 30.0;//slower
-  public double outtakeSpeed = 20.0;
+  public double outtakeSpeed = 25.0;
   public double reverseSpeed = -20.0;
 
   private TalonFX m_Mailbox;

@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 Piece Mid"
+            "pathName": "Copy of 1 Piece Mid"
           }
         },
         {
@@ -17,15 +17,59 @@
           }
         },
         {
-          "type": "wait",
+          "type": "race",
           "data": {
-            "waitTime": 2.0
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Outake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.6
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Outake"
+            "name": "Elevator Algae Lvl 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Algae Lvl 2"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Algae Intake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.6
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of 1 Piece Mid 2"
           }
         },
         {
@@ -35,9 +79,114 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Algae Safe"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "1 Piece Mid 2"
+            "pathName": "1 Piece Mid 3"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Algae Outake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.6
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1 Piece Mid 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator Algae Lvl 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Algae Lvl 3"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Algae Intake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.6
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1 Piece Mid 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator Safe"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Algae Safe"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1 Piece Mid 6"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Algae Outake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.6
+                }
+              }
+            ]
           }
         }
       ]

@@ -20,13 +20,15 @@ public class AlgaeIntake extends SubsystemBase {
   private int m_AlgaeIntakeID = 16;
   private double algaeIntakeS = 0.1;
   private double algaeIntakeV = 0.12;
-  private double algaeIntakeP = 0.11;
+  private double algaeIntakeP = 0.3;
   private double algaeIntakeI = 0.0;
   private double algaeIntakeD = 0.0;
-  public double algaeIntakeSpeed = 40.0;
+  public double algaeIntakeSpeed = 60.0;
   public double algaeOutakeSpeed = -40.0;
+  public double algaeIdleSpeed = 25.0;
   private double gearRatio = 0.0;
-  private double currentLimit = 40.0;
+  private double currentLimit = 80.0;
+  private double m_Speed = 0.0;
 
 
 
@@ -59,9 +61,11 @@ public class AlgaeIntake extends SubsystemBase {
     m_AlgaeIntake.getConfigurator().apply(pid);
     m_AlgaeIntake.getConfigurator().apply(currentLimitsConfigs);
 
+    runAlgaeIntake(algaeIdleSpeed);
   }
 
   public void runAlgaeIntake(double speed) {
+    m_Speed = speed;
     m_AlgaeIntake.setControl(m_Request.withVelocity(speed));
   }
 
@@ -71,5 +75,7 @@ public class AlgaeIntake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Algae Intake Current", m_AlgaeIntake.getSupplyCurrent().getValueAsDouble());
+    SmartDashboard.putNumber("Algae Intake Set Speed", m_Speed);
+    SmartDashboard.putNumber("Algae Intake Speed", m_AlgaeIntake.getVelocity().getValueAsDouble());
   }
 }
