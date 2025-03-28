@@ -53,8 +53,8 @@ public class Climber extends SubsystemBase {
   public boolean hasClimbed = false;
   private double tolerance = 0.03;
 
-  public int servoClimb = 1250;
-  public int servoNeutral = 550;
+  public int servoClimb = 1700;
+  public int servoNeutral = 1000;
 
   private Slot0Configs pidConfig;
   private Slot1Configs loadedPidConfig;
