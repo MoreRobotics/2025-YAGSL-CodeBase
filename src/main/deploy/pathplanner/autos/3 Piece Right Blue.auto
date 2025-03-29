@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2 Piece Left 1"
+            "pathName": "2 Piece Right 1"
           }
         },
         {
@@ -48,7 +48,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2 Piece Left 2"
+                  "pathName": "2 Piece Right 2"
                 }
               }
             ]
@@ -86,7 +86,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2 Piece Left 3"
+                  "pathName": "2 Piece Right 3"
                 }
               },
               {
@@ -136,7 +136,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2.5 Piece Left 4 "
+                  "pathName": "2.5 Piece Right 4"
                 }
               }
             ]
@@ -172,15 +172,28 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Intake"
+                  "pathName": "3 Piece Right 5"
                 }
               },
               {
-                "type": "path",
+                "type": "race",
                 "data": {
-                  "pathName": "3 Piece Left 5"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.75
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -205,7 +218,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.9
+                  "waitTime": 0.5
                 }
               }
             ]
@@ -221,6 +234,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Left",
+  "folder": "Right",
   "choreoAuto": false
 }

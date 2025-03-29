@@ -202,7 +202,7 @@ public final class Constants {
         public static final double kPXController = 1;
         public static final double kPYController = 1;
         public static final double kPThetaController = 1;
-                public static final Distance BUMPER_THICKNESS = Units.Inches.of(2.5);//TODO: get bumper thickness, 3.0 real, 1.9
+                public static final Distance BUMPER_THICKNESS = Units.Inches.of(2.0);//TODO: get bumper thickness, 3.0 real, 1.9
 
         //horizontal distance from robot center to reef
         public static final Distance DISTANCE_TO_REEF = Units.Inches.of(26.5 / 2).plus(BUMPER_THICKNESS);
@@ -283,52 +283,53 @@ public final class Constants {
         public static final double rblue0ReefR = -3.59;//-3.59
 
         // red reef positions
-        public static final double lred1ReefX = 13.59;
-        public static final double lred1ReefY = 3.04;
+        public static final double lred1ReefX = 13.67;
+        public static final double lred1ReefY = 3.18;
         public static final double lred1ReefR = 118.97;
 
-        public static final double lred2ReefX = 12.49;
-        public static final double lred2ReefY = 3.08;
+        public static final double lred2ReefX = 12.57;
+        public static final double lred2ReefY = 2.94;
         public static final double lred2ReefR = 59.15;
 
         public static final double lred3ReefX = 11.97;
-        public static final double lred3ReefY = 4.13;
+        public static final double lred3ReefY = 3.97;
         public static final double lred3ReefR = -0.79;
 
-        public static final double lred4ReefX = 12.55;
-        public static final double lred4ReefY = 5.12;
+        public static final double lred4ReefX = 12.47;
+        public static final double lred4ReefY = 4.98;
         public static final double lred4ReefR = -60.25;
 
-        public static final double lred5ReefX = 13.75;
-        public static final double lred5ReefY = 4.94;
+        public static final double lred5ReefX = 13.67;
+        public static final double lred5ReefY = 5.08;
         public static final double lred5ReefR = -121.91;
 
         public static final double lred0ReefX = 14.26;
-        public static final double lred0ReefY = 3.91;
+        public static final double lred0ReefY = 4.07;
         public static final double lred0ReefR = 177.31;
 
-        public static final double rRed1ReefX = 13.85;
-        public static final double rRed1ReefY = 3.09;
+
+        public static final double rRed1ReefX = 13.93;
+        public static final double rRed1ReefY = 3.23;
         public static final double rRed1ReefR = 117.82;
 
-        public static final double rRed2ReefX = 12.64;
-        public static final double rRed2ReefY = 2.88;
+        public static final double rRed2ReefX = 12.72;
+        public static final double rRed2ReefY = 2.74;
         public static final double rRed2ReefR = 59.26;
 
         public static final double rRed3ReefX = 12.0;
-        public static final double rRed3ReefY = 3.70;
+        public static final double rRed3ReefY = 3.54;
         public static final double rRed3ReefR = 1.02;
 
-        public static final double rRed4ReefX = 12.30;
-        public static final double rRed4ReefY = 4.91;
+        public static final double rRed4ReefX = 12.22;
+        public static final double rRed4ReefY = 4.77;
         public static final double rRed4ReefR = -59.90;
 
-        public static final double rRed5ReefX = 13.29;
-        public static final double rRed5ReefY = 5.12;
+        public static final double rRed5ReefX = 13.21;
+        public static final double rRed5ReefY = 5.25;
         public static final double rRed5ReefR = -121.97;
 
         public static final double rRed0ReefX = 14.25;
-        public static final double rRed0ReefY = 4.27;
+        public static final double rRed0ReefY = 4.43;
         public static final double rRed0ReefR = -179.77;
 
        

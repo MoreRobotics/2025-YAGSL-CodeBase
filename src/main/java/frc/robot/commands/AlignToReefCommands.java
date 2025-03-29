@@ -39,7 +39,7 @@ public class AlignToReefCommands {
     private static final double mailboxOffset = 2.0;
     // translation to move from centered on a side to scoring position for the left branch
     private static final Translation2d CENTERED_TO_LEFT_BRANCH = new Translation2d(Units.Meters.of(0),
-            Units.Inches.of(12.94 / 2));
+            Units.Inches.of(13.94 / 2));
     private static final Translation2d BRANCH_MAILBOX_OFFSEST = new Translation2d(Units.Meters.of(0),
         Units.Inches.of(mailboxOffset));
 

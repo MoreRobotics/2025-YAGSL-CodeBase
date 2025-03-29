@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2 Piece Right 1"
+            "pathName": "2 Piece Right 1 Red"
           }
         },
         {
@@ -48,7 +48,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2 Piece Right 2"
+                  "pathName": "2 Piece Right 2 Red"
                 }
               }
             ]
@@ -80,13 +80,13 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2 Piece Right 3"
+                  "pathName": "2 Piece Right 3 Red"
                 }
               },
               {
@@ -136,7 +136,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2.5 Piece Right 4"
+                  "pathName": "2.5 Piece Right 4 Red"
                 }
               }
             ]
@@ -174,7 +174,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "3 Piece Right 5"
+                  "pathName": "3 Piece Right 5 Red"
                 }
               },
               {

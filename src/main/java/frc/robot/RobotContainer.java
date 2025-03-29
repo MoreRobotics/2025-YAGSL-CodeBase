@@ -156,8 +156,8 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> driver.getRawAxis(leftY), 
-                () -> driver.getRawAxis(leftX), 
+                () -> -driver.getRawAxis(leftY), 
+                () -> -driver.getRawAxis(leftX), 
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
@@ -169,12 +169,22 @@ public class RobotContainer {
 
         }
 
-        NamedCommands.registerCommand("Outake", new OutakeCoral(s_Mailbox));
+        NamedCommands.registerCommand("Outake", 
+            new ConditionalCommand(
+                new InstantCommand(),
+                new OutakeCoral(s_Mailbox),
+                () -> s_Mailbox.getSensorInput()
+            ));
         NamedCommands.registerCommand("Intake", new IntakeCoral(s_Mailbox, s_Funnel).until(() -> s_Mailbox.getSensorInput() == false));
         NamedCommands.registerCommand("Elevator Lvl 1", new MoveElevator(s_Elevator, s_Elevator.lvl1Position).until(() -> s_Elevator.atPosition()));
         NamedCommands.registerCommand("Elevator Lvl 2", new MoveElevator(s_Elevator, s_Elevator.lvl2Position));
         NamedCommands.registerCommand("Elevator Lvl 3", new MoveElevator(s_Elevator, s_Elevator.lvl3Position));
-        NamedCommands.registerCommand("Elevator Lvl 4", new MoveElevator(s_Elevator, s_Elevator.lvl4Position).until(() -> s_Elevator.atPosition()));
+        NamedCommands.registerCommand("Elevator Lvl 4",
+         new ConditionalCommand(
+            new InstantCommand(),
+            new MoveElevator(s_Elevator, s_Elevator.lvl4Position).until(() -> s_Elevator.atPosition()),
+            () -> s_Mailbox.getSensorInput()
+        ));
         NamedCommands.registerCommand("Elevator Safe", new MoveElevator(s_Elevator, s_Elevator.restingposition));
         NamedCommands.registerCommand("Elevator Algae Lvl 2", new MoveElevator(s_Elevator,s_Elevator.algaeLvl2Position).until(() -> s_Elevator.atPosition()));
         NamedCommands.registerCommand("Elevator Algae Lvl 3", new MoveElevator(s_Elevator,s_Elevator.algaeLvl3Position).until(() -> s_Elevator.atPosition()));
@@ -185,6 +195,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Algae Intake", new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed)));
         NamedCommands.registerCommand("Algae Idle", new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed)));
         NamedCommands.registerCommand("Algae Outake", new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeOutakeSpeed)));
+        
 
 
 
@@ -232,6 +243,7 @@ public class RobotContainer {
                 new ClimberSafe(s_Climber),
                 new InstantCommand(() -> s_Climber.changeTarget()),
                 new Climb(s_Climber),
+                // new InstantCommand(() -> s_Climber.setServo()),
                 new InstantCommand(() -> s_Climber.checkClimb())
             )
         );
@@ -247,32 +259,61 @@ public class RobotContainer {
             
         );
     // Auto Align Right
-    driverRB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
-            s_Swerve.followPathCommand(() -> s_Eyes.closestRReefpath()).schedule();
-
-        }),
-        new InstantCommand(),
-
-        () -> !s_Eyes.closeToReef)
-
-            //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
+    driverRB.whileTrue(
+        new SequentialCommandGroup(
+            new MoveElevator(s_Elevator, s_Elevator.algaeLvl2Position),
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl2),
+            new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed))
+        )
+    ).onFalse(new SequentialCommandGroup(
+        new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),   
+        new MoveElevator(s_Elevator, s_Elevator.restingposition),//6.0
+        new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed))
     )
-    ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
+    
+);
+    
+    // whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+    //         s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(-1)).schedule();
+
+    //     }),
+    //     new InstantCommand(),
+
+    //     () -> !s_Eyes.closeToReef)
+
+    //         //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
+    // )
+    // ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
 
 
     // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
     // Auto Align Left
-    driverLB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
-        s_Swerve.followPathCommand(() -> s_Eyes.closestLReefpath()).schedule();
+    driverLB.whileTrue(
+        new SequentialCommandGroup(
+            new MoveElevator(s_Elevator, s_Elevator.algaeLvl3Position),
+            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl3),
+            new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed))
+        )
+    ).onFalse(new SequentialCommandGroup(
+        new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+        new MoveElevator(s_Elevator, s_Elevator.restingposition),
+        new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed))
 
-    }),
-    new InstantCommand(),
+        
+        )
+    );
+    
+//     whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+//         s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(1)).schedule();
 
-    () -> !s_Eyes.closeToReef)
+//     }),
+//     new InstantCommand(),
 
-        //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
-    )
-).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
+//     () -> !s_Eyes.closeToReef)
+
+//         //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
+//     )
+// ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
 
         // Elevator
         driverA.whileTrue(
@@ -325,34 +366,36 @@ public class RobotContainer {
             )
         );
 
-        driverX.and(driverLStick).whileTrue(
-            new SequentialCommandGroup(
-                new MoveElevator(s_Elevator, s_Elevator.algaeLvl2Position),
-                new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl2),
-                new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed))
-            )
-        ).onFalse(new SequentialCommandGroup(
-            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),   
-            new MoveElevator(s_Elevator, s_Elevator.restingposition),//6.0
-            new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed))
-        )
+    //     driverX.and(driverLStick).whileTrue(
+    //         new SequentialCommandGroup(
+    //             new MoveElevator(s_Elevator, s_Elevator.algaeLvl2Position),
+    //             new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl2),
+    //             new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed))
+    //         )
+    //     ).onFalse(new SequentialCommandGroup(
+    //         new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),   
+    //         new MoveElevator(s_Elevator, s_Elevator.restingposition),//6.0
+    //         new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed))
+    //     )
         
-    );
+    // );
 
-        driverY.and(driverLStick).whileTrue(
-            new SequentialCommandGroup(
-                new MoveElevator(s_Elevator, s_Elevator.algaeLvl3Position),
-                new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl3),
-                new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed))
-            )
-        ).onFalse(new SequentialCommandGroup(
-            new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
-            new MoveElevator(s_Elevator, s_Elevator.restingposition),
-            new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed))
+        // driverY.and(driverLStick).whileTrue(
+        //     new SequentialCommandGroup(
+        //         new MoveElevator(s_Elevator, s_Elevator.algaeLvl3Position),
+        //         new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl3),
+        //         new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed))
+        //     )
+        // ).onFalse(new SequentialCommandGroup(
+        //     new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
+        //     new MoveElevator(s_Elevator, s_Elevator.restingposition),
+        //     new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed))
 
             
-            )
-        );
+        //     )
+        // );
+
+        driverRStick.whileTrue(new ReverseOutakeCoral(s_Mailbox, s_Funnel));
 
         
 
