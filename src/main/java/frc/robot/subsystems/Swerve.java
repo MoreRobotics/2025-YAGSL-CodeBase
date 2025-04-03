@@ -343,7 +343,11 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setPose(Pose2d pose) {
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
+        if (DriverStation.getAlliance().get() == Alliance.Blue) {
+            swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), new Rotation2d()));
+        } else {
+            swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), new Rotation2d(Math.PI)));
+        }
         m_poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), pose);
     }
 

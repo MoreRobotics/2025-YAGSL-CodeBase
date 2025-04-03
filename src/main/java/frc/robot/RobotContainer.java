@@ -140,8 +140,8 @@ public class RobotContainer {
             s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(leftY), 
-                () -> -driver.getRawAxis(leftX), 
+                () -> driver.getRawAxis(leftY), 
+                () -> driver.getRawAxis(leftX), 
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
@@ -195,8 +195,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("Algae Intake", new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed)));
         NamedCommands.registerCommand("Algae Idle", new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed)));
         NamedCommands.registerCommand("Algae Outake", new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeOutakeSpeed)));
-        
-
 
 
             NamedCommands.registerCommand("Auto Align Left", (new ConditionalCommand(new InstantCommand(() -> {

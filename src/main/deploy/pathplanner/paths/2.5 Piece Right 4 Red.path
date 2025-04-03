@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.958721590909091,
-        "y": 2.753622159090909
+        "x": 3.9188352272727274,
+        "y": 2.7436505681818177
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9598579545454546,
-        "y": 2.1132323232323236
+        "x": 3.121107954545455,
+        "y": 1.766434659090909
       },
       "isLocked": false,
       "linkedName": "2 Piece Right 3 End"
@@ -20,8 +20,8 @@
         "y": 0.8390767045454538
       },
       "prevControl": {
-        "x": 2.2890754607777355,
-        "y": 1.8023234469094103
+        "x": 1.5749363865615278,
+        "y": 1.0233552370216636
       },
       "nextControl": null,
       "isLocked": true,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 48.545057608034924
+    "rotation": 52.12501634890188
   },
   "reversed": false,
   "folder": "Right Side",

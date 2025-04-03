@@ -174,7 +174,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "3 Piece Right 5 Red"
+                  "pathName": "3 Piece Right 5"
                 }
               },
               {
@@ -233,7 +233,7 @@
       ]
     }
   },
-  "resetOdom": false,
+  "resetOdom": true,
   "folder": "Right",
   "choreoAuto": false
 }

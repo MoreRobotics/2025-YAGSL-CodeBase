@@ -35,7 +35,7 @@ public class Climber extends SubsystemBase {
   private int servoID = 0;
   private double climberP = 150.0; //24
   private double climberI = 0.0;
-  private double climberD = 0.0;
+  private double climberD = 0.8;
   private double climberLoadedP = 3.0;
   private double climberLoadedI = 0.1; //3
   private double climberLoadedD = 0.1;
@@ -50,14 +50,13 @@ public class Climber extends SubsystemBase {
   
   private double climberSafePose = -0.10;//between ready and end climb
   public double climberReadyPose = 0.155;
-  public double climberEndPose = -0.25; //-.09, -.19
+  public double climberEndPose = -0.23; //-.09, -.19
   public boolean hasClimbed = false;
   private double tolerance = 0.09;
 
   public int servoClimb = 1500;
   public int servoNeutral = 1000;
 
-  private double climberVelocity = .5;
 
   private Slot0Configs pidConfig;
   private Slot1Configs loadedPidConfig;
@@ -113,13 +112,9 @@ public class Climber extends SubsystemBase {
       .withInverted(InvertedValue.CounterClockwise_Positive)
       .withNeutralMode(NeutralModeValue.Brake);
 
-    climberMotionMagicConfigs = new MotionMagicConfigs();
-    climberMotionMagicConfigs.MotionMagicCruiseVelocity = climberVelocity;
-
 
     m_Climber.getConfigurator().apply(motorOutputConfigs);
     m_Climber.getConfigurator().apply(pidConfig);
-    m_Climber.getConfigurator().apply(climberMotionMagicConfigs);
     m_Climber.getConfigurator().apply(loadedPidConfig);
     m_Climber.getConfigurator().apply(feedbackConfig);
     m_Climber.getConfigurator().apply(currentLimitConfig);
