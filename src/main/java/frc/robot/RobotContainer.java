@@ -145,7 +145,7 @@ public class RobotContainer {
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
-                driverLeftTrigger,
+                () -> true,
                 rotationSpeed,
                 false
             )
@@ -161,7 +161,7 @@ public class RobotContainer {
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
-                driverLeftTrigger,
+                () -> true,
                 rotationSpeed,
                 false
             )
