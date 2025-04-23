@@ -163,7 +163,7 @@ public class Climber extends SubsystemBase {
 
   public boolean atPosition() {
     double currentPosition = m_Climber.getPosition().getValueAsDouble();
-    System.out.println(Math.abs(currentPosition - target));
+    //System.out.println(Math.abs(currentPosition - target));
 
     return(Math.abs(currentPosition - target)<tolerance);
   }
