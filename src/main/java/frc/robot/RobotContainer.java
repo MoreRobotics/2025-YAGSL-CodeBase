@@ -145,7 +145,7 @@ public class RobotContainer {
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
-                () -> true,
+                () -> false,
                 rotationSpeed,
                 false
             )
@@ -161,7 +161,7 @@ public class RobotContainer {
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
-                () -> true,
+                () -> false,
                 rotationSpeed,
                 false
             )
@@ -257,7 +257,7 @@ public class RobotContainer {
             
         );
     // Auto Align Right
-    driverRB.whileTrue(
+    driverRStick.whileTrue(
         new SequentialCommandGroup(
             new MoveElevator(s_Elevator, s_Elevator.algaeLvl2Position),
             new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl2),
@@ -271,22 +271,24 @@ public class RobotContainer {
     
 );
     
-    // whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
-    //         s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(-1)).schedule();
+    driverRB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+            s_Swerve.followPathCommand(() -> s_Eyes.closestRReefpath()).schedule();
 
-    //     }),
-    //     new InstantCommand(),
+        }),
+        new InstantCommand(),
 
-    //     () -> !s_Eyes.closeToReef)
+        () -> !s_Eyes.closeToReef),
 
-    //         //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
-    // )
-    // ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
+        new MoveElevator(s_Elevator, s_Elevator.restingposition)
+
+            //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
+    )
+    ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
 
 
     // driverDpadLeft.onTrue(s_Swerve.pathfindiCommand);
     // Auto Align Left
-    driverLB.whileTrue(
+    driverLStick.whileTrue(
         new SequentialCommandGroup(
             new MoveElevator(s_Elevator, s_Elevator.algaeLvl3Position),
             new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl3),
@@ -301,17 +303,19 @@ public class RobotContainer {
         )
     );
     
-//     whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
-//         s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(1)).schedule();
+    driverLB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+        s_Swerve.followPathCommand(() -> s_Eyes.closestLReefpath()).schedule();
 
-//     }),
-//     new InstantCommand(),
+    }),
+    new InstantCommand(),
 
-//     () -> !s_Eyes.closeToReef)
+    () -> !s_Eyes.closeToReef),
 
-//         //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
-//     )
-// ).onFalse(s_Swerve.getDefaultCommand()); //TODO let driver know we are in position to trap via rumble
+    new MoveElevator(s_Elevator, s_Elevator.restingposition)
+
+        //  .andThen(new InstantCommand(() -> driver.setRumble(RumbleType.kBothRumble, 1))) //TODO Test this, was only running on init earlier, may need to be run command
+    )
+).onFalse( s_Swerve.getDefaultCommand()); 
 
         // Elevator
         driverA.whileTrue(
@@ -393,7 +397,7 @@ public class RobotContainer {
         //     )
         // );
 
-        driverRStick.whileTrue(new ReverseOutakeCoral(s_Mailbox, s_Funnel));
+        // driverRStick.whileTrue(new ReverseOutakeCoral(s_Mailbox, s_Funnel));
 
         
 

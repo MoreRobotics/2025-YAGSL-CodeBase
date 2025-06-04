@@ -386,7 +386,7 @@ public class Eyes extends SubsystemBase {
              new GoalEndState(0.0, closestReef.getRotation())
             );
 
-            // path.preventFlipping = true;
+             path.preventFlipping = true;
 
             return path;
 
