@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "2 Piece Right 1"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator Safe"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2 Piece Right 1"
+                }
+              }
+            ]
           }
         },
         {
@@ -80,19 +93,26 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "deadline",
                 "data": {
-                  "pathName": "2 Piece Right 3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2 Piece Right 3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake"
+                      }
+                    }
+                  ]
                 }
               }
             ]

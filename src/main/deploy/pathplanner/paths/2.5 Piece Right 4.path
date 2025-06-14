@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 3.9188352272727274,
-        "y": 2.7436505681818177
+        "y": 2.76359375
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.919971590909091,
-        "y": 2.1032607323232324
+        "x": 1.5415540540540547,
+        "y": 0.8826013513513502
       },
       "isLocked": false,
       "linkedName": "2 Piece Right 3 End"
     },
     {
       "anchor": {
-        "x": 1.4059943181818182,
-        "y": 0.8390767045454538
+        "x": 1.2945101351351351,
+        "y": 0.7541385135135136
       },
       "prevControl": {
-        "x": 2.2890754607777355,
-        "y": 1.8023234469094103
+        "x": 1.4634522035148505,
+        "y": 0.938417045989718
       },
       "nextControl": null,
       "isLocked": true,
-      "linkedName": "2.5 Piece Right 4 End "
+      "linkedName": "2 Piece Right 2 End"
     }
   ],
   "rotationTargets": [],
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 52.12501634890188
+    "rotation": 52.06358270075544
   },
   "reversed": false,
   "folder": "Right Side",

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.997,
-        "y": 5.173
+        "x": 3.942820945945946,
+        "y": 5.240456081081081
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.468722631578473,
-        "y": 4.728272327606682
+        "x": 4.414543577524419,
+        "y": 4.795728408687763
       },
       "isLocked": false,
       "linkedName": "2 Piece Left 3 End"
     },
     {
       "anchor": {
-        "x": 1.5954545454545452,
-        "y": 7.500099431818182
+        "x": 1.4032094594594593,
+        "y": 7.374915540540539
       },
       "prevControl": {
-        "x": 1.407320634767379,
-        "y": 7.681638855952558
+        "x": 1.215075548772293,
+        "y": 7.5564549646749155
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

@@ -140,8 +140,8 @@ public class RobotContainer {
             s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> driver.getRawAxis(leftY), 
-                () -> driver.getRawAxis(leftX), 
+                () -> -driver.getRawAxis(leftY), 
+                () -> -driver.getRawAxis(leftX), 
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
@@ -152,12 +152,12 @@ public class RobotContainer {
         );
         
         } else {
-        // s_Swerve.setPose(new Pose2d(16.54, 0, new Rotation2d(Math.PI)));
+        s_Swerve.setPose(new Pose2d(0, 0, new Rotation2d(Math.PI)));
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(leftY), 
-                () -> -driver.getRawAxis(leftX), 
+                () -> driver.getRawAxis(leftY), 
+                () -> driver.getRawAxis(leftX), 
                 () -> driver.getRawAxis(rightX),
                 () -> driverDpadUp.getAsBoolean(),
                 () -> s_Swerve.getGyroYaw().getDegrees(),
@@ -271,13 +271,10 @@ public class RobotContainer {
     
 );
     
-    driverRB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+    driverRB.whileTrue(new ParallelCommandGroup(new InstantCommand(() -> {
             s_Swerve.followPathCommand(() -> s_Eyes.closestRReefpath()).schedule();
 
         }),
-        new InstantCommand(),
-
-        () -> !s_Eyes.closeToReef),
 
         new MoveElevator(s_Elevator, s_Elevator.restingposition)
 
@@ -303,13 +300,10 @@ public class RobotContainer {
         )
     );
     
-    driverLB.whileTrue(new ParallelCommandGroup(new ConditionalCommand(new InstantCommand(() -> {
+    driverLB.whileTrue(new ParallelCommandGroup(new InstantCommand(() -> {
         s_Swerve.followPathCommand(() -> s_Eyes.closestLReefpath()).schedule();
 
     }),
-    new InstantCommand(),
-
-    () -> !s_Eyes.closeToReef),
 
     new MoveElevator(s_Elevator, s_Elevator.restingposition)
 
@@ -367,6 +361,9 @@ public class RobotContainer {
             
             )
         );
+
+        driverDpadDown.whileTrue(new InstantCommand(() -> s_Elevator.elevatorDown()).until(() -> s_Elevator.getSensor() == false));
+            
 
     //     driverX.and(driverLStick).whileTrue(
     //         new SequentialCommandGroup(

@@ -176,6 +176,10 @@ public void endElevator() {
     return(Math.abs(currentPosition - target)<tolerance);
   }
 
+  public boolean getSensor() {
+    return botSensor.get();
+  }
+
 
   @Override
   public void periodic() {

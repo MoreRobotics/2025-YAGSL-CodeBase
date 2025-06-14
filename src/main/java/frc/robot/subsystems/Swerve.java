@@ -14,8 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
-
-
+import com.pathplanner.lib.commands.PathfindingCommand;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -154,8 +153,8 @@ public class Swerve extends SubsystemBase {
             this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(3.0, 0.2, 0.0), // Translation PID constants
-                    new PIDConstants(7.0, 0.0, 0.0) // Rotation PID constants
+                    new PIDConstants(5.0, 0.5, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 1.0, 0.0) // Rotation PID constants
             ),
             Constants.Swerve.robotConfig, // The robot configuration
             () -> {
@@ -184,6 +183,8 @@ public class Swerve extends SubsystemBase {
                    VecBuilder.fill(0.1, 0.1, 0.1),
                    VecBuilder.fill(1.5, 1.5, 1.5)
                 );
+
+        
                 
     }
 
@@ -197,8 +198,8 @@ public class Swerve extends SubsystemBase {
                     this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                     this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds, AND feedforwards
                     new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                            new PIDConstants(3.0, 0.2, 0.0), // Translation PID constants
-                            new PIDConstants(7.0, 0.0, 0.0) // Rotation PID constants
+                            new PIDConstants(3.0, 1.5, 0.0), // Translation PID constants
+                            new PIDConstants(15.0, 3.0, 0.0) // Rotation PID constants
                     ),
                     Constants.Swerve.robotConfig, // The robot configuration
                     () -> {
@@ -214,22 +215,30 @@ public class Swerve extends SubsystemBase {
                     },
                     this // Reference to this subsystem to set requirements
             );
-        
-    }
 
-    public Command pathfindingCommand(Pose2d targetPose) {
-        // Create the constraints to use while pathfinding
-        PathConstraints constraints = new PathConstraints(
-        3.0, 4.0,
-        Units.degreesToRadians(540), Units.degreesToRadians(720));
-        
-        return AutoBuilder.pathfindToPose(
-        targetPose,
-        constraints,
-        0.0 // Goal end velocity in meters/sec
-        // 0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
-        );
     }
+        
+  
+    public Command PathfindingCommand(Pose2d goalPose) {
+        double targPose2dX = goalPose.getX() + 0.01;
+        double targPose2dY = goalPose.getY();
+        Rotation2d targPose2dR = goalPose.getRotation();
+        Pose2d targPose2d  = new Pose2d(targPose2dX,targPose2dY,targPose2dR);
+        return new PathfindingCommand(
+            targPose2d,
+             constraints,
+             0.0,
+             this::getEstimatedPose, // Robot pose supplier
+             this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+             this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds, AND feedforwards
+             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                     new PIDConstants(3.0, 1.5, 0.0), // Translation PID constants
+                     new PIDConstants(15.0, 3.0, 0.0) // Rotation PID constants
+             ),
+             Constants.Swerve.robotConfig,
+             this);
+    }
+    
 
     
 
