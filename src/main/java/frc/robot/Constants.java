@@ -159,7 +159,7 @@ public final class Constants {
             public static final int driveMotorID = 2;
             public static final int angleMotorID = 3;
             public static final int cancoderID = 2;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(117.86); //203.08
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(210.35); //203.08
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, cancoderID, angleOffset);
         }
@@ -231,7 +231,7 @@ public final class Constants {
         public static final double ampRedY = 8.0;
         public static final double ampRedR = 270;
 
-        public static final double distanceLimit = 0.001;
+        public static final double distanceLimit = 0.3;
 
         // blue reef positions
         public static final double lblue1ReefX = 3.96;//3.91
@@ -243,7 +243,7 @@ public final class Constants {
         public static final double lblue2ReefR = -120.0;//-124.59
 
         public static final double lblue3ReefX = 5.73;//5.55
-        public static final double lblue3ReefY = 3.93;//3.9
+        public static final double lblue3ReefY = 3.91;//3.9
         public static final double lblue3ReefR = 180.0;//178.69
 
         public static final double lblue4ReefX = 5.01;//5.04
@@ -267,7 +267,7 @@ public final class Constants {
         public static final double rblue2ReefR = -120.86;//-119.86
 
         public static final double rblue3ReefX = 5.73;//5.61
-        public static final double rblue3ReefY = 4.25;//4.25
+        public static final double rblue3ReefY = 4.22;//4.25
         public static final double rblue3ReefR = 180.00;//178.30
 
         public static final double rblue4ReefX = 5.33;

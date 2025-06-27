@@ -188,7 +188,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("Elevator Safe", new MoveElevator(s_Elevator, s_Elevator.restingposition));
         NamedCommands.registerCommand("Elevator Algae Lvl 2", new MoveElevator(s_Elevator,s_Elevator.algaeLvl2Position).until(() -> s_Elevator.atPosition()));
         NamedCommands.registerCommand("Elevator Algae Lvl 3", new MoveElevator(s_Elevator,s_Elevator.algaeLvl3Position).until(() -> s_Elevator.atPosition()));
-        NamedCommands.registerCommand("Auto Align Right", new InstantCommand(() -> s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(-1))).until(() -> s_Eyes.closeToReef));
+        NamedCommands.registerCommand("Auto Align Right", new InstantCommand(() -> {
+            s_Swerve.followPathCommand(() -> s_Eyes.closestRReefpath()).schedule();
+            }));
+        NamedCommands.registerCommand("Close To Reef", new CloseToReef(s_Eyes));
         NamedCommands.registerCommand("Algae Lvl 2", new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl2).until(() -> s_AlgaePivot.atPosition()));
         NamedCommands.registerCommand("Algae Lvl 3", new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl3));
         NamedCommands.registerCommand("Algae Safe", new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose));
@@ -198,13 +201,13 @@ public class RobotContainer {
 
 
             NamedCommands.registerCommand("Auto Align Left", (new ConditionalCommand(new InstantCommand(() -> {
-                s_Swerve.followPathCommand(() -> s_Eyes.closestReefpath(1)).schedule();
+                s_Swerve.followPathCommand(() -> s_Eyes.closestLReefpath()).schedule();
     
                 }),
 
                 new InstantCommand(),
     
-                () -> !s_Eyes.closeToReef)
+                () -> !s_Eyes.closeToReef())
     
                 ) );
 

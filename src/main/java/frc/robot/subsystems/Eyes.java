@@ -72,6 +72,7 @@ public class Eyes extends SubsystemBase {
     public boolean controllerRumble = false;
     public PathPlannerPath reefPath;
     public boolean closeToReef = false;
+    public double closestDistance;
     // constuctor
     public Eyes(Swerve swerve) {
 
@@ -284,7 +285,6 @@ public class Eyes extends SubsystemBase {
         double reef4Distance;
         double reef5Distance;
 
-        double closestDistance;
 
         closestReefSide = -1;
 
@@ -336,12 +336,18 @@ public class Eyes extends SubsystemBase {
             }
         }
 
-        if (closestDistance < Constants.Positions.distanceLimit) {
-            closeToReef = true;
-        } else {
-            closeToReef = false;
-        }
+    
         return closestReefSide;
+    }
+
+   
+
+    public boolean closeToReef() {
+        if (getDistanceFromTargetReef(AlignToReefCommands.getReefPoseR(getClosestReefSide())) < Constants.Positions.distanceLimit) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public double getDistanceFromTargetBlind() {
@@ -483,12 +489,13 @@ public class Eyes extends SubsystemBase {
         SmartDashboard.putNumber("Pose Estimator Y", s_Swerve.m_poseEstimator.getEstimatedPosition().getY());
         SmartDashboard.putNumber("target X", getTargetPose().getX());
         SmartDashboard.putNumber("target Y", getTargetPose().getY());
-        SmartDashboard.putNumber("Distance to Target", getDistanceFromTarget());
+        SmartDashboard.putNumber("Distance to Right Reef", getDistanceFromTargetReef(AlignToReefCommands.getReefPoseR(getClosestReefSide())));
         SmartDashboard.putNumber("Closest Reef Side", getClosestReefSide());
         SmartDashboard.putNumber("Left Reef X", AlignToReefCommands.getReefPoseL(getClosestReefSide()).getX());
         SmartDashboard.putNumber("Left Reef Y", AlignToReefCommands.getReefPoseL(getClosestReefSide()).getY());
         SmartDashboard.putNumber("Right Reef X", AlignToReefCommands.getReefPoseR(getClosestReefSide()).getX());
         SmartDashboard.putNumber("Right Reef Y", AlignToReefCommands.getReefPoseR(getClosestReefSide()).getY());
+        SmartDashboard.putBoolean("Close To Reef", closeToReef());
 
 
          lReefPose.set(AlignToReefCommands.getReefPoseL(getClosestReefSide()));
