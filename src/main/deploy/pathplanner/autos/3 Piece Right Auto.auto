@@ -5,15 +5,35 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "2 Piece Right 1 Red"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Elevator Lvl 4"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Auto Align Left"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Close To Reef"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Elevator Lvl 4"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -99,9 +119,35 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Elevator Lvl 4"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Auto Align Right"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Close To Reef"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Elevator Lvl 4"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -174,7 +220,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "3 Piece Right 5"
+                  "pathName": "3 Piece Right 5 Auto"
                 }
               },
               {
@@ -200,9 +246,35 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Elevator Lvl 4"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Auto Align Left"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Close To Reef"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Elevator Lvl 4"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {

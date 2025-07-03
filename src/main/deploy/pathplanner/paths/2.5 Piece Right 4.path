@@ -3,15 +3,15 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.9188352272727274,
-        "y": 2.76359375
+        "x": 4.063,
+        "y": 2.83
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5415540540540547,
-        "y": 0.8826013513513502
+        "x": 1.685718826781327,
+        "y": 0.9490076013513502
       },
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "2 Piece Right 3 End"
     },
     {
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 1.4634522035148505,
-        "y": 0.938417045989718
+        "y": 0.9384170459897181
       },
       "nextControl": null,
       "isLocked": true,

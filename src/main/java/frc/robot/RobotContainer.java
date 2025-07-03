@@ -200,16 +200,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("Algae Outake", new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeOutakeSpeed)));
 
 
-            NamedCommands.registerCommand("Auto Align Left", (new ConditionalCommand(new InstantCommand(() -> {
+            NamedCommands.registerCommand("Auto Align Left", (new InstantCommand(() -> {
                 s_Swerve.followPathCommand(() -> s_Eyes.closestLReefpath()).schedule();
-    
-                }),
-
-                new InstantCommand(),
-    
-                () -> !s_Eyes.closeToReef())
-    
-                ) );
+                })));
 
         // Configure the button bindings
         configureButtonBindings();

@@ -9,23 +9,23 @@
       "prevControl": null,
       "nextControl": {
         "x": 3.3686010442260432,
-        "y": 2.160132831695332
+        "y": 2.1601328316953317
       },
       "isLocked": false,
       "linkedName": "2 Piece Right 2 End"
     },
     {
       "anchor": {
-        "x": 3.9188352272727274,
-        "y": 2.76359375
+        "x": 3.4302272727272727,
+        "y": 2.1453551136363624
       },
       "prevControl": {
-        "x": 2.6424715909090897,
-        "y": 2.1652982954545448
+        "x": 2.4031534090909092,
+        "y": 1.4872301136363637
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "2 Piece Right 3 End"
+      "linkedName": "2 Piece Right 3 Auto End"
     }
   ],
   "rotationTargets": [],

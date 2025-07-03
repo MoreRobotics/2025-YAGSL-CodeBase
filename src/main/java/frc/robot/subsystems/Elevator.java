@@ -51,7 +51,7 @@ public class Elevator extends SubsystemBase {
   public double lvl1Position = 0.0;//
   public double lvl2Position = 5.81;//5.81
   public double lvl3Position = 21.59;//21.59
-  public double lvl4Position = 47.31;//46.31
+  public double lvl4Position = 45.8;//46.31
   public double algaeLvl2Position = 27.41;//27.41
   public double algaeLvl3Position = 41.17;//41.17
   public double algaeGroundPosition = 4.25;
