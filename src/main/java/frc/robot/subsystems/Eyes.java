@@ -340,6 +340,43 @@ public class Eyes extends SubsystemBase {
         return closestReefSide;
     }
 
+    public Pose2d getClosestFeeder() {
+
+        double rBlueFeeder;
+        double lBlueFeeder;
+        double rRedFeeder;
+        double lRedFeeder;
+
+        double closestDistance;
+        Pose2d closestFeeder = new Pose2d();
+
+        if (DriverStation.getAlliance().get() == Alliance.Blue) {
+            rBlueFeeder = getDistanceFromTargetReef(Constants.Positions.rBlueFeedingStation);
+            lBlueFeeder = getDistanceFromTargetReef(Constants.Positions.lBlueFeedingStation);
+
+            closestDistance = Math.min(rBlueFeeder, lBlueFeeder);
+
+            if (closestDistance == rBlueFeeder) {
+                closestFeeder = Constants.Positions.rBlueFeedingStation;
+            } else if (closestDistance == lBlueFeeder) {
+                closestFeeder = Constants.Positions.lBlueFeedingStation;
+            }
+        } else {
+            rRedFeeder = getDistanceFromTargetReef(Constants.Positions.rRedFeedingStation);
+            lRedFeeder = getDistanceFromTargetReef(Constants.Positions.lRedFeedingStation);
+
+            closestDistance = Math.min(rRedFeeder, lRedFeeder);
+
+            if (closestDistance == rRedFeeder) {
+                closestFeeder = Constants.Positions.rRedFeedingStation;
+            } else if (closestDistance == lRedFeeder) {
+                closestFeeder = Constants.Positions.lRedFeedingStation;
+            }
+        }
+
+        return closestFeeder;
+    }
+
    
 
     public boolean closeToReef() {
@@ -449,27 +486,27 @@ public class Eyes extends SubsystemBase {
 
     }
 
-    public double getDistanceFromTargetAuto() {
+    public PathPlannerPath closestFeederPath() {
+        Pose2d closestFeeder = getClosestFeeder();
+        Pose2d currentPose = s_Swerve.m_poseEstimator.getEstimatedPosition();
 
-        double distance;
+        List<Waypoint> wayPoints = PathPlannerPath.waypointsFromPoses(
+            
+        new Pose2d(currentPose.getX(), currentPose.getY(), closestFeeder.minus(currentPose).getRotation()),
+        new Pose2d(closestFeeder.getX(), closestFeeder.getY(), closestFeeder.minus(currentPose).getRotation())
+    );
 
-        if(DriverStation.getAlliance().get() == Alliance.Blue) {
+    PathPlannerPath path = new PathPlannerPath(
+        wayPoints,
+         new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), 
+        new IdealStartingState(0.0, currentPose.getRotation()),
+         new GoalEndState(0.0, closestFeeder.getRotation())
+        );
 
-            double xDistanceToSpeaker = Constants.Positions.speakerBlueX - s_Swerve.m_poseEstimator.getEstimatedPosition().getX();
-            double yDistanceToSpeaker = Constants.Positions.speakerBlueY - s_Swerve.m_poseEstimator.getEstimatedPosition().getY();
-            distance = Math.sqrt(Math.pow(xDistanceToSpeaker, 2) + Math.pow(yDistanceToSpeaker, 2));
+        // path.preventFlipping = true;
 
-        } else {
-
-            double xDistanceToSpeaker = Constants.Positions.speakerRedX - s_Swerve.m_poseEstimator.getEstimatedPosition().getX();
-            double yDistanceToSpeaker = Constants.Positions.speakerRedY - s_Swerve.m_poseEstimator.getEstimatedPosition().getY();
-            distance = Math.sqrt(Math.pow(xDistanceToSpeaker, 2) + Math.pow(yDistanceToSpeaker, 2));
-
-        }
-
-        return distance;
-
-    }
+        return path;
+   }
 
     @Override
     public void periodic() {

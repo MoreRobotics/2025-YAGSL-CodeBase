@@ -27,7 +27,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Elevator Lvl 4"
+                        "name": "Elevator Lvl 2"
                       }
                     }
                   ]
@@ -59,6 +59,12 @@
           "type": "named",
           "data": {
             "name": "Elevator Safe"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Align Feeder"
           }
         }
       ]

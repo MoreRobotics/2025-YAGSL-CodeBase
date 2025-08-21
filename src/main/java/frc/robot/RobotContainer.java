@@ -177,7 +177,7 @@ public class RobotContainer {
             ));
         NamedCommands.registerCommand("Intake", new IntakeCoral(s_Mailbox, s_Funnel).until(() -> s_Mailbox.getSensorInput() == false));
         NamedCommands.registerCommand("Elevator Lvl 1", new MoveElevator(s_Elevator, s_Elevator.lvl1Position).until(() -> s_Elevator.atPosition()));
-        NamedCommands.registerCommand("Elevator Lvl 2", new MoveElevator(s_Elevator, s_Elevator.lvl2Position));
+        NamedCommands.registerCommand("Elevator Lvl 2", new MoveElevator(s_Elevator, s_Elevator.lvl2Position).until(() -> s_Elevator.atPosition()));
         NamedCommands.registerCommand("Elevator Lvl 3", new MoveElevator(s_Elevator, s_Elevator.lvl3Position));
         NamedCommands.registerCommand("Elevator Lvl 4",
          new ConditionalCommand(
@@ -200,9 +200,13 @@ public class RobotContainer {
         NamedCommands.registerCommand("Algae Outake", new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeOutakeSpeed)));
 
 
-            NamedCommands.registerCommand("Auto Align Left", (new InstantCommand(() -> {
+        NamedCommands.registerCommand("Auto Align Left", (new InstantCommand(() -> {
                 s_Swerve.followPathCommand(() -> s_Eyes.closestLReefpath()).schedule();
                 })));
+
+        NamedCommands.registerCommand("Auto Align Feeder", (new InstantCommand(() -> {
+            s_Swerve.followPathCommand(() -> s_Eyes.closestFeederPath()).schedule();
+            })));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -360,35 +364,6 @@ public class RobotContainer {
 
         driverDpadDown.whileTrue(new InstantCommand(() -> s_Elevator.elevatorDown()).until(() -> s_Elevator.getSensor() == false));
             
-
-    //     driverX.and(driverLStick).whileTrue(
-    //         new SequentialCommandGroup(
-    //             new MoveElevator(s_Elevator, s_Elevator.algaeLvl2Position),
-    //             new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl2),
-    //             new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed))
-    //         )
-    //     ).onFalse(new SequentialCommandGroup(
-    //         new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),   
-    //         new MoveElevator(s_Elevator, s_Elevator.restingposition),//6.0
-    //         new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed))
-    //     )
-        
-    // );
-
-        // driverY.and(driverLStick).whileTrue(
-        //     new SequentialCommandGroup(
-        //         new MoveElevator(s_Elevator, s_Elevator.algaeLvl3Position),
-        //         new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.reefLvl3),
-        //         new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed))
-        //     )
-        // ).onFalse(new SequentialCommandGroup(
-        //     new MoveAlgaePivot(s_AlgaePivot, s_AlgaePivot.safePose),
-        //     new MoveElevator(s_Elevator, s_Elevator.restingposition),
-        //     new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIdleSpeed))
-
-            
-        //     )
-        // );
 
         // driverRStick.whileTrue(new ReverseOutakeCoral(s_Mailbox, s_Funnel));
 
