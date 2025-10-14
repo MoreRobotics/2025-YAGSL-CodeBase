@@ -158,10 +158,9 @@ public void endElevator() {
     m_Elevator.setVoltage(3);
   }
 
-  public void elevatorDown() {
-    m_Elevator.setVoltage(-3);
-  }
-
+ public void elevatorDown() {
+  m_Elevator.setVoltage(-3);
+ }
 
 
   public void stop() {

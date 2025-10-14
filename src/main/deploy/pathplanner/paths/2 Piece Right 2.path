@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9821053439803444,
-        "y": 0.5263262438574925
+        "x": 5.215782503498172,
+        "y": 2.9273694158172723
       },
       "isLocked": false,
       "linkedName": "2 Piece Right 1 End"
@@ -20,8 +20,8 @@
         "y": 0.8529560810810801
       },
       "prevControl": {
-        "x": 1.355861447888622,
-        "y": 1.0156539244450717
+        "x": 0.9784220629164899,
+        "y": 0.687738735068178
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 51.11550356628545
+    "rotation": 51.115503566285454
   },
   "reversed": false,
   "folder": "Right Side",

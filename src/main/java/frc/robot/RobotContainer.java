@@ -235,16 +235,16 @@ public class RobotContainer {
         // zero gyro
         driverSelect.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         //climb
-        driverStart.onTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(() -> s_Funnel.setServo(s_Funnel.funnelDown)),
-                new ClimberSafe(s_Climber),
-                new InstantCommand(() -> s_Climber.changeTarget()),
-                new Climb(s_Climber),
-                // new InstantCommand(() -> s_Climber.setServo()),
-                new InstantCommand(() -> s_Climber.checkClimb())
-            )
-        );
+        // driverStart.onTrue(
+        //     new SequentialCommandGroup(
+        //         new InstantCommand(() -> s_Funnel.setServo(s_Funnel.funnelDown)),
+        //         new ClimberSafe(s_Climber),
+        //         new InstantCommand(() -> s_Climber.changeTarget()),
+        //         new Climb(s_Climber),
+        //         // new InstantCommand(() -> s_Climber.setServo()),
+        //         new InstantCommand(() -> s_Climber.checkClimb())
+        //     )
+        // );
 
         // Outake
         driverRightTrigger.whileTrue(new OutakeCoral(s_Mailbox));
@@ -362,8 +362,8 @@ public class RobotContainer {
             )
         );
 
-        driverDpadDown.whileTrue(new InstantCommand(() -> s_Elevator.elevatorDown()).until(() -> s_Elevator.getSensor() == false));
-            
+        operatorDpadDown.whileTrue(new InstantCommand(() -> s_Elevator.elevatorDown()).until(() -> s_Elevator.getSensor() ==false));
+
 
         // driverRStick.whileTrue(new ReverseOutakeCoral(s_Mailbox, s_Funnel));
 
@@ -380,7 +380,7 @@ public class RobotContainer {
         operatorLeftTrigger.whileTrue(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed)))
         .onFalse(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(5)));
 
-        operatorRightTrigger.whileTrue(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeOutakeSpeed)))
+        operatorRightTrigger.whileTrue(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(s_AlgaeIntake.algaeIntakeSpeed)))
         .onFalse(new InstantCommand(() -> s_AlgaeIntake.runAlgaeIntake(0)));
 
         // operatorStart.onTrue(new SequentialCommandGroup(
@@ -390,6 +390,8 @@ public class RobotContainer {
         // ));
 
         operatorDpadDown.whileTrue(new ReverseOutakeCoral(s_Mailbox, s_Funnel));
+
+
 
 
     }
