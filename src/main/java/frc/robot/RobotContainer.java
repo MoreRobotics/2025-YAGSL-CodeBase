@@ -235,16 +235,16 @@ public class RobotContainer {
         // zero gyro
         driverSelect.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         //climb
-        // driverStart.onTrue(
-        //     new SequentialCommandGroup(
-        //         new InstantCommand(() -> s_Funnel.setServo(s_Funnel.funnelDown)),
-        //         new ClimberSafe(s_Climber),
-        //         new InstantCommand(() -> s_Climber.changeTarget()),
-        //         new Climb(s_Climber),
-        //         // new InstantCommand(() -> s_Climber.setServo()),
-        //         new InstantCommand(() -> s_Climber.checkClimb())
-        //     )
-        // );
+        driverStart.onTrue(
+            new SequentialCommandGroup(
+                new InstantCommand(() -> s_Funnel.setServo(s_Funnel.funnelDown)),
+                new ClimberSafe(s_Climber),
+                new InstantCommand(() -> s_Climber.changeTarget()),
+                new Climb(s_Climber),
+                // new InstantCommand(() -> s_Climber.setServo()),
+                new InstantCommand(() -> s_Climber.checkClimb())
+            )
+        );
 
         // Outake
         driverRightTrigger.whileTrue(new OutakeCoral(s_Mailbox));
